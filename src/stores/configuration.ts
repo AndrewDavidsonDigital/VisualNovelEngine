@@ -61,7 +61,11 @@ export const useConfiguration = defineStore('configuration', {
     init() {
       const existingSettings = window.localStorage.getItem(KEY) || null;
       if (existingSettings){
-        console.log(existingSettings)
+        const settings = JSON.parse(existingSettings);
+        // find a better way to merge this in
+        CONFIG_KEYS.forEach((key) => {
+          this[key as keyof IConfiguration] = settings[key];
+        });
       }
     },
     save() {
