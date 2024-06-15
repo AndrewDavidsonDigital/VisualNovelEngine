@@ -1,27 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Init from '../views/Init.vue'
+import Landing from '../views/menus/Landing.vue'
+import Options from '../views/menus/Options.vue'
+import Exit from '../views/functions/Exit.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'init',
+      component: Init
     },
     {
-      path: '/temper',
-      name: 'temper',
-      component: HomeView
+      path: '/menu',
+      name: 'landing',
+      component: Landing
     },
-    // {
-    //   path: '/date-time-translations',
-    //   name: 'date-time-translations',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (DateTimeTlView.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/DateTimeTlView.vue')
-    // },
+    {
+      path: '/options',
+      name: 'options',
+      component: Options
+    },
+    {
+      path: '/exit',
+      name: 'exit',
+      component: Exit
+    },
   ]
 });
 
