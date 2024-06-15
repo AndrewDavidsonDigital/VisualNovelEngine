@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*{
+    @apply text-white;
+}
+
+h1 {
+    @apply text-2xl;
+}
+p {
+    @apply text-base;
+}
+
+button{
+    @apply transition-all duration-300;
+    @apply hover:text-orange-500;
+}
+
+button:disabled{
+    @apply hover:text-white;
+}
