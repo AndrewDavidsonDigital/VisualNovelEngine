@@ -8,6 +8,10 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundSize: {
+        '0_100'  : '0% 100%',
+        '100_100': '100% 100%',
+      },
       aspectRatio: {
         '16/9' : '16/9'
       },
