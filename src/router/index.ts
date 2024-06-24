@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Init from '../views/Init.vue'
-import Landing from '../views/menus/Landing.vue'
-import Options from '../views/menus/Options.vue'
-import Exit from '../views/functions/Exit.vue'
+import Init from '@views/Init.vue'
+import NewGame from '@views/functions/NewGame.vue'
+import Exit from '@views/functions/Exit.vue'
+import Landing from '@views/menus/Landing.vue'
+import Options from '@views/menus/Options.vue'
+import ScenePlayer from '@views/ScenePlayer.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,6 +13,16 @@ const router = createRouter({
       path: '/',
       name: 'init',
       component: Init
+    },
+    {
+      path: '/',
+      name: 'game',
+      component: ScenePlayer
+    },
+    {
+      path: '/new-game',
+      name: 'newGame',
+      component: NewGame,
     },
     {
       path: '/menu',

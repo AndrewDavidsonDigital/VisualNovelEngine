@@ -12,6 +12,6 @@
 </script>
 
 <template>
-  <section>Exit</section>
+  <section><RouterLink to="/menu">Go Back</RouterLink></section>
 </template>
 
