@@ -53,24 +53,37 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.gameScript = script;
     },
     progress(){
+      trace('progress');
       // ensure we can progress
-      if (this.currentScene.transitionIndex >= this.currentScene.transitions.length){
+      if (this.currentScene.transitionIndex >= this.currentScene.transitions.length || this.currentScene.transitionIndex === -1){
         this.$loadScene();
+      } else {
+        const nextTransition: ITransition = this.currentScene.transitions[this.currentScene.transitionIndex]
+        this.currentScene.transitionIndex++;
+        this._updateTransition(nextTransition)
       }
       // transition
-      
+      trace('progress_end');
+
     },
     postProgressChapter(){
       this.currentScene.sceneIndex = 0;
       this.currentScene.chapterIndex = this.chapterDetails.chapterIndex;
     },
+    $getScene(){
+      trace('$getScene');
+      const sceneText: IText = {...this.currentScene.text};
+      return sceneText;
+    },
     $loadScene(){
+      trace('$loadScene');
       let nextSceneIndex = this.currentScene.sceneIndex + 1;
       if (this.chapterDetails.chapterIndex === -1){
         this.$loadChapter();
       }
       if (this.chapterDetails.chapterIndex !== this.currentScene.chapterIndex 
         || this.currentScene.sceneIndex === -1
+        || this.currentScene.sceneIndex >= this.chapterDetails.scenePaths.length
       ){
         this.postProgressChapter();
         nextSceneIndex = 0;
@@ -102,6 +115,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
         });
     },
     $loadChapter(andLoadScene = false){
+      trace('$loadChapter');
       let nextChapterIndex = this.chapterDetails.chapterIndex + 1
       if (this.chapterDetails.chapterIndex === -1){
         nextChapterIndex = 0;
@@ -120,19 +134,30 @@ export const useScriptEngine = defineStore('scriptEngine', {
       }
     },
     _updateBgm(newBgm: IBGM){
-      
-    },
+      this.currentScene.activeBmg = newBgm;
+    }, 
     _updateBackdrop(newBackdrop: IBackdrop){
-      
+      this.currentScene.backdrop = newBackdrop;
     },
     _updateChars(newChars: IChar[]){
-      
+      this.currentScene.activeChars = newChars
     },
     _updateText(newText: IInitialText){
-      
+      this.currentScene.text = newText
     },
     _updateTransitions(newTransitions: ITransition[]){
-      
+      this.currentScene.transitions = newTransitions
+    },
+    _updateTransition(newTransition: ITransition){
+      this.currentScene.text = {...(newTransition.text)}
+      this.currentScene.activeChars = {...(newTransition.chars)}
+      // add stuff relating to delay limiting
+      // this.currentScene
     },
   },
 })
+
+
+function trace(message: string){
+  console.log(`Scripting Engine:\t${message}`)
+}
