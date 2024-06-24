@@ -3,10 +3,12 @@
   import { onMounted } from 'vue'
   import { RouterView } from 'vue-router'
   import { useConfiguration } from '@stores/configuration';
+  import { useScriptEngine } from '@stores/scriptEngine';
+  import gameChapters from '@assets/game.chapters.json';
   import { 
     useBgmEngine, 
     useSfxEngine,
-    useVoiceEngine,
+    useVoiceEngine
   } from '&audio'
 
 
@@ -14,6 +16,7 @@
   const sfxEngine = useSfxEngine()
   const voiceEngine = useVoiceEngine()
   const config = useConfiguration()
+  const scriptEngine = useScriptEngine()
 
   onMounted(() => {
     config.init();
@@ -26,6 +29,9 @@
     sfxEngine.setVolume(config.audio.sfx);
     voiceEngine.init('_audio_voice');
     voiceEngine.setVolume(config.audio.voice);
+
+    // console.log(gameChapters)
+    scriptEngine.init(gameChapters);
   });
 
 </script>
