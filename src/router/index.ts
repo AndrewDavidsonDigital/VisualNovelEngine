@@ -15,7 +15,7 @@ const router = createRouter({
       component: Init
     },
     {
-      path: '/',
+      path: '/game',
       name: 'game',
       component: ScenePlayer
     },
