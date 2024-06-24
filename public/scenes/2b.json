@@ -1,0 +1,67 @@
+{
+  "bgm" : {
+    "path" : "",
+    "forceRestart" : true
+  },
+  "chars" : [],
+  "backdrop" : {
+    "path" : ""
+  },
+  "initialText": {
+    "speaker": null,
+    "text" : "In the begining there was only ",
+    "position" : "center",
+    "voice": null,
+    "delay" : {
+      "min": 3000,
+      "default": 5000
+    }
+  },
+  "transitions" : [
+    {
+      "chars" : [],
+      "text": {
+        "speaker": null,
+        "text" : "JQuery",
+        "position" : "center",
+        "voice": null
+      },
+      "delay" : {
+        "min": 1000,
+        "default": 2000
+      }
+    },
+    {
+      "chars" : [
+        {
+          "name" : "Aoko",
+          "img" : "Aoko.png",
+          "location": "center"
+        }
+      ],
+      "text": {
+        "speaker": "Aoko",
+        "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "voice": null
+      },
+      "delay" : {
+        "min": 1000,
+        "default": 2000
+      }
+    },
+    {
+      "chars" : [
+        {
+          "name" : "Aoko",
+          "img" : "Aoko.png",
+          "location": "center"
+        }
+      ],
+      "text": {
+        "speaker": "Aoko",
+        "text" : "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "voice": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "chapters" : [
+    {
+      "title" : "Prologue",
+      "displayTitle" : true,
+      "scenePaths" : [
+        "/scenes/1a"
+      ]
+    },
+    {
+      "title" : "Beginings",
+      "displayTitle" : false,
+      "scenePaths" : [
+        "/scenes/2a",
+        "/scenes/2b"
+      ]
+    },
+    {
+      "title" : "Ending",
+      "displayTitle" : true,
+      "scenePaths" : [
+        "/scenes/3a",
+        "/scenes/credits"
+      ]
+    }
+  ]
+}
