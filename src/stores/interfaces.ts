@@ -30,7 +30,7 @@ export interface IScene {
 }
 
 export interface INewScene {
-  chars: Array<IChar>;
+  chars: IChar[];
   bmg: IBGM;
   backdrop: IBackdrop;
   transitions: ITransition[];
@@ -41,14 +41,14 @@ export interface IInitialText {
   speaker: string,
   text: string,
   position: Location,
-  voice: null,
+  voice: string,
   delay: {
     min: number,
     default: number
   }
 }
 export interface ITransition {
-  chars : [],
+  chars : IChar[],
   text: IText,
   delay : {
     min: number,
