@@ -11,6 +11,11 @@ Example BG:
 - source: moewalls.com
 - reference: `assets/bg-audio.mp4`
 
+Example Chars:  
+
+- source: Typemoon Wiki
+- reference: `/char/Aoko.png`
+
 Example BGM: 
 
 - Artist: Arika
