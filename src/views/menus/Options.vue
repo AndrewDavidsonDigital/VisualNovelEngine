@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { nextTick, ref } from 'vue'
-  import videoSrc from '@assets/bg-audio.mp4';
+  import videoSrc from '@assets/video/bg-audio.mp4';
   import { useConfiguration, IConfiguration, IAudioConfiguration, labelMap_EN } from '@stores/configuration';
   import { 
     useBgmEngine, 

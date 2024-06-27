@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import videoSrc from '@assets/bg-audio.mp4';
+  import videoSrc from '@assets/video/bg-audio-2.mp4';
   import Backdrop from '@components/Backdrop.vue';
   import Overlay from '@components/Overlay.vue';
   import { IText } from '@stores/interfaces';
