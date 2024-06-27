@@ -1,7 +1,11 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
+  import { useConfiguration } from '@stores/configuration';
+  import { useScriptEngine } from '@stores/scriptEngine';
   import AutoIcon from '@components/icon/refresh-cw.vue';
   import EyeIcon from '@components/icon/eye.vue';
+  import BookIcon from '@components/icon/book-open.vue';
+  import Dialog from '@components/Dialog.vue';
 
   interface Props {
     text: string,
@@ -10,11 +14,16 @@
     clickCallback: () => void,
     reset: () => void,
   }
-
   const props = defineProps<Props>()
+
+  const config = useConfiguration()
 
   const isAuto = ref(false);
   const isViewBackdrop = ref(false);
+  const dialogToggle = ref(false);
+
+  const timer = ref(false);
+  const transitionDuration = ref<number>(props.text.length * 10 / config.text.displayRatio);
 
   function autoToggle(){
     isAuto.value = !isAuto.value;
@@ -22,6 +31,7 @@
   function skipToggle(){
     console.log('Skipping');
     props.reset();
+    setTransitionDuration(true);
   }
   function viewBackdropToggle(){
     isViewBackdrop.value = !isViewBackdrop.value;
@@ -32,6 +42,33 @@
       viewBackdropToggle();
     } else {
       props.clickCallback();
+    }
+  }
+
+
+  watch(() => props.text, () => {
+    setTransitionDuration();
+  })
+
+  watch(transitionDuration, () => {
+    resetTimer();
+  })
+
+  function resetTimer(){
+    timer.value = false;
+    const durr = (transitionDuration.value < 500 ? 500 : transitionDuration.value);
+    console.log(`\t: creating timeout for ${durr}`);
+    setTimeout(() => {
+      timer.value = true;
+    }, durr);
+  }
+
+  function setTransitionDuration(force = false){
+    const newValue = props.text.length * 10 / config.text.displayRatio;
+    if (force && transitionDuration.value === newValue){
+      transitionDuration.value++;
+    } else {
+      transitionDuration.value = newValue
     }
   }
 
@@ -52,19 +89,20 @@
         <article 
           v-show="!isViewBackdrop"
           @click.stop="autoToggle()"
-          class="flex flex-col justify-center p-2 bg-slate-500/30 rounded-lg cursor-pointer">
+          class="flex flex-col justify-center p-2 bg-slate-500/30 rounded-lg cursor-pointer group">
           <AutoIcon
             :class='[
-              "[animation-duration:_3s]",
+              "[animation-duration:_3s] transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
               { "animate-spin": isAuto },
+              { "animate-end": !isAuto },
             ]'
           />
         </article>
         <article
           v-show="!isViewBackdrop"
           @click.stop="viewBackdropToggle()"
-          class="flex flex-col justify-center p-2 bg-slate-500/30 rounded-lg cursor-pointer">
-          <EyeIcon />
+          class="flex flex-col justify-center p-2 bg-slate-500/30 rounded-lg cursor-pointer group">
+          <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
         </article>
       </section>
     </div>
@@ -72,8 +110,14 @@
       <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl'>
         <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{props.speaker}}</h3>
         <p class="reveal">
-          <span :class="{ '!bg-100_100 !duration-[max(var(--dynamicDuartion),_500ms)]' : trigger }"
-            :style="{'--dynamicDuartion': `${props.text.length * 10}ms`}"
+          <span :class="[
+            { '!bg-100_100 !duration-[max(var(--dynamicDuartion),_500ms)]' : trigger },
+            { '[&>span>ruby]:text-opacity-100': trigger && timer },
+            { '[&>span>ruby]:!duration-0 [&>span>ruby]:!delay-0': !timer },
+            { '[&>span>ruby>rt]:text-opacity-100': trigger && timer },
+            { '[&>span>ruby>rt]:!duration-0 [&>span>ruby>rt]:!delay-0': !timer },
+            ]"
+            :style="{'--dynamicDuartion': `${transitionDuration}ms`}"
             v-html="props.text"></span>
         </p>
       </section>
@@ -84,22 +128,16 @@
 <style>
   .reveal {
     ruby, rt, rp {
-      @apply text-orange-300/0;
-      /* @apply mix-blend-hue; */
+      @apply text-orange-300 text-opacity-0;
+      @apply transition-colors duration-300;
     }    
     > span {
       @apply inline transition-all ease-linear text-white/0 duration-0;
       @apply text-xl bg-0_100;
       @apply bg-gradient-to-r from-white to-white bg-no-repeat !bg-clip-text;
-      @apply pt-4;
+      @apply pt-4; /* Needed padding for furigana (<ruby> tags) */
     }
   }
-  .reveal span:has(> ruby) {
-    @apply inline transition-all ease-linear text-orange-300/0;
-    @apply text-xl bg-0_100;
-    @apply !bg-gradient-to-r !from-white !to-white !bg-clip-text;
-    @apply pt-4; /* need padding for posibility of furigana */
-  } 
 
   .reveal ruby > rt {
     @apply !text-sm;
