@@ -79,6 +79,11 @@
     scriptEngine.progress();
   }
 
+  function reset(){
+    triggerToggle.value = !(triggerToggle.value);
+    setTimeout((() => triggerToggle.value = true),300);
+  }
+
 
 </script>
 
@@ -92,13 +97,14 @@
         contentType="video/mp4"
       />
       <!-- Interactions / char layer -->
-      <section>foooo</section>
+      <!-- <section>foooo</section> -->
       <!-- Overlay -->
       <Overlay  
         :text="textInstance.text"
         :speaker="textInstance.speaker"
         :trigger="triggerToggle"
-        @click="handleProgress()"
+        :clickCallback="() => handleProgress()"
+        :reset="() => reset()"
       />
     </div>
   </div>
