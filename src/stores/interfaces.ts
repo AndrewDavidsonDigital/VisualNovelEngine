@@ -4,7 +4,13 @@ export interface IGameScript {
 export interface IGameChapter {
   title: string,
   displayTitle: boolean,
-  scenePaths: string[]
+  scenePaths: string[],
+  history: IHistoryEntry[]
+}
+
+export interface IHistoryEntry {
+  actorName: string,
+  text: string,
 }
 
 export interface IScriptEngine {

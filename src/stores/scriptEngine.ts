@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { IBGM, IBackdrop, IChar, IGameScript, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
+import { IBGM, IBackdrop, IChar, IGameScript, IHistoryEntry, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
 
 const DEFAULT_STATE = Object.freeze({
   chapterDetails: {
@@ -8,6 +8,7 @@ const DEFAULT_STATE = Object.freeze({
     title: '',
     displayTitle: false,
     scenePaths: [],
+    history: [],
   },
   currentScene : {
     activeBmg: {
@@ -144,6 +145,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
     },
     _updateText(newText: IInitialText){
       this.currentScene.text = newText
+      this.$writeHistory();
     },
     _updateTransitions(newTransitions: ITransition[]){
       this.currentScene.transitions = newTransitions
@@ -153,7 +155,15 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.currentScene.activeChars = {...(newTransition.chars)}
       // add stuff relating to delay limiting
       // this.currentScene
+      this.$writeHistory();
     },
+    $writeHistory(){
+      const currentEntry: IHistoryEntry = {
+        actorName: this.currentScene.text.speaker,
+        text: this.currentScene.text.text,
+      }
+      this.chapterDetails.history.push(currentEntry);
+    }
   },
 })
 

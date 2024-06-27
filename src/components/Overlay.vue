@@ -17,10 +17,12 @@
   const props = defineProps<Props>()
 
   const config = useConfiguration()
+  const script = useScriptEngine()
 
   const isAuto = ref(false);
   const isViewBackdrop = ref(false);
   const dialogToggle = ref(false);
+  const history = ref(script.$state.chapterDetails.history);
 
   const timer = ref(false);
   const transitionDuration = ref<number>(props.text.length * 10 / config.text.displayRatio);
@@ -35,6 +37,9 @@
   }
   function viewBackdropToggle(){
     isViewBackdrop.value = !isViewBackdrop.value;
+  }
+  function historyToggle(){
+    dialogToggle.value = !dialogToggle.value;
   }
 
   function checkBgClick(event: MouseEvent){
@@ -75,6 +80,17 @@
 </script>
 
 <template>
+  <Dialog
+    :id="`historyDialog`"
+    :show="dialogToggle"
+    @click.stop
+    >
+    <section class="flex flex-col p-5">
+      <template v-for="entry in history">
+        <article class="grid grid-cols-[8rem,_1fr] gap-4"><div class="text-right text-xl text-orange-400">{{ entry.actorName }}</div><div><span v-html="entry.text"></span></div></article>
+      </template>
+    </section>
+  </dialog>
   <section 
     class='flex flex-col justify-between px-8 py-4 aspect-video z-10'
     @click.stop="(e) => checkBgClick(e)">
@@ -84,6 +100,16 @@
           v-show="!isViewBackdrop"
           @click.stop="skipToggle()"
           class="px-4 py-2 bg-white text-black rounded h-fit" >Skip</button>
+        <article 
+          v-show="!isViewBackdrop"
+          @click.stop="historyToggle()"
+          class="flex flex-col justify-center p-2 bg-slate-500/30 rounded-lg cursor-pointer group">
+          <BookIcon
+            :class='[
+              "transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
+            ]'
+          />
+        </article>
       </section>
       <section class='flex justify-between px-8 py-4 gap-x-2'>
         <article 
