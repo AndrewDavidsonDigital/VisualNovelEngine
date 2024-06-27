@@ -74,6 +74,11 @@
 
   });
 
+  function handleProgress(){
+    triggerToggle.value = !(triggerToggle.value);
+    scriptEngine.progress();
+  }
+
 
 </script>
 
@@ -88,12 +93,12 @@
       />
       <!-- Interactions / char layer -->
       <section>foooo</section>
-      <button @click="() => triggerToggle = !triggerToggle" class="px-4 py-2 bg-white text-black rounded h-fit w-fit z-[11]">poke</button>
       <!-- Overlay -->
       <Overlay  
         :text="textInstance.text"
         :speaker="textInstance.speaker"
         :trigger="triggerToggle"
+        @click="handleProgress()"
       />
     </div>
   </div>
