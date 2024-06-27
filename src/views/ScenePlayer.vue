@@ -4,7 +4,7 @@
   import Overlay from '@components/Overlay.vue';
   import { IText } from '@stores/interfaces';
   import { useScriptEngine } from '@stores/scriptEngine';
-  import { nextTick, ref } from 'vue';
+  import { ref } from 'vue';
 
   const scriptEngine = useScriptEngine()
 
@@ -15,8 +15,6 @@
     position: 'center',
     voice: '',
   });
-
-  console.log(scriptEngine.$getScene());
 
   scriptEngine.$onAction((el)=> {
     const startTime = Date.now()
@@ -50,7 +48,9 @@
     if (el.name === '_updateText'){
       console.log(el);
       el.after((result) => {
+        triggerToggle.value = false;
         textInstance.value = scriptEngine.$getScene();
+        setTimeout((() => triggerToggle.value = true),300);
         console.log('update Text: \t' + JSON.stringify(el.args));
       })
     }
