@@ -5,19 +5,28 @@ labelMap_EN.set('audio', 'Audio');
 labelMap_EN.set('bgm'  , 'Music');
 labelMap_EN.set('sfx'  , 'Effects');
 labelMap_EN.set('voice', 'Voices');
+labelMap_EN.set('text', 'Text');
+labelMap_EN.set('displayRatio', 'Text Display Speed');
+labelMap_EN.set('autoWaitRatio', 'Auto Wait Duration');
 
 const KEY = 'illusionEngine_config';
 const CONFIG_KEYS = Object.freeze([
   'audio',
+  'text',
   'bar',
   'baz',
 ]);
 
 export interface IConfiguration {
-  audio: IAudioConfiguration,
-  bar: String,
-  baz: String,
+  audio: IAudioConfiguration;
+  text: ITextConfiguraion;
+  bar: String;
+  baz: String;
 };
+export interface ITextConfiguraion {
+  displayRatio: number,
+  autoWaitRatio: number,
+}
 
 export interface IAudioConfiguration {
   bgm: number,
@@ -29,6 +38,10 @@ const DEFAULT_STATE: IConfiguration = Object.freeze({
     bgm: 0.7,
     sfx: 0.7,
     voice: 0.7,
+  },
+  text: {
+    displayRatio: 1,
+    autoWaitRatio: 1,
   },
   bar: '',
   baz: '',
@@ -78,7 +91,7 @@ export const useConfiguration = defineStore('configuration', {
       // this.audio
     },
     getConfigurables(){
-      return DEFAULT_STATE;
+      return pluckKeys({...this}, CONFIG_KEYS);
     },
   },
 })

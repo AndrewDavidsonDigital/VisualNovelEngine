@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { nextTick, ref } from 'vue'
   import videoSrc from '@assets/video/bg-audio.mp4';
-  import { useConfiguration, IConfiguration, IAudioConfiguration, labelMap_EN } from '@stores/configuration';
+  import { useConfiguration, IConfiguration, IAudioConfiguration, labelMap_EN, ITextConfiguraion } from '@stores/configuration';
   import { 
     useBgmEngine, 
     useSfxEngine,
@@ -16,6 +16,7 @@
 
   const configurables = config.getConfigurables();
   const localAudio = ref<IAudioConfiguration>(configurables.audio);
+  const localText = ref<ITextConfiguraion>(configurables.text);
 
   function isItterable(thing: any): boolean{
     if (Array.isArray(thing)){
@@ -75,6 +76,24 @@
       }
   }
 
+  function testText(){
+    
+  }
+
+  function saveConfiguration(){
+    config.$state.audio = {...localAudio.value}
+    config.$state.text = {...localText.value}
+    config.save();
+  }
+
+  const speedIndex = Object.freeze([
+    'Slowest',
+    'Slower',
+    'Average',
+    'Faster',
+    'Fastest',
+  ])
+
 </script>
 
 <template>
@@ -94,23 +113,22 @@
         <section class="flex justify-between">
           <h1>Options</h1>
           <span class="flex gap-2">
-            <RouterLink to="/menu"><h1>Save</h1></RouterLink>
+            <RouterLink to="/menu" @click="saveConfiguration"><h1>Save</h1></RouterLink>
             <RouterLink to="/menu"><h1>Back</h1></RouterLink>
           </span>
         </section>
-        <section class='grid grid-cols-4'>
+        <section class='grid grid-cols-2'>
           <div v-for="(key) in Object.keys(configurables)">
             <h2 class="text-xl">{{resolveLabel(key)}}</h2>
             <template v-if="isItterable(configurables[key as keyof IConfiguration])">
               <template v-if="key === 'audio'">
-                <div v-for="(el) in Object.keys(configurables[key as keyof IConfiguration])" class="flex justify-around mx-4">
+                <div v-for="(el) in Object.keys(configurables[key])" class="flex justify-around mx-4">
                   <div class="flex justify-between min-w-32">
                     <span>{{ resolveLabel(el) }}</span>
-                    <span>{{ Math.floor(resolveValue(configurables[key as keyof IConfiguration], el) * 100) }}%</span>
+                    <span>{{ Math.floor(resolveValue(configurables[key], el) * 100) }}%</span>
                   </div>
                   <input 
                     type="range"
-                    id="volume"
                     name="volume"
                     min="0" 
                     max="1" 
@@ -119,6 +137,23 @@
                     @input="() => saveOnUpdate(el)"
                   />
                   <button @click="testAudio(el)" :disabled="el === 'bgm'">Test</button>
+                </div>
+              </template>
+              <template v-if="key === 'text'">
+                <div v-for="(el) in Object.keys(configurables[key])" class="flex justify-around mx-4">
+                  <div class="flex justify-between min-w-72">
+                    <span>{{ resolveLabel(el) }}</span>
+                    <span>{{ speedIndex[resolveValue(configurables[key], el) * 5] }}</span>
+                  </div>
+                  <input 
+                    type="range"
+                    name="speed"
+                    min="0" 
+                    max="1" 
+                    step="0.2"
+                    v-model.number="localText[el as keyof ITextConfiguraion]"
+                  />
+                  <button @click="testText()">Preview</button>
                 </div>
               </template>
             </template>
