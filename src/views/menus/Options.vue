@@ -140,7 +140,7 @@
     if (force && transitionDuration.value === newValue){
       transitionDuration.value++;
     } else {
-      transitionDuration.value = newValue
+      transitionDuration.value = Math.floor(newValue)
     }
   }
 

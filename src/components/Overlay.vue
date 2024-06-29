@@ -98,7 +98,7 @@
     if (force && transitionDuration.value === newValue){
       transitionDuration.value++;
     } else {
-      transitionDuration.value = newValue
+      transitionDuration.value = Math.floor(newValue)
     }
   }
 
@@ -130,10 +130,10 @@
     <section class="flex flex-col p-5 gap-y-2">
       <template v-for="entry in history">
         <article class="grid grid-cols-[8rem,_1fr] gap-4">
-          <div class="flex justify-end h-fit items-center gap-x-1 text-xl text-orange-400">
-            {{ entry.actorName }}
+          <div class="flex justify-end h-fit items-center gap-x-1">
+            <p class="text-xl text-orange-400">{{ entry.actorName }}</p>
             <article 
-              class="hover:stroke-orange-400 cursor-pointer"
+              class="hover:stroke-orange-400 cursor-pointer mt-1"
               @click.stop="playVoiceLine(entry.audioPath)"
             >
               <VolumeIcon v-show="entry.audioPath?.length > 0" class="hover:stroke-orange-400" />
