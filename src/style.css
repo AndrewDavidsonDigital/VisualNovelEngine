@@ -4,6 +4,10 @@
 
 *{
     @apply text-white;
+    @apply font-semibold;
+}
+ruby, rt, rp {
+    @apply font-normal;
 }
 
 h1 {
