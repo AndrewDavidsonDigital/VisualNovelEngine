@@ -9,6 +9,9 @@
 ruby, rt, rp {
     @apply font-normal;
 }
+ruby:not([lang]) {
+    @apply font-semibold;
+}
 
 h1 {
     @apply text-2xl;

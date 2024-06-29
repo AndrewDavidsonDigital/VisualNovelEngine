@@ -111,6 +111,17 @@
 
 <template>
   <Dialog
+    :id="`options-dialog`"
+    :show="optionsDialogToggle"
+    @click.stop
+    class="scrollbar backdrop-blur-[5px] !outline-none overflow-hidden"
+    >
+    <Option 
+      routeless
+      :onClose="() => viewOptions()"
+    />
+  </Dialog>
+  <Dialog
     :id="`history-dialog`"
     :show="dialogToggle"
     @click.stop
@@ -180,6 +191,12 @@
         <article
           v-show="!isViewBackdrop"
           @click.stop="viewBackdropToggle()"
+          class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
+          <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
+        </article>
+        <article
+          v-show="!isViewBackdrop"
+          @click.stop="viewOptions()"
           class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
           <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
         </article>
