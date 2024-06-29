@@ -38,6 +38,13 @@ const CONFIG_KEYS = Object.freeze([
   'currentScene',
 ]);
 
+
+/**
+ * @description: Scripting interpreter engine,
+ * 
+ * @function: prefixed with `$` are to be considered private and should never be used directly
+ * @function: prefixed with `_` are to be considered as mutation-triggering-actions
+ */
 export const useScriptEngine = defineStore('scriptEngine', {
   state: () => {
     return { ...DEFAULT_STATE } as IScriptEngine
@@ -81,17 +88,19 @@ export const useScriptEngine = defineStore('scriptEngine', {
       let nextSceneIndex = this.currentScene.sceneIndex + 1;
       if (this.chapterDetails.chapterIndex === -1){
         this.$loadChapter();
-      }
-      if (this.chapterDetails.chapterIndex !== this.currentScene.chapterIndex 
+      }else if (this.chapterDetails.chapterIndex !== this.currentScene.chapterIndex 
         || this.currentScene.sceneIndex === -1
         || this.currentScene.sceneIndex >= this.chapterDetails.scenePaths.length
       ){
         this.postProgressChapter();
+        this.$loadChapter();
         nextSceneIndex = 0;
       }
+      
+      trace(`nextSceneIndex (${nextSceneIndex})`);
       const nextScenePath = `${this.chapterDetails.scenePaths[0]}.json`
+      trace(`nextScenePath (${nextScenePath})`);
 
-      console.log(nextScenePath);
       fetch(nextScenePath)
         .then((resp) => {
           if (resp.ok) return resp.json();
@@ -161,6 +170,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
       const currentEntry: IHistoryEntry = {
         actorName: this.currentScene.text.speaker,
         text: this.currentScene.text.text,
+        audioPath: this.currentScene.text.voice || '',
       }
       this.chapterDetails.history.push(currentEntry);
     }

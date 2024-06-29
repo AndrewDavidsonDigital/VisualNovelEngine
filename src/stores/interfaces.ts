@@ -11,6 +11,7 @@ export interface IGameChapter {
 export interface IHistoryEntry {
   actorName: string,
   text: string,
+  audioPath: string,
 }
 
 export interface IScriptEngine {
