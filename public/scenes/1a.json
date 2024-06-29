@@ -41,8 +41,8 @@
       ],
       "text": {
         "speaker": "Aoko",
-        "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, <span><ruby> 明日 <rp>(</rp><rt>Ashita</rt><rp>)</rp> </ruby></span> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "voice": null
+        "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, <span><ruby lang='jp'> 明日 <rp>(</rp><rt>Ashita</rt><rp>)</rp> </ruby></span> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "voice": "/audio/voice/yo-da-yo.wav"
       },
       "delay" : {
         "min": 1000,

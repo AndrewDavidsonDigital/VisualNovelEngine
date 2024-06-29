@@ -2,11 +2,17 @@
   import { ref, watch } from 'vue';
   import { useConfiguration } from '@stores/configuration';
   import { useScriptEngine } from '@stores/scriptEngine';
-  import AutoIcon from '@components/icon/refresh-cw.vue';
-  import EyeIcon from '@components/icon/eye.vue';
-  import BookIcon from '@components/icon/book-open.vue';
-  import SkipIcon from '@components/icon/skip.vue';
+  import { useVoiceEngine } from '@stores/audio';
+  import {
+    RefreshIcon,
+    EyeIcon,
+    BookIcon,
+    SkipIcon,
+    VolumeIcon,
+  } from '@components/icon';
   import Dialog from '@components/Dialog.vue';
+  import Option from '@views/menus/Options.vue';
+
 
   interface Props {
     text: string,
@@ -19,13 +25,16 @@
 
   const config = useConfiguration()
   const script = useScriptEngine()
+  const voiceEngine = useVoiceEngine()
 
   const isAuto = ref(false);
   const isViewBackdrop = ref(false);
   const dialogToggle = ref(false);
+  const optionsDialogToggle = ref(false);
   const history = ref(script.$state.chapterDetails.history);
-
   const timer = ref(false);
+  const timerId = ref<number>(-1);
+
   const transitionDuration = ref<number>(props.text.length * 10 / config.text.displayRatio);
 
   function autoToggle(){
@@ -40,13 +49,19 @@
     isViewBackdrop.value = !isViewBackdrop.value;
   }
   function historyToggle(){
+    if (history.value.length === 0) return;
     dialogToggle.value = !dialogToggle.value;
+  }
+
+  function viewOptions(){
+    optionsDialogToggle.value = !optionsDialogToggle.value;
   }
 
   function checkBgClick(event: MouseEvent){
     if (isViewBackdrop.value){
       viewBackdropToggle();
     } else {
+      clearTimer();
       props.clickCallback();
     }
   }
@@ -60,13 +75,22 @@
     resetTimer();
   })
 
+  function clearTimer() {
+    if (timerId.value !== -1){
+      clearTimeout(timerId.value);
+    }
+  }
+
   function resetTimer(){
+    clearTimer();
     timer.value = false;
     const durr = (transitionDuration.value < 500 ? 500 : transitionDuration.value);
     console.log(`\t: creating timeout for ${durr}`);
-    setTimeout(() => {
+    const id = setTimeout(() => {
       timer.value = true;
+      timerId.value = -1;
     }, durr);
+    timerId.value = id;
   }
 
   function setTransitionDuration(force = false){
@@ -78,6 +102,11 @@
     }
   }
 
+  function playVoiceLine(audioPath: string) {
+    voiceEngine.setAndPlay(audioPath);
+  }
+
+
 </script>
 
 <template>
@@ -85,18 +114,30 @@
     :id="`history-dialog`"
     :show="dialogToggle"
     @click.stop
+    class="scrollbar backdrop-blur-[5px] !outline-none"
     >
-    <section class="flex flex-col p-5">
+    <section class="flex flex-col p-5 gap-y-2">
       <template v-for="entry in history">
-        <article class="grid grid-cols-[8rem,_1fr] gap-4"><div class="text-right text-xl text-orange-400">{{ entry.actorName }}</div><div><span v-html="entry.text"></span></div></article>
+        <article class="grid grid-cols-[8rem,_1fr] gap-4">
+          <div class="flex justify-end h-fit items-center gap-x-1 text-xl text-orange-400">
+            {{ entry.actorName }}
+            <article 
+              class="hover:stroke-orange-400 cursor-pointer"
+              @click.stop="playVoiceLine(entry.audioPath)"
+            >
+              <VolumeIcon v-show="entry.audioPath?.length > 0" class="hover:stroke-orange-400" />
+            </article>
+          </div>
+          <div><span v-html="entry.text"></span></div>
+        </article>
       </template>
     </section>
-  </dialog>
+  </Dialog>
   <section 
     class='flex flex-col justify-between px-8 py-4 aspect-video z-10'
     @click.stop="(e) => checkBgClick(e)">
     <div class='flex justify-between px-8 py-4'>
-      <section class='flex justify-between px-8 py-4 gap-x-2'>
+      <section class='flex justify-between px-8 py-4 gap-x-4'>
         <article 
           v-show="!isViewBackdrop"
           @click.stop="skipToggle()"
@@ -110,20 +151,25 @@
         <article 
           v-show="!isViewBackdrop"
           @click.stop="historyToggle()"
-          class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
+          :disabled="history.length === 0"
+          :class='[
+            "flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg group",
+            { "cursor-pointer": history.length !== 0 },
+          ]'>
           <BookIcon
             :class='[
-              "transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
+              "transition-colors duration-500",
+              { "hover:stroke-orange-400 group-hover:stroke-orange-400": history.length !== 0 },
             ]'
           />
         </article>
       </section>
-      <section class='flex justify-between px-8 py-4 gap-x-2'>
+      <section class='flex justify-between px-8 py-4 gap-x-4'>
         <article 
           v-show="!isViewBackdrop"
           @click.stop="autoToggle()"
           class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
-          <AutoIcon
+          <RefreshIcon
             :class='[
               "[animation-duration:_3s] transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
               { "animate-spin": isAuto },
@@ -159,6 +205,17 @@
 </template>
 
 <style>
+  .scrollbar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-orange-400;
+    @apply rounded-lg
+  }
+  .scrollbar::-webkit-scrollbar {
+    @apply w-[0.5em];
+  }
+
   .glass-sm {
     @apply backdrop-blur-[5px];
     @apply ring-slate-600/60;  
@@ -174,7 +231,7 @@
     ruby, rt, rp {
       @apply text-orange-300 text-opacity-0;
       @apply transition-colors duration-300;
-    }    
+    }
     > span {
       @apply inline transition-all ease-linear text-white/0 duration-0;
       @apply text-xl bg-0_100;
@@ -185,5 +242,6 @@
 
   .reveal ruby > rt {
     @apply !text-sm;
+    @apply text-center;
   }
 </style>
