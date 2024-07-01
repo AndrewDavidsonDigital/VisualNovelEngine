@@ -8,6 +8,9 @@
     useVoiceEngine,
   } from '&audio'
   import { LoaderIcon } from '@components/icon'
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
 
   const bgmEngine = useBgmEngine()
   const sfxEngine = useSfxEngine()
@@ -95,10 +98,24 @@
       }
   }
 
-  function saveConfiguration(){
+  function saveConfiguration(destination: string){
     config.$state.audio = {...localAudio.value}
     config.$state.text = {...localText.value}
     config.save();
+    if (props.routeless){
+      props.onClose ? props.onClose():null;
+    } else {
+      router.push(destination);
+    }
+  }
+
+  function discardConfiguration(destination: string){
+    console.log(props.routeless);
+    if (props.routeless){
+      props.onClose ? props.onClose():null;
+    } else {
+      router.push(destination);
+    }
   }
 
   const speedIndex = Object.freeze([
@@ -186,6 +203,7 @@
     clearTimer();
   });
 
+
 </script>
 
 <template>
@@ -205,8 +223,8 @@
         <section class="flex justify-between">
           <h1>Options</h1>
           <span class="flex gap-2">
-            <RouterLink to="/menu" @click="saveConfiguration"><h1>Save</h1></RouterLink>
-            <RouterLink to="/menu"><h1>Back</h1></RouterLink>
+            <h1 @click="saveConfiguration('/menu')">Save</h1>
+            <h1 @click="discardConfiguration('/menu')">Back</h1>
           </span>
         </section>
         <section class='grid grid-cols-2'>

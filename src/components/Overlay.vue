@@ -27,6 +27,7 @@
   const script = useScriptEngine()
   const voiceEngine = useVoiceEngine()
 
+  const isModalOpen = ref(false);
   const isAuto = ref(false);
   const isViewBackdrop = ref(false);
   const dialogToggle = ref(false);
@@ -49,7 +50,7 @@
     isViewBackdrop.value = !isViewBackdrop.value;
   }
   function historyToggle(){
-    if (history.value.length === 0) return;
+    if (history.value?.length === 0) return;
     dialogToggle.value = !dialogToggle.value;
   }
 
@@ -58,6 +59,15 @@
   }
 
   function checkBgClick(event: MouseEvent){
+    if (isModalOpen.value){
+      if (optionsDialogToggle.value) {
+        viewOptions();
+      }
+      if (dialogToggle.value) {
+        historyToggle();
+      }
+      return;
+    }
     if (isViewBackdrop.value){
       viewBackdropToggle();
     } else {
@@ -106,6 +116,10 @@
     voiceEngine.setAndPlay(audioPath);
   }
 
+  function foo (isOppnening: boolean){
+    isModalOpen.value = isOppnening;
+  }
+
 
 </script>
 
@@ -113,8 +127,10 @@
   <Dialog
     :id="`options-dialog`"
     :show="optionsDialogToggle"
-    @click.stop
     class="scrollbar backdrop-blur-[5px] !outline-none overflow-hidden"
+    @click.stop
+    @open="() => foo(true)"
+    @close="() => foo(false)"
     >
     <Option 
       routeless
@@ -124,8 +140,10 @@
   <Dialog
     :id="`history-dialog`"
     :show="dialogToggle"
-    @click.stop
     class="scrollbar backdrop-blur-[5px] !outline-none"
+    @click.stop
+    @open="() => foo(true)"
+    @close="() => foo(false)"
     >
     <section class="flex flex-col p-5 gap-y-2">
       <template v-for="entry in history">
@@ -162,15 +180,15 @@
         <article 
           v-show="!isViewBackdrop"
           @click.stop="historyToggle()"
-          :disabled="history.length === 0"
+          :disabled="history?.length === 0"
           :class='[
             "flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg group",
-            { "cursor-pointer": history.length !== 0 },
+            { "cursor-pointer": history?.length !== 0 },
           ]'>
           <BookIcon
             :class='[
               "transition-colors duration-500",
-              { "hover:stroke-orange-400 group-hover:stroke-orange-400": history.length !== 0 },
+              { "hover:stroke-orange-400 group-hover:stroke-orange-400": history?.length !== 0 },
             ]'
           />
         </article>

@@ -14,6 +14,7 @@ export default {
       },
       zIndex:{
         'dialog': 1000,
+        'max'   : 10000,
       },
       aspectRatio: {
         '16/9' : '16/9'

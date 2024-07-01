@@ -2,13 +2,14 @@
   import Navigation from '@components/Navigation.vue';
   import videoSrc from '@assets/video/bg-audio.mp4';
   import { useSfxEngine } from '&audio'
+  import { useCustomCursor } from '@stores/customCursor';
 
 
   const sfxEngine = useSfxEngine();
+  const customCursor = useCustomCursor();
 
   function playSfx(){
-    sfxEngine.setTrack('/audio/sfx/ayaya.wav');
-    sfxEngine.play();
+    sfxEngine.setAndPlay('/audio/sfx/ayaya.wav');
   }
 
 </script>
@@ -28,7 +29,12 @@
       </section>
       <section class='flex justify-between px-8 py-4 aspect-video z-10'>
         <Navigation />
-        <button @click="playSfx()" class="px-4 py-2 bg-white text-black rounded h-fit">AYAYA?</button>
+        <button 
+          class="px-4 py-2 bg-white text-black rounded h-fit" 
+          @mouseenter="customCursor.updateTo('pointer')"
+          @mouseleave="customCursor.clear()"
+          @click="playSfx()"
+        >AYAYA?</button>
         <div> foo bar baz</div>
       </section>
     </div>

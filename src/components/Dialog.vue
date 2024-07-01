@@ -6,16 +6,20 @@ import { ref, watch } from 'vue';
     show: boolean,
   }
   const props = defineProps<Props>()
+  const $emit = defineEmits(['open', 'close'])
+
 
   const dialogRef = ref<HTMLDialogElement>()
 
 
   watch(() => props.show, (newValue) => {
     if(newValue){
-      dialogRef.value?.showModal();
+      dialogRef.value?.show();
       dialogRef.value?.blur();
+      $emit('open');
     } else {
       dialogRef.value?.close()
+      $emit('close');
     }
   })
 

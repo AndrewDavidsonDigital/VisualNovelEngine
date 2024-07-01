@@ -172,6 +172,9 @@ export const useScriptEngine = defineStore('scriptEngine', {
         text: this.currentScene.text.text,
         audioPath: this.currentScene.text.voice || '',
       }
+      if (!(this.chapterDetails.history)){
+        this.chapterDetails.history = [];
+      }
       this.chapterDetails.history.push(currentEntry);
     }
   },

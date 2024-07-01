@@ -5,7 +5,7 @@ export interface IGameChapter {
   title: string,
   displayTitle: boolean,
   scenePaths: string[],
-  history: IHistoryEntry[]
+  history?: IHistoryEntry[]
 }
 
 export interface IHistoryEntry {

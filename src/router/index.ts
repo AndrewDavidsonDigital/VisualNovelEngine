@@ -6,6 +6,8 @@ import Landing from '@views/menus/Landing.vue'
 import Options from '@views/menus/Options.vue'
 import ScenePlayer from '@views/ScenePlayer.vue'
 
+import { useCustomCursor } from '@stores/customCursor';
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -41,5 +43,12 @@ const router = createRouter({
     },
   ]
 });
+
+
+router.beforeEach((to, from, next) => {
+  const cc = useCustomCursor();
+  cc.clear();
+  next();
+})
 
 export default router;
