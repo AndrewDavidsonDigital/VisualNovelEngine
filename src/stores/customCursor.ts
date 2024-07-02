@@ -18,7 +18,6 @@ export const useCustomCursor = defineStore('cursor', {
 
   actions: {
     init(el: HTMLDivElement) {
-      console.log(el);
       this.cursor = 'default';
       this.htmlElement = el;
     },

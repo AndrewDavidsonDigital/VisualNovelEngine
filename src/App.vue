@@ -6,6 +6,7 @@
   import { useScriptEngine } from '@stores/scriptEngine';
   import { useCustomCursor } from '@stores/customCursor';
   import gameChapters from '@assets/game.chapters.json';
+  import Cursor from './Cursor.vue';
   import { 
     useBgmEngine, 
     useSfxEngine,
@@ -56,13 +57,5 @@
   <main class="w-screen h-screen overflow-hidden bg-black">
     <RouterView class="w-full h-full flex flex-col justify-center items-center *:max-w-1920p *.aspect-16/9" />
   </main>
-  <div id="cursor" class="z-max w-5 h-5 fixed rounded-full pointer-events-none default"></div>
+  <Cursor />
 </template>
-<style scoped>
-  #cursor.default {
-    @apply bg-red-500;
-  }
-  #cursor.pointer {
-    @apply bg-green-500;
-  }
-</style>
