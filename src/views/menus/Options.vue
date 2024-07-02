@@ -9,6 +9,7 @@
   } from '&audio'
   import { LoaderIcon } from '@components/icon'
   import { useRouter } from 'vue-router'
+  import Clickable from '@components/Clickable.vue'
 
   const router = useRouter()
 
@@ -236,6 +237,8 @@
                   <div class="flex justify-between min-w-32">
                     <span>{{ resolveLabel(el) }}</span>
                     <span>{{ Math.floor(resolveValue(configurables[key], el) * 100) }}%</span>
+              <Clickable><h1 @click="saveConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300">Save</h1></Clickable>
+              <Clickable><h1 @click="discardConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300">Back</h1></Clickable>
                   </div>
                   <input 
                     type="range"

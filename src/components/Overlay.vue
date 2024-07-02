@@ -11,6 +11,7 @@
     VolumeIcon,
   } from '@components/icon';
   import Dialog from '@components/Dialog.vue';
+  import Clickable from '@components/Clickable.vue';
   import Option from '@views/menus/Options.vue';
 
 
@@ -150,12 +151,13 @@
         <article class="grid grid-cols-[8rem,_1fr] gap-4">
           <div class="flex justify-end h-fit items-center gap-x-1">
             <p class="text-xl text-orange-400">{{ entry.actorName }}</p>
-            <article 
-              class="hover:stroke-orange-400 cursor-pointer mt-1"
-              @click.stop="playVoiceLine(entry.audioPath)"
-            >
-              <VolumeIcon v-show="entry.audioPath?.length > 0" class="hover:stroke-orange-400" />
-            </article>
+            <Clickable>
+              <article 
+                class="hover:stroke-orange-400 cursor-pointer mt-1"
+                @click.stop="playVoiceLine(entry.audioPath)"
+              ><VolumeIcon v-show="entry.audioPath?.length > 0" class="hover:stroke-orange-400" />
+              </article>
+            </Clickable>
           </div>
           <div><span v-html="entry.text"></span></div>
         </article>
@@ -167,60 +169,70 @@
     @click.stop="(e) => checkBgClick(e)">
     <div class='flex justify-between px-8 py-4'>
       <section class='flex justify-between px-8 py-4 gap-x-4'>
-        <article 
-          v-show="!isViewBackdrop"
-          @click.stop="skipToggle()"
-          class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
-          <SkipIcon
+        <Clickable>
+          <article 
+            v-show="!isViewBackdrop"
+            @click.stop="skipToggle()"
+            class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
+            <SkipIcon
+              :class='[
+                "transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
+              ]'
+            />
+          </article>
+        </Clickable>
+        <Clickable>
+          <article 
+            v-show="!isViewBackdrop"
+            @click.stop="historyToggle()"
+            :disabled="history?.length === 0"
             :class='[
-              "transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
-            ]'
-          />
-        </article>
-        <article 
-          v-show="!isViewBackdrop"
-          @click.stop="historyToggle()"
-          :disabled="history?.length === 0"
-          :class='[
-            "flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg group",
-            { "cursor-pointer": history?.length !== 0 },
-          ]'>
-          <BookIcon
-            :class='[
-              "transition-colors duration-500",
-              { "hover:stroke-orange-400 group-hover:stroke-orange-400": history?.length !== 0 },
-            ]'
-          />
-        </article>
+              "flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg group",
+              { "cursor-pointer": history?.length !== 0 },
+            ]'>
+            <BookIcon
+              :class='[
+                "transition-colors duration-500",
+                { "hover:stroke-orange-400 group-hover:stroke-orange-400": history?.length !== 0 },
+              ]'
+            />
+          </article>
+        </Clickable>
       </section>
       <section class='flex justify-between px-8 py-4 gap-x-4'>
-        <article 
-          v-show="!isViewBackdrop"
-          @click.stop="autoToggle()"
-          class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
-          <RefreshIcon
-            :class='[
-              "[animation-duration:_3s] transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
-              { "animate-spin": isAuto },
-              { "animate-end": !isAuto },
-            ]'
-          />
-        </article>
-        <article
-          v-show="!isViewBackdrop"
-          @click.stop="viewBackdropToggle()"
-          class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
-          <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
-        </article>
-        <article
-          v-show="!isViewBackdrop"
-          @click.stop="viewOptions()"
-          class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
-          <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
-        </article>
+        <Clickable>
+          <article 
+            v-show="!isViewBackdrop"
+            @click.stop="autoToggle()"
+            class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
+            <RefreshIcon
+              :class='[
+                "[animation-duration:_3s] transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
+                { "animate-spin": isAuto },
+                { "animate-end": !isAuto },
+              ]'
+            />
+          </article>
+        </Clickable>
+        <Clickable>
+          <article
+            v-show="!isViewBackdrop"
+            @click.stop="viewBackdropToggle()"
+            class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
+            <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
+          </article>
+        </Clickable>
+        <Clickable>
+          <article
+            v-show="!isViewBackdrop"
+            @click.stop="viewOptions()"
+            class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
+            <SlidersIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
+          </article>
+        </Clickable>
       </section>
     </div>
-    <div v-show="!isViewBackdrop" class="min-h-[20%]">
+    <div v-show="!isViewBackdrop" class="min-h-[20%] mb-4">
       <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass'>
         <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{props.speaker}}</h3>
         <p class="reveal">
