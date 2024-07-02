@@ -38,7 +38,7 @@ export interface IScene {
 
 export interface INewScene {
   chars: IChar[];
-  bmg: IBGM;
+  bgm: IBGM;
   backdrop: IBackdrop;
   transitions: ITransition[];
   initialText: IInitialText;
@@ -75,6 +75,7 @@ export interface IBackdrop {
 
 export interface IBGM {
   path: string;
+  forceRestart?: string;
 }
 
 export interface IChar {
