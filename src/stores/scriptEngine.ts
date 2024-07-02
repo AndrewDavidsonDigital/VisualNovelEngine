@@ -49,7 +49,23 @@ export const useScriptEngine = defineStore('scriptEngine', {
   state: () => {
     return { ...DEFAULT_STATE } as IScriptEngine
   },
-
+  getters: { 
+    getSceneText(){
+      trace('getSceneText');
+      const sceneText: IText = {...this.currentScene.text};
+      return sceneText;
+    },
+    getSceneBGM(){
+      trace('getSceneBGM');
+      const sceneBgm: IBGM = {...this.currentScene.activeBmg};
+      return sceneBgm;
+    },
+    getSceneBackdrop(){
+      trace('getSceneBackdrop');
+      const sceneBackdrop: IBackdrop = {...this.currentScene.backdrop};
+      return sceneBackdrop;
+    },
+  },
   actions: {
     reset() {
       CONFIG_KEYS.forEach((key) => {
@@ -78,11 +94,6 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.currentScene.sceneIndex = 0;
       this.currentScene.chapterIndex = this.chapterDetails.chapterIndex;
     },
-    $getScene(){
-      trace('$getScene');
-      const sceneText: IText = {...this.currentScene.text};
-      return sceneText;
-    },
     $loadScene(){
       trace('$loadScene');
       let nextSceneIndex = this.currentScene.sceneIndex + 1;
@@ -110,7 +121,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this.currentScene.sceneIndex = nextSceneIndex;
           const newSceneData = {...resJson} as INewScene
           // set BMG
-          this._updateBgm(newSceneData.bmg);
+          this._updateBgm(newSceneData.bgm);
           this._updateBackdrop(newSceneData.backdrop);
           this._updateChars(newSceneData.chars);
           this._updateText(newSceneData.initialText);
@@ -147,7 +158,9 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.currentScene.activeBmg = newBgm;
     }, 
     _updateBackdrop(newBackdrop: IBackdrop){
-      this.currentScene.backdrop = newBackdrop;
+      if (newBackdrop.path !== ''){
+        this.currentScene.backdrop = newBackdrop;
+      }
     },
     _updateChars(newChars: IChar[]){
       this.currentScene.activeChars = newChars
@@ -182,5 +195,5 @@ export const useScriptEngine = defineStore('scriptEngine', {
 
 
 function trace(message: string){
-  console.log(`Scripting Engine:\t${message}`)
+  // console.log(`Scripting Engine:\t${message}`)
 }
