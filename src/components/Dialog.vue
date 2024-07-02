@@ -51,9 +51,37 @@ import { ref, watch } from 'vue';
       transition-all duration-1000
       aspect-16/9 w-[90vw]
       self-center
-      z-dialog"
+      z-dialog
+
+      hidden
+      opacity-0
+
+      [transition-behavior:_allow-discrete]
+      backdrop:[transition-behavior:_allow-discrete]
+      "
       @click="(e) => checkBackdropClick(e)"
     >
     <slot ></slot>
   </dialog>
 </template>
+
+<style scoped>
+  dialog[open]{
+    @apply block;
+    @apply opacity-100;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  dialog[open]::backdrop{
+    @apply opacity-30;
+  }
+
+  @starting-style {
+    dialog[open]::backdrop{
+      @apply opacity-0;
+    }
+  }
+</style>
