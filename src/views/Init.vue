@@ -12,9 +12,9 @@
   
   let layers = ref<ILayer[]>([{ state: "in" }, { state: "off"}])
   let activeLayer = ref(0)
-  const interval = 4000;
-  // duration            1000   |  2000  | 1000 
-  // timings             1000   |  3000  | 4000
+  const interval = 6000;
+  // duration            1000   |  4000  | 1000 
+  // timings             1000   |  5000  | 6000
   // flow:    off -> in   -> static ->  out  -> off
 
   // iterate and create timers per layer
@@ -30,10 +30,10 @@
     }, ((interval * i) + 1000));
     setTimeout(() => {
       val.state = "out";
-    }, ((interval * i) + 3000));
+    }, ((interval * i) + 5000));
     setTimeout(() => {
       val.state = "off";
-    }, ((interval * i) + 4000));
+    }, ((interval * i) + 6000));
   });
 
   // scene transition timer
@@ -59,8 +59,8 @@
         { 'opacity-0'      : layers[0].state === 'off' },
         ]"
     >
-      <div class="max-w-[1000px]">
-        <p>This product is brought to you by BLAH</p>
+      <div class="max-w-[1000px] *:text-lg *:text-gray-500">
+        <p>This product is brought to you by Indexes out of Bounds & segmentation faults</p>
       </div>
     </article>
     <article 
@@ -74,8 +74,9 @@
         { 'opacity-0'      : layers[1].state === 'off' },
         ]"
     >
-      <div class="max-w-[1000px]">
-        <p>Foo Bar Baz</p>
+      <div class="max-w-[1000px] text-center  *:text-lg *:text-gray-500">
+        <p class="pb-2">WARNING: PHOTOSENSITIVITY/EPILEPSY SEIZURES</p>
+        <p>A very small percentage of people may experience epileptic seizures or blackouts when exposed to certain kinds of flashing lights or light patterns. These persons, or even people who have no history of seizures or epilepsy, may experience epileptic symptoms or seizures while playing video games. If you or any of your relatives has an epileptic condition or has had seizures of any kind, consult your physician before playing any video game.</p>
       </div>
     </article>
   </section>
