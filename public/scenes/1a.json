@@ -1,11 +1,11 @@
 {
   "bgm" : {
-    "path" : "",
+    "path" : "/audio/bgm/bgm-story.m4a",
     "forceRestart" : true
   },
   "chars" : [],
   "backdrop" : {
-    "path" : ""
+    "path" : "/backdrop/bg-static.png"
   },
   "initialText": {
     "speaker": null,
