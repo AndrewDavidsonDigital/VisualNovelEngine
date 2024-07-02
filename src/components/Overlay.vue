@@ -9,6 +9,8 @@
     BookIcon,
     SkipIcon,
     VolumeIcon,
+    SlidersIcon,
+    CloseIcon,
   } from '@components/icon';
   import Dialog from '@components/Dialog.vue';
   import Clickable from '@components/Clickable.vue';
@@ -117,10 +119,14 @@
     voiceEngine.setAndPlay(audioPath);
   }
 
-  function foo (isOppnening: boolean){
+  function toggleOpening (isOppnening: boolean){
     isModalOpen.value = isOppnening;
   }
 
+  function closeHistory(){
+    toggleOpening(false);
+    dialogToggle.value = false;
+  }
 
 </script>
 
@@ -130,10 +136,11 @@
     :show="optionsDialogToggle"
     class="scrollbar backdrop-blur-[5px] !outline-none overflow-hidden"
     @click.stop
-    @open="() => foo(true)"
-    @close="() => foo(false)"
+    @open="() => toggleOpening(true)"
+    @close="() => toggleOpening(false)"
     >
-    <Option 
+    <Option
+      v-if="optionsDialogToggle"
       routeless
       :onClose="() => viewOptions()"
     />
@@ -143,8 +150,8 @@
     :show="dialogToggle"
     class="scrollbar backdrop-blur-[5px] !outline-none"
     @click.stop
-    @open="() => foo(true)"
-    @close="() => foo(false)"
+    @open="() => toggleOpening(true)"
+    @close="() => toggleOpening(false)"
     >
     <section class="flex flex-col p-5 gap-y-2">
       <template v-for="entry in history">
@@ -162,6 +169,9 @@
           <div><span v-html="entry.text"></span></div>
         </article>
       </template>
+      <article class="absolute top-0 right-0 group mr-5 mt-4" @click="closeHistory">
+        <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
+      </article>
     </section>
   </Dialog>
   <section 
