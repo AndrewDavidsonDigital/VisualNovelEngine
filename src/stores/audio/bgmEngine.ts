@@ -62,7 +62,7 @@ export const useBgmEngine = defineStore('bgmAudioEngine', {
 
       if (this.el.volume > 0.1){
         setTimeout(() => {
-          this.volumeDown();
+          this._volumeDown();
           this.fadeOut();
           },
           50,
@@ -71,10 +71,28 @@ export const useBgmEngine = defineStore('bgmAudioEngine', {
         this.el.pause();
       }
     },
-    volumeDown() {
+    fadeUp(){
+      console.log(Date.now(), ' \tFadeUp Called');
+      if (!this.el) return;
+
+      if (this.el.volume < this.volumeMultiplier){
+        setTimeout(() => {
+          this._volumeUp();
+          this.fadeUp();
+          },
+          50,
+        )
+      }
+    },
+    _volumeDown() {
       if (!this.el) return;
 
       this.el.volume = Math.max((this.el.volume - 0.05), 0);
+    },
+    _volumeUp() {
+      if (!this.el) return;
+
+      this.el.volume = Math.max((this.el.volume + 0.05), this.volumeMultiplier);
     }
   },
 })
