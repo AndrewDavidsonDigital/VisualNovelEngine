@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { nextTick, ref, watch, onBeforeUnmount } from 'vue'
-  import videoSrc from '@assets/video/bg-audio.mp4';
   import { useConfiguration, IConfiguration, IAudioConfiguration, labelMap_EN, ITextConfiguraion } from '@stores/configuration';
   import { 
     useBgmEngine, 
@@ -10,6 +9,7 @@
   import { LoaderIcon } from '@components/icon'
   import { useRouter } from 'vue-router'
   import Clickable from '@components/Clickable.vue'
+  import videoSrc from '@assets/video/bg-audio.mp4';
 
   const router = useRouter()
 
@@ -24,7 +24,7 @@
   const localText = ref<ITextConfiguraion>(configurables.text);
 
   const testingText = Object.freeze({
-    speaker: 'Foo Bar',
+    speaker: 'Narrator',
     text: '<ruby>Lorem ipsum dolor sit amet<rp>(</rp><rt>mm placeholder text</rt><rp>)</rp> </ruby>, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   });
 
@@ -220,57 +220,58 @@
           <source :src="videoSrc" type="video/mp4">
         </video>
       </section>
-      <div class='mx-8 my-4 p-4 aspect-video z-10 bg-slate-500/50 rounded-xl'>
-        <section class="flex justify-between">
-          <h1>Options</h1>
-          <span class="flex gap-2">
-            <h1 @click="saveConfiguration('/menu')">Save</h1>
-            <h1 @click="discardConfiguration('/menu')">Back</h1>
-          </span>
-        </section>
-        <section class='grid grid-cols-2'>
-          <div v-for="(key) in Object.keys(configurables)">
-            <h2 class="text-xl">{{resolveLabel(key)}}</h2>
-            <template v-if="isItterable(configurables[key as keyof IConfiguration])">
-              <template v-if="key === 'audio'">
-                <div v-for="(el) in Object.keys(configurables[key])" class="flex justify-around mx-4">
-                  <div class="flex justify-between min-w-32">
-                    <span>{{ resolveLabel(el) }}</span>
-                    <span>{{ Math.floor(resolveValue(configurables[key], el) * 100) }}%</span>
+      <div class='mx-8 my-4 p-4 aspect-video z-10 bg-slate-500/50 rounded-xl flex flex-col justify-between'>
+        <div>
+          <section class="flex justify-between">
+            <h1>Options</h1>
+            <span class="flex gap-2">
               <Clickable><h1 @click="saveConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300">Save</h1></Clickable>
               <Clickable><h1 @click="discardConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300">Back</h1></Clickable>
+            </span>
+          </section>
+          <section class='grid grid-cols-2'>
+            <div v-for="(key) in Object.keys(configurables)">
+              <h2 class="text-xl">{{resolveLabel(key)}}</h2>
+              <template v-if="isItterable(configurables[key as keyof IConfiguration])">
+                <template v-if="key === 'audio'">
+                  <div v-for="(el) in Object.keys(configurables[key])" class="flex justify-around mx-4">
+                    <div class="flex justify-between min-w-32">
+                      <span>{{ resolveLabel(el) }}</span>
+                      <span>{{ Math.floor(resolveValue(configurables[key], el) * 100) }}%</span>
+                    </div>
+                    <input 
+                      type="range"
+                      name="volume"
+                      min="0" 
+                      max="1" 
+                      step="0.05"
+                      v-model.number="localAudio[el as keyof IAudioConfiguration]"
+                      @input="() => saveOnUpdate(el)"
+                    />
+                    <button v-if="el !== 'bgm'" @click="testAudio(el)" class="min-w-8">Test</button>
+                    <div v-else class="min-w-8"></div>
                   </div>
-                  <input 
-                    type="range"
-                    name="volume"
-                    min="0" 
-                    max="1" 
-                    step="0.05"
-                    v-model.number="localAudio[el as keyof IAudioConfiguration]"
-                    @input="() => saveOnUpdate(el)"
-                  />
-                  <button @click="testAudio(el)" :disabled="el === 'bgm'">Test</button>
-                </div>
-              </template>
-              <template v-if="key === 'text'">
-                <div v-for="(el) in Object.keys(configurables[key])" class="flex justify-around mx-4">
-                  <div class="flex justify-between min-w-72">
-                    <span>{{ resolveLabel(el) }}</span>
-                    <span>{{ speedIndex[(resolveValue(configurables[key], el) * 5) -1 ] }}</span>
+                </template>
+                <template v-if="key === 'text'">
+                  <div v-for="(el) in Object.keys(configurables[key])" class="flex justify-around mx-4">
+                    <div class="flex justify-between min-w-72">
+                      <span>{{ resolveLabel(el) }}</span>
+                      <span>{{ speedIndex[(resolveValue(configurables[key], el) * 5) -1 ] }}</span>
+                    </div>
+                    <input 
+                      type="range"
+                      name="speed"
+                      min="0.2" 
+                      max="1" 
+                      step="0.2"
+                      v-model.number="localText[el as keyof ITextConfiguraion]"
+                    />
                   </div>
-                  <input 
-                    type="range"
-                    name="speed"
-                    min="0.2" 
-                    max="1" 
-                    step="0.2"
-                    v-model.number="localText[el as keyof ITextConfiguraion]"
-                  />
-                </div>
+                </template>
               </template>
-            </template>
-          </div>
-        </section>
+            </div>
+          </section>
+        </div>
         <div class="min-h-[20%]">
           <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass'>
             <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{testingText.speaker}}</h3>
@@ -294,4 +295,3 @@
     </div>
   </div>
 </template>
-
