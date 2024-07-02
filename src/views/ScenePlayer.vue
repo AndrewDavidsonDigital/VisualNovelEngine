@@ -1,12 +1,28 @@
 <script setup lang="ts">
-  import videoSrc from '@assets/video/bg-audio-2.mp4';
+  import defaultVideoSrc from '@assets/video/bg-audio-2.mp4';
   import Backdrop from '@components/Backdrop.vue';
   import Overlay from '@components/Overlay.vue';
-  import { IText } from '@stores/interfaces';
+  import { IBackdrop, IText } from '@stores/interfaces';
   import { useScriptEngine } from '@stores/scriptEngine';
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
+  import { 
+    useBgmEngine,
+    useSfxEngine,
+    useVoiceEngine,
+  } from '&audio';
 
   const scriptEngine = useScriptEngine()
+  const bgmEngine = useBgmEngine();
+  const sfxEngine = useSfxEngine();
+  const voiceEngine = useVoiceEngine();
+
+  const videoSrc = ref(defaultVideoSrc);
+  const isBackdropVideo = ref(true);
+
+  const backdropInstance = ref<IBackdrop>({
+    path: '',
+    type: 'video',
+  });
 
   const triggerToggle = ref(false);
   const textInstance = ref<IText>({
@@ -15,6 +31,42 @@
     position: 'center',
     voice: '',
   });
+
+  const VideoMimeExtensions = Object.freeze([
+    '.mp4'
+  ])
+  const ImageMimeExtensions = Object.freeze([
+  '.webp',
+  '.png',
+  '.jpg',
+  ])
+
+  interface ISupportedMimes {
+    '.mp4': string;
+    '.webp': string;
+    '.png': string;
+  }
+  const SUPPORTERD_MIMES: ISupportedMimes = Object.freeze({
+    '.mp4': 'video/mp4',
+    '.webp': 'image/webp',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+  })
+
+  watch(backdropInstance, () => {
+    videoSrc.value = backdropInstance.value.path;
+    const mimeType = resolveMimeType();
+
+    isBackdropVideo.value = VideoMimeExtensions.indexOf(mimeType) !== -1
+  })
+
+  watch(textInstance, () => {
+    if (textInstance.value.voice && textInstance.value.voice !== ''){
+      voiceEngine.setAndPlay(textInstance.value.voice);
+    }
+  })
+
+  /******************************Scripture Reactionary functions****************************************/
 
   scriptEngine.$onAction((el)=> {
     const startTime = Date.now()
@@ -25,54 +77,54 @@
     })
 
     if (el.name === '_updateBgm'){
-      console.log(el);
       el.after((result) => {
         console.log('update BGM: \t' + JSON.stringify(el.args));
+        bgmEngine.fadeOut();
+        setTimeout((() => {
+          bgmEngine.setTrack(scriptEngine.getSceneBGM.path);
+          bgmEngine.fadeUp();
+        }),1000);
       })
     }
 
     if (el.name === '_updateBackdrop'){
-      console.log(el);
       el.after((result) => {
+        backdropInstance.value = scriptEngine.getSceneBackdrop;
         console.log('update Backdrop: \t' + JSON.stringify(el.args));
       })
     }
 
-    if (el.name === '_updateChars'){
-      console.log(el);
-      el.after((result) => {
-        console.log('update Chars: \t' + JSON.stringify(el.args));
-      })
-    }
+    // if (el.name === '_updateChars'){
+    //   el.after((result) => {
+    //     console.log('update Chars: \t' + JSON.stringify(el.args));
+    //   })
+    // }
 
     if (el.name === '_updateText'){
-      console.log(el);
       el.after((result) => {
         triggerToggle.value = false;
-        textInstance.value = scriptEngine.$getScene();
         setTimeout((() => triggerToggle.value = true),300);
         console.log('update Text: \t' + JSON.stringify(el.args));
       })
     }
 
-    if (el.name === '_updateTransitions'){
-      console.log(el);
-      el.after((result) => {
-        console.log('update Transitions: \t' + JSON.stringify(el.args));
-      })
-    }
+    // if (el.name === '_updateTransitions'){
+    //   el.after((result) => {
+    //     console.log('update Transitions: \t' + JSON.stringify(el.args));
+    //   })
+    // }
 
     if (el.name === '_updateTransition'){
-      console.log(el);
       el.after((result) => {
         triggerToggle.value = false;
-        textInstance.value = scriptEngine.$getScene();
+        textInstance.value = scriptEngine.getSceneText;
         setTimeout((() => triggerToggle.value = true),300);
         console.log('update Transition: \t' + JSON.stringify(el.args));
       })
     }
-
   });
+
+  /*****************************************************************************************************/
 
   function handleProgress(){
     triggerToggle.value = !(triggerToggle.value);
@@ -84,6 +136,26 @@
     setTimeout((() => triggerToggle.value = true),300);
   }
 
+  function resolveMimeType () {
+    const extension = videoSrc.value.substring(videoSrc.value.lastIndexOf('.')); // result will incldue the period
+    // console.log('ext = ' + extension);
+    if (SUPPORTERD_MIMES.hasOwnProperty(extension)){
+      return SUPPORTERD_MIMES[extension as keyof ISupportedMimes];
+    }
+    return '.mp4'
+  }
+  handleProgress();
+
+  function firstRun(){
+
+    backdropInstance.value = scriptEngine.getSceneBackdrop;
+    console.log(`ROIDEN:::: `,scriptEngine.getSceneText)
+    textInstance.value = scriptEngine.getSceneText;
+
+    resolveMimeType();
+  }
+
+  setTimeout( () => firstRun(), 500);
 
 </script>
 
@@ -92,9 +164,9 @@
     <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack]'>
       <!-- Backdrop -->
       <Backdrop
-        :isVideo="true"
+        :isVideo="isBackdropVideo"
         :contentSrc="videoSrc"
-        contentType="video/mp4"
+        :contentType="resolveMimeType()"
       />
       <!-- Interactions / char layer -->
       <!-- <section>foooo</section> -->
