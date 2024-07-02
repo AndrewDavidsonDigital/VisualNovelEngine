@@ -18,10 +18,12 @@ Example Chars:
 
 Example BGM: 
 
-- Artist: Arika
-- Title:「blan_」
-- source https://www.youtube.com/watch?v=foRefp4MlOI
-- reference: `/audio/bgm/bgm.m4a`
+
+| Reference | source | Arist | Title |
+| ----------- | ----------- | ----------- | ----------- | 
+| `/audio/bgm/bgm.m4a` | https://www.youtube.com/watch?v=foRefp4MlOI | Arika | 「blan_」|
+| `/audio/bgm/bgm-story.m4a` | Depths of Elusive Realms BGM from Wuthering Waves | TBD | TBD |
+
 
 Example SFX and Voice snippets: random audio bites from youtube:
 
