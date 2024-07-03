@@ -11,6 +11,9 @@
     VolumeIcon,
     SlidersIcon,
     CloseIcon,
+    MenuIcon,
+    SaveIcon,
+    LoadIcon,
   } from '@components/icon';
   import Modal from '@components/Modal.vue';
   import Clickable from '@components/Clickable.vue';
@@ -30,6 +33,7 @@
   const script = useScriptEngine()
   const voiceEngine = useVoiceEngine()
 
+  const isMenuOpen = ref(false);
   const isModalOpen = ref(false);
   const isAuto = ref(false);
   const isViewBackdrop = ref(false);
@@ -126,6 +130,10 @@
   function closeHistory(){
     toggleOpening(false);
     dialogToggle.value = false;
+  }
+
+  function setMenu(to = true){
+    isMenuOpen.value = to;
   }
 
 </script>
@@ -235,9 +243,9 @@
         <Clickable>
           <article
             v-show="!isViewBackdrop"
-            @click.stop="viewOptions()"
+            @click.stop="setMenu()"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
-            <SlidersIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
+            <MenuIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
           </article>
         </Clickable>
       </section>
@@ -259,6 +267,56 @@
       </section>
     </div>
   </section>
+  <aside 
+  :class="[
+    'bg-slate-500/80',
+    ' w-0 max-w-[400px]', 
+    'glass z-menu ml-auto rounded-l-xl',
+    'transition-all duration-500 ',
+    { '!w-1/4' : isMenuOpen },
+  ]">
+    <section class=" px-5 py-10 flex flex-col gap-y-2">
+      <Clickable>
+        <article
+          @click.stop="setMenu(false)"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
+          <span class="transition-colors duration-500 group-hover:text-orange-400">Close</span><CloseIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
+        </article>
+      </Clickable>
+      <Clickable>
+        <article
+          v-show="!isViewBackdrop"
+          @click.stop="() => {setMenu(false); viewOptions();}"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
+          <span class="transition-colors duration-500 group-hover:text-orange-400">Options</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
+        </article>
+      </Clickable>
+      <Clickable>
+        <article
+          v-show="!isViewBackdrop"
+          @click.stop="() => {setMenu(false);}"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
+          <span class="transition-colors duration-500 group-hover:text-orange-400">Save</span><SaveIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
+        </article>
+      </Clickable>
+      <Clickable>
+        <article
+          v-show="!isViewBackdrop"
+          @click.stop="() => {setMenu(false);}"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
+          <span class="transition-colors duration-500 group-hover:text-orange-400">Load</span><LoadIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
+        </article>
+      </Clickable>
+      <Clickable>
+        <article
+          v-show="!isViewBackdrop"
+          @click.stop="() => {setMenu(false); $router.push('/menu')}"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
+          <span class="transition-colors duration-500 group-hover:text-orange-400">Title</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
+        </article>
+      </Clickable>
+    </section>
+  </aside>
 </template>
 
 <style>
