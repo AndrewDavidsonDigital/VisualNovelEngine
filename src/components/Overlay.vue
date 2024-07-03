@@ -273,17 +273,6 @@
     @apply w-[0.5em];
   }
 
-  .glass-sm {
-    @apply backdrop-blur-[5px];
-    @apply ring-slate-600/60;  
-    box-shadow: 0 0 4px 2px var(--tw-ring-color);
-  }
-  .glass {
-    @apply backdrop-blur-[5px];
-    @apply ring-slate-600/60;  
-    box-shadow: 0 0 40px 20px var(--tw-ring-color);
-  }
-
   .reveal {
     ruby, rt, rp {
       @apply text-orange-300 text-opacity-0;

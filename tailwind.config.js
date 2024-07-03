@@ -13,6 +13,7 @@ export default {
         '100_100': '100% 100%',
       },
       zIndex:{
+        'menu'  : 500,
         'dialog': 1000,
         'max'   : 10000,
       },
@@ -52,6 +53,20 @@ export default {
           values: theme("transitionDelay"),
         }
       );
+    }),
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.glass': {
+          '--tw-ring-color': 'rgb(71 85 105 / 0.6)',
+          backdropFilter   : "var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)",
+          boxShadow        : '0 0 40px 20px var(--tw-ring-color)',
+        },
+        '.glass-sm': {
+          '--tw-ring-color': 'rgb(71 85 105 / 0.6)',
+          backdropFilter   : "var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)",
+          boxShadow        : '0 0 4px 2px var(--tw-ring-color)',
+        },
+      })
     }),
   ],
 
