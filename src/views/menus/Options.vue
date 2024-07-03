@@ -9,7 +9,7 @@
   import { LoaderIcon } from '@components/icon'
   import { useRouter } from 'vue-router'
   import Clickable from '@components/Clickable.vue'
-  import videoSrc from '@assets/video/bg-audio.mp4';
+  import videoSrc from '@assets/video/bg-menu.mp4';
 
   const router = useRouter()
 

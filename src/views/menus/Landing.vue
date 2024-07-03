@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import Navigation from '@components/Navigation.vue';
-  import videoSrc from '@assets/video/bg-audio.mp4';
+  import videoSrc from '@assets/video/bg-menu.mp4';
   import { useSfxEngine } from '&audio'
   import { useCustomCursor } from '@stores/customCursor';
 

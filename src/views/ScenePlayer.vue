@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import defaultVideoSrc from '@assets/video/bg-audio-2.mp4';
+  import defaultVideoSrc from '@assets/video/bg-game-default.mp4';
   import Backdrop from '@components/Backdrop.vue';
   import Overlay from '@components/Overlay.vue';
   import { IBackdrop, IText } from '@stores/interfaces';
@@ -55,9 +55,9 @@
 
   watch(backdropInstance, () => {
     videoSrc.value = backdropInstance.value.path;
-    const mimeType = resolveMimeType();
+    const ext = videoSrc.value.substring(videoSrc.value.lastIndexOf('.'));
 
-    isBackdropVideo.value = VideoMimeExtensions.indexOf(mimeType) !== -1
+    isBackdropVideo.value = VideoMimeExtensions.indexOf(ext) !== -1
   })
 
   watch(textInstance, () => {

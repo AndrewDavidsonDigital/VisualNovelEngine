@@ -1,15 +1,15 @@
 {
   "bgm" : {
-    "path" : "",
+    "path" : "/audio/bgm/bgm.m4a",
     "forceRestart" : true
   },
   "chars" : [],
   "backdrop" : {
-    "path" : ""
+    "path" : "/backdrop/bg-animated.mp4"
   },
   "initialText": {
     "speaker": null,
-    "text" : "In the begining there was only ",
+    "text" : "AAA In the begining there was only ",
     "position" : "center",
     "voice": null,
     "delay" : {
@@ -22,7 +22,7 @@
       "chars" : [],
       "text": {
         "speaker": null,
-        "text" : "JQuery",
+        "text" : "AAA JQuery",
         "position" : "center",
         "voice": null
       },
