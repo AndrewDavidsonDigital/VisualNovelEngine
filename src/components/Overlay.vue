@@ -12,7 +12,7 @@
     SlidersIcon,
     CloseIcon,
   } from '@components/icon';
-  import Dialog from '@components/Dialog.vue';
+  import Modal from '@components/Modal.vue';
   import Clickable from '@components/Clickable.vue';
   import Option from '@views/menus/Options.vue';
 
@@ -131,7 +131,7 @@
 </script>
 
 <template>
-  <Dialog
+  <Modal
     :id="`options-dialog`"
     :show="optionsDialogToggle"
     class="scrollbar overflow-hidden"
@@ -144,8 +144,8 @@
       routeless
       :onClose="() => viewOptions()"
     />
-  </Dialog>
-  <Dialog
+  </Modal>
+  <Modal
     :id="`history-dialog`"
     :show="dialogToggle"
     class="scrollbar"
@@ -173,7 +173,7 @@
         <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
       </article>
     </section>
-  </Dialog>
+  </Modal>
   <section 
     class='flex flex-col justify-between px-8 py-4 aspect-video z-10'
     @click.stop="(e) => checkBgClick(e)">
