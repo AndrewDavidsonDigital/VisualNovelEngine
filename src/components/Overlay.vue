@@ -18,6 +18,7 @@
   import Modal from '@components/Modal.vue';
   import Clickable from '@components/Clickable.vue';
   import Option from '@views/menus/Options.vue';
+  import Save from '@views/menus/Save.vue';
 
 
   interface Props {
@@ -37,8 +38,12 @@
   const isModalOpen = ref(false);
   const isAuto = ref(false);
   const isViewBackdrop = ref(false);
+  const isSaveLoadSave = ref(false);
+
   const dialogToggle = ref(false);
   const optionsDialogToggle = ref(false);
+  const saveLoadDialogToggle = ref(false);
+
   const history = ref(script.$state.chapterDetails.history);
   const timer = ref(false);
   const timerId = ref<number>(-1);
@@ -73,6 +78,10 @@
       if (dialogToggle.value) {
         historyToggle();
       }
+      return;
+    }
+    if (isMenuOpen.value) {
+      setMenu(false);
       return;
     }
     if (isViewBackdrop.value){
@@ -136,9 +145,38 @@
     isMenuOpen.value = to;
   }
 
+  function handleSaveLoad(isSave: boolean){
+    saveLoadDialogToggle.value = true;
+    isSaveLoadSave.value = isSave;
+  }
+
+  function zzz(){
+    saveLoadDialogToggle.value = false;
+  }
+
 </script>
 
 <template>
+  <Modal
+    :id="`saveLoad-dialog`"
+    :show="saveLoadDialogToggle"
+    class="scrollbar overflow-hidden"
+    @click.stop
+    @open="() => toggleOpening(true)"
+    @close="() => toggleOpening(false)"
+  >
+    <Save 
+      v-if="isSaveLoadSave"
+      routeless
+      @close="zzz"
+    />
+    <section v-else class="bg-green-500 w-full h-full">
+      LOAD
+      <article class="absolute top-0 right-0 group mr-5 mt-4" @click="zzz">
+        <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
+      </article>
+    </section>
+  </Modal>
   <Modal
     :id="`options-dialog`"
     :show="optionsDialogToggle"
@@ -160,7 +198,7 @@
     @click.stop
     @open="() => toggleOpening(true)"
     @close="() => toggleOpening(false)"
-    >
+  >
     <section class="flex flex-col p-5 gap-y-2">
       <template v-for="entry in history">
         <article class="grid grid-cols-[8rem,_1fr] gap-4">
@@ -294,7 +332,7 @@
       <Clickable>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="() => {setMenu(false);}"
+          @click.stop="() => {setMenu(false); handleSaveLoad(true)}"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
           <span class="transition-colors duration-500 group-hover:text-orange-400">Save</span><SaveIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>
@@ -302,7 +340,7 @@
       <Clickable>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="() => {setMenu(false);}"
+          @click.stop="() => {setMenu(false); handleSaveLoad(false)}"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
           <span class="transition-colors duration-500 group-hover:text-orange-400">Load</span><LoadIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>

@@ -38,6 +38,11 @@ const CONFIG_KEYS = Object.freeze([
   'currentScene',
 ]);
 
+interface ISaveData {
+  chapterIndex: number;
+  sceneIndex: number;
+  transitionIndex: number;
+}
 
 /**
  * @description: Scripting interpreter engine,
@@ -65,6 +70,15 @@ export const useScriptEngine = defineStore('scriptEngine', {
       const sceneBackdrop: IBackdrop = {...this.currentScene.backdrop};
       return sceneBackdrop;
     },
+    getSaveData(){
+      trace('getSaveData');
+      const saveData: ISaveData = {
+        chapterIndex: this.chapterDetails.chapterIndex,
+        sceneIndex: this.currentScene.sceneIndex,
+        transitionIndex: this.currentScene.transitionIndex,
+      };
+      return saveData;
+    }
   },
   actions: {
     reset() {
