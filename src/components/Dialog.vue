@@ -47,6 +47,10 @@ import { ref, watch } from 'vue';
     ref="dialogRef"
     class="
       max-w-[calc(1920px*0.95)] w-[95%] place-self-center mx-5
+      backdrop-blur-[5px] !outline-none
+
+      relative
+
       backdrop:bg-slate-800/30
       bg-slate-800/90 rounded-xl
       transition-all duration-1000

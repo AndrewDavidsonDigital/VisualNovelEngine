@@ -134,7 +134,7 @@
   <Dialog
     :id="`options-dialog`"
     :show="optionsDialogToggle"
-    class="scrollbar backdrop-blur-[5px] !outline-none overflow-hidden"
+    class="scrollbar overflow-hidden"
     @click.stop
     @open="() => toggleOpening(true)"
     @close="() => toggleOpening(false)"
@@ -148,7 +148,7 @@
   <Dialog
     :id="`history-dialog`"
     :show="dialogToggle"
-    class="scrollbar backdrop-blur-[5px] !outline-none"
+    class="scrollbar"
     @click.stop
     @open="() => toggleOpening(true)"
     @close="() => toggleOpening(false)"
