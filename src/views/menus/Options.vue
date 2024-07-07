@@ -273,7 +273,7 @@
           </section>
         </div>
         <div class="min-h-[20%]">
-          <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass'>
+          <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass relative'>
             <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{testingText.speaker}}</h3>
             <p class="reveal">
               <span :class="[
