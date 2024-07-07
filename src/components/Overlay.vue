@@ -150,7 +150,7 @@
     isSaveLoadSave.value = isSave;
   }
 
-  function zzz(){
+  function toggleSaveLoadDialog(){
     saveLoadDialogToggle.value = false;
   }
 
@@ -166,13 +166,16 @@
     @close="() => toggleOpening(false)"
   >
     <Save 
-      v-if="isSaveLoadSave"
+      v-if="saveLoadDialogToggle && isSaveLoadSave"
       routeless
-      @close="zzz"
+      @close="toggleSaveLoadDialog"
     />
-    <section v-else class="bg-green-500 w-full h-full">
+    <section 
+      v-else-if="saveLoadDialogToggle"
+      class="bg-green-500 w-full h-full"
+    >
       LOAD
-      <article class="absolute top-0 right-0 group mr-5 mt-4" @click="zzz">
+      <article class="absolute top-0 right-0 group mr-5 mt-4" @click="toggleSaveLoadDialog">
         <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
       </article>
     </section>
