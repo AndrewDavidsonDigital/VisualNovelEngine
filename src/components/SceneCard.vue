@@ -18,7 +18,7 @@ import Clickable from './Clickable.vue';
 
   function bgSrc(){
     if (props.chapter !== '' && Number(props.chapter) <= SAVES_BG.length){
-      return SAVES_BG[Number(props.chapter) - 1]
+      return SAVES_BG[Number(props.chapter)]
     } else {
       return DEFAULT_BG;
     }
@@ -37,8 +37,8 @@ import Clickable from './Clickable.vue';
           >
           <div class="flex flex-col justify-around">
             <span>{{ props.title }}</span>
-            <span>Chapter: {{props.chapter ? props.chapter : 'TBD' }}</span>
-            <span>Scene: {{ props.scene ? props.scene : 'TBD'  }}</span>
+            <span>Chapter: {{`${props.chapter}` !== '' ? Number(props.chapter) + 1 : 'TBD' }}</span>
+            <span>Scene: {{ `${props.scene}` !== '' ? Number(props.scene) + 1 : 'TBD'  }}</span>
           </div>
         </div>
       </Clickable>

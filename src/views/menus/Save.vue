@@ -19,9 +19,14 @@
 
   const $emit = defineEmits(['close'])
 
+  interface ISaveDialogData {
+    index: number
+  }
+
   const allSaves = ref<ISave[]>(new Array<ISave>(MAX_SAVES));
   const showingConfirmDialog = ref(false);
   const showingSaveDialog = ref(false);
+  const saveDialogData = ref<null | ISaveDialogData>(null);
   const confirmDialogData = ref<any>();
 
   const scriptEngine = useScriptEngine();
@@ -34,40 +39,46 @@
 
   interface ISave {
     title: string,
-    chapter: number | string,
-    scene: number | string,
+    chapterIndex: number | string,
+    sceneIndex: number | string,
+    transitionIndex: number | string,
     active?: boolean,
   }
 
   const demoSaves = Object.freeze([
     { 
       title: 'test save 1',
-      chapter: 1,
-      scene: 2,
+      chapterIndex: 1,
+      sceneIndex: 2,
+      transitionIndex: 0,
       active: true,
     },
     { 
       title: 'test save 2',
-      chapter: 2,
-      scene: 1,
+      chapterIndex: 2,
+      sceneIndex: 1,
+      transitionIndex: 0,
       active: true,
     },
     { 
       title: 'foo bar ',
-      chapter: 1,
-      scene: 3,
+      chapterIndex: 1,
+      sceneIndex: 3,
+      transitionIndex: 0,
       active: true,
     },
     { 
       title: 'baz arraz',
-      chapter: 3,
-      scene: 3,
+      chapterIndex: 0,
+      sceneIndex: 3,
+      transitionIndex: 0,
       active: true,
     },
     { 
       title: 'double save??',
-      chapter: 3,
-      scene: 3,
+      chapterIndex: 0,
+      sceneIndex: 3,
+      transitionIndex: 0,
       active: true,
     },
   ]) as ISave[]
@@ -79,8 +90,9 @@
     const savesUsed = demoSaves.length;
     const defaultSave: ISave =  { 
       title  : 'New Save',
-      chapter: '',
-      scene  : '',
+      chapterIndex: '',
+      sceneIndex  : '',
+      transitionIndex: '',
       active : false,
     }
     allSaves.value?.fill( {...defaultSave}, savesUsed , MAX_SAVES);
@@ -97,14 +109,28 @@
   }
 
   function actionSave(index: number){
-    const newSave = {...scriptEngine.getSaveData}
     console.log('New Save at index: ', index);
-    console.log('newSave: ', newSave);
+    saveDialogData.value = { index: index };
     showingSaveDialog.value = true;
   }
-  function completeSave(data: any){
+  function completeSave(data: ISaveDialogData & { input: string } ){
     showingSaveDialog.value = false;
     console.log('User input', data);
+    saveDialogData.value = null;
+
+    if (!(data?.index)) return
+    
+    const saveIndex = data.index
+
+    
+    const newSave = {
+      title: data.input,
+      active : true,
+      ...scriptEngine.getSaveData,
+    }
+    console.log('newSave: ', newSave);
+
+    allSaves.value[saveIndex] = {...newSave};
   }
 
 </script>
@@ -113,6 +139,7 @@
   <div class="animate-fadeIn" @click.stop>
     <InputDialog 
       message="This will overwrite your existing save, Are you sure you wish to overwrite this?"
+      :data="saveDialogData"
       :show="showingSaveDialog"
       @close-ok="(e) => {showingSaveDialog = false; completeSave(e);}"
       @close-cancel="showingSaveDialog = false"
@@ -146,10 +173,9 @@
         </section>
         <section class='grid grid-cols-2 gap-20 p-10' :data-modalOpen="showingConfirmDialog || showingSaveDialog">
           <div v-for="(save, index) in allSaves">
-            <!-- Save Card -->
             <SceneCard
-              :chapter="save.chapter"
-              :scene="save.scene"
+              :chapter="save.chapterIndex"
+              :scene="save.sceneIndex"
               :title="save.title"
               :disabled="false"
               @click="tryToSave(save.active || false, index)"
