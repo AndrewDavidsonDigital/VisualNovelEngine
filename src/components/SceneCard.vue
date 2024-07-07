@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Clickable from './Clickable.vue';
 
-  const DEFAULT_BG = '/backdrop/saves/default.png';
+  const DEFAULT_BG = '/backdrop/saves/default (Medium).png';
   const SAVES_BG = Object.freeze([
-  '/backdrop/saves/chapter-1.jpg',
-  '/backdrop/saves/chapter-2.jpg',
-  '/backdrop/saves/chapter-3.jpg',
+  '/backdrop/saves/chapter-1 (Medium).jpg',
+  '/backdrop/saves/chapter-2 (Medium).jpg',
+  '/backdrop/saves/chapter-3 (Medium).jpg',
   ])as string[];
 
   interface Props {
