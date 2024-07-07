@@ -2,7 +2,7 @@
   import defaultVideoSrc from '@assets/video/bg-game-default.mp4';
   import Backdrop from '@components/Backdrop.vue';
   import Overlay from '@components/Overlay.vue';
-  import { IBackdrop, IText } from '@stores/interfaces';
+  import { IBackdrop, IChar, IText } from '@stores/interfaces';
   import { useScriptEngine } from '@stores/scriptEngine';
   import { ref, watch } from 'vue';
   import { 
@@ -32,6 +32,11 @@
     voice: '',
   });
 
+  const charInstance = ref<IChar[]>([{
+    path: '', 
+    positioning: 'center',
+  }]);
+
   const VideoMimeExtensions = Object.freeze([
     '.mp4'
   ])
@@ -45,6 +50,7 @@
     '.mp4': string;
     '.webp': string;
     '.png': string;
+    '.jpg': string,
   }
   const SUPPORTERD_MIMES: ISupportedMimes = Object.freeze({
     '.mp4': 'video/mp4',
@@ -94,11 +100,12 @@
       })
     }
 
-    // if (el.name === '_updateChars'){
-    //   el.after((result) => {
-    //     console.log('update Chars: \t' + JSON.stringify(el.args));
-    //   })
-    // }
+    if (el.name === '_updateChars'){
+      el.after((result) => {
+        charInstance.value = scriptEngine.getSceneChars;
+        console.log('KAYD update Chars: \t' + JSON.stringify(el.args));
+      })
+    }
 
     if (el.name === '_updateText'){
       el.after((result) => {
@@ -169,7 +176,11 @@
         :contentType="resolveMimeType()"
       />
       <!-- Interactions / char layer -->
-      <!-- <section>foooo</section> -->
+      <section class="z-10">
+        <template v-for="char in charInstance">
+          <img :src="char.path" class="max-h-[200px]">
+        </template>
+      </section>
       <!-- Overlay -->
       <Overlay  
         :text="textInstance.text"

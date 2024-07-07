@@ -79,7 +79,7 @@ export interface IBGM {
 }
 
 export interface IChar {
-  path: number,
+  path: string,
   positioning: Location
 }
 

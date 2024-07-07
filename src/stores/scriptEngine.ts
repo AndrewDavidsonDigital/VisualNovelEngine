@@ -78,7 +78,12 @@ export const useScriptEngine = defineStore('scriptEngine', {
         transitionIndex: this.currentScene.transitionIndex,
       };
       return saveData;
-    }
+    },
+    getSceneChars(){
+      trace('getSceneChars');
+      const chars: IChar[] = [...this.currentScene.activeChars];
+      return chars;
+    },
   },
   actions: {
     reset() {
@@ -188,7 +193,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
     },
     _updateTransition(newTransition: ITransition){
       this.currentScene.text = {...(newTransition.text)}
-      this.currentScene.activeChars = {...(newTransition.chars)}
+      this._updateChars([...(newTransition.chars)])
       // add stuff relating to delay limiting
       // this.currentScene
       this.$writeHistory();
