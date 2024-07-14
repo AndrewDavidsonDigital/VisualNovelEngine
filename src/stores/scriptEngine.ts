@@ -11,6 +11,7 @@ const DEFAULT_STATE = Object.freeze({
     history: [],
   },
   currentScene : {
+    description: '',
     activeBmg: {
       path: '',
     },
@@ -84,6 +85,11 @@ export const useScriptEngine = defineStore('scriptEngine', {
       const chars: IChar[] = [...this.currentScene.activeChars];
       return chars;
     },
+    getSkipDescription(){
+      trace('getSkipDescription');
+      const desc: string = this.currentScene.description;
+      return desc;
+    },
   },
   actions: {
     reset() {
@@ -94,6 +100,10 @@ export const useScriptEngine = defineStore('scriptEngine', {
     init(script: IGameScript) {
       this.reset();
       this.gameScript = script;
+    },
+    skipFowards(){
+      trace('skipFowards');
+      this.$loadScene();
     },
     progress(){
       trace('progress');
@@ -107,7 +117,6 @@ export const useScriptEngine = defineStore('scriptEngine', {
       }
       // transition
       trace('progress_end');
-
     },
     postProgressChapter(){
       this.currentScene.sceneIndex = 0;
@@ -118,17 +127,17 @@ export const useScriptEngine = defineStore('scriptEngine', {
       let nextSceneIndex = this.currentScene.sceneIndex + 1;
       if (this.chapterDetails.chapterIndex === -1){
         this.$loadChapter();
-      }else if (this.chapterDetails.chapterIndex !== this.currentScene.chapterIndex 
+      } else if (this.chapterDetails.chapterIndex !== this.currentScene.chapterIndex 
         || this.currentScene.sceneIndex === -1
-        || this.currentScene.sceneIndex >= this.chapterDetails.scenePaths.length
-      ){
+        || (this.currentScene.sceneIndex + 1) >= this.chapterDetails.scenePaths.length
+      ) {
         this.postProgressChapter();
         this.$loadChapter();
         nextSceneIndex = 0;
       }
       
       trace(`nextSceneIndex (${nextSceneIndex})`);
-      const nextScenePath = `${this.chapterDetails.scenePaths[0]}.json`
+      const nextScenePath = `${this.chapterDetails.scenePaths[nextSceneIndex]}.json`
       trace(`nextScenePath (${nextScenePath})`);
 
       fetch(nextScenePath)
@@ -138,6 +147,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
         .then((resJson) => {
           console.log(resJson);
           this.currentScene.sceneIndex = nextSceneIndex;
+          this.currentScene.chapterIndex = this.chapterDetails.chapterIndex;
           const newSceneData = {...resJson} as INewScene
           // set BMG
           this._updateBgm(newSceneData.bgm);
@@ -145,6 +155,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this._updateChars(newSceneData.chars);
           this._updateText(newSceneData.initialText);
           this._updateTransitions(newSceneData.transitions);
+          this._updateDescription(newSceneData.description);
           // set Backdrop
           // set Chars
           // set Text
@@ -198,6 +209,9 @@ export const useScriptEngine = defineStore('scriptEngine', {
       // this.currentScene
       this.$writeHistory();
     },
+    _updateDescription(newDesc: string){
+      this.currentScene.description = newDesc;
+    },
     $writeHistory(){
       const currentEntry: IHistoryEntry = {
         actorName: this.currentScene.text.speaker,
@@ -214,5 +228,5 @@ export const useScriptEngine = defineStore('scriptEngine', {
 
 
 function trace(message: string){
-  // console.log(`Scripting Engine:\t${message}`)
+  console.log(`Scripting Engine:\t${message}`)
 }
