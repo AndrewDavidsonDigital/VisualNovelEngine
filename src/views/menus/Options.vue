@@ -184,9 +184,9 @@
         console.log('\t\t: auto done');
         restartText();
       }, autoDuration.value);
-      timerId_auto.value = id;
+      timerId_auto.value = id as unknown as number;
     }, durr);
-    timerId_display.value = id;
+    timerId_display.value = id as unknown as number;
   }
 
   function restartText(){
