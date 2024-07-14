@@ -19,6 +19,7 @@
   import Clickable from '@components/Clickable.vue';
   import Option from '@views/menus/Options.vue';
   import Save from '@views/menus/Save.vue';
+  import { innerClickEvent } from '@lib/mouse';
 
 
   interface Props {
@@ -77,6 +78,8 @@
   }
 
   function checkBgClick(event: MouseEvent){
+    innerClickEvent(event);
+
     if (isModalOpen.value){
       if (optionsDialogToggle.value) {
         viewOptions();
@@ -229,7 +232,7 @@
       </article>
     </section>
   </Modal>
-  <section 
+  <section
     class='flex flex-col justify-between px-8 py-4 aspect-video z-10'
     @click.stop="(e) => checkBgClick(e)">
     <div class='flex justify-between px-8 py-4'>
@@ -237,7 +240,7 @@
         <Clickable>
           <article 
             v-show="!isViewBackdrop"
-            @click.stop="skipToggle()"
+            @click.stop="(event: MouseEvent) => {skipToggle(); innerClickEvent(event)}"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
             <SkipIcon
               :class='[
@@ -249,7 +252,7 @@
         <Clickable>
           <article 
             v-show="!isViewBackdrop"
-            @click.stop="historyToggle()"
+            @click.stop="(event: MouseEvent) => {historyToggle(); innerClickEvent(event)}"
             :disabled="history?.length === 0"
             :class='[
               "flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg group",
@@ -268,7 +271,7 @@
         <Clickable>
           <article 
             v-show="!isViewBackdrop"
-            @click.stop="autoToggle()"
+            @click.stop="(event: MouseEvent) => {autoToggle(); innerClickEvent(event)}"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
             <RefreshIcon
               :class='[
@@ -282,7 +285,7 @@
         <Clickable>
           <article
             v-show="!isViewBackdrop"
-            @click.stop="viewBackdropToggle()"
+            @click.stop="(event: MouseEvent) => {viewBackdropToggle(); innerClickEvent(event)}"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
             <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
           </article>
@@ -290,7 +293,7 @@
         <Clickable>
           <article
             v-show="!isViewBackdrop"
-            @click.stop="setMenu()"
+            @click.stop="(event: MouseEvent) => {setMenu(); innerClickEvent(event)}"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
             <MenuIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
           </article>
@@ -326,39 +329,39 @@
     <section class=" px-5 py-10 flex flex-col gap-y-2">
       <Clickable>
         <article
-          @click.stop="setMenu(false)"
+          @click.stop="(event: MouseEvent) => {setMenu(false); innerClickEvent(event)}"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
           <span class="transition-colors duration-500 group-hover:text-orange-400">Close</span><CloseIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>
       </Clickable>
-      <Clickable>
+      <Clickable audible>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="() => {setMenu(false); viewOptions();}"
+          @click.stop="(event: MouseEvent) => {setMenu(false); viewOptions(); innerClickEvent(event)}"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
           <span class="transition-colors duration-500 group-hover:text-orange-400">Options</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>
       </Clickable>
-      <Clickable>
+      <Clickable audible>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="() => {setMenu(false); handleSaveLoad(true)}"
+          @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(true); innerClickEvent(event)}"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
           <span class="transition-colors duration-500 group-hover:text-orange-400">Save</span><SaveIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>
       </Clickable>
-      <Clickable>
+      <Clickable audible>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="() => {setMenu(false); handleSaveLoad(false)}"
+          @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(false); innerClickEvent(event)}"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
           <span class="transition-colors duration-500 group-hover:text-orange-400">Load</span><LoadIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>
       </Clickable>
-      <Clickable>
+      <Clickable audible>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="() => {setMenu(false); $router.push('/menu')}"
+          @click.stop="(event: MouseEvent) => {setMenu(false); $router.push('/menu'); innerClickEvent(event)}"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2">
           <span class="transition-colors duration-500 group-hover:text-orange-400">Title</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>

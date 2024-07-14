@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { ref, watch } from 'vue';
+  import { innerClickEvent } from '@lib/mouse';
+import { ref, watch } from 'vue';
 
   interface Props {
     id: string,
@@ -24,6 +25,7 @@
   })
 
   function checkBackdropClick(event: MouseEvent ){
+    innerClickEvent(event);
     const target = event.target as HTMLElement;
     const bounds = target.getBoundingClientRect()
     const click = {
