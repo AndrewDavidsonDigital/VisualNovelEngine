@@ -10,12 +10,15 @@
   import { 
     useBgmEngine, 
     useSfxEngine,
-    useVoiceEngine
+    useVoiceEngine,
+    useInteractionEngine,
   } from '&audio'
 
   const bgmEngine = useBgmEngine();
   const sfxEngine = useSfxEngine();
   const voiceEngine = useVoiceEngine();
+  const interactionEngine = useInteractionEngine();
+
   const config = useConfiguration();
   const scriptEngine = useScriptEngine();
   const customCursor = useCustomCursor();
@@ -29,6 +32,8 @@
     
     sfxEngine.init('_audio_sfx');
     sfxEngine.setVolume(config.audio.sfx);
+    interactionEngine.init('_audio_interaction');
+    interactionEngine.setVolume(config.audio.sfx);
     voiceEngine.init('_audio_voice');
     voiceEngine.setVolume(config.audio.voice);
 
@@ -44,7 +49,18 @@
 
       cursorEl.style.left = `${curX}px`
       cursorEl.style.top = `${curY}px`
-    })
+    });
+
+    document.addEventListener('click', (e: MouseEvent) => {
+      console.log('clicked-main')
+      interactionEngine.setAndPlay('/audio/sfx/click_2.wav');
+    });
+
+    document.addEventListener('inner-click', (e: any) => {
+      console.log('clicked-custom - inner-click')
+      interactionEngine.setAndPlay('/audio/sfx/click_2.wav');
+    });
+
   });
 
 
@@ -53,6 +69,7 @@
 <template>
   <audio id="_audio_bgm" class="pointer-events-none" playsinline autoplay loop></audio>
   <audio id="_audio_sfx" class="pointer-events-none" playsinline autoplay></audio>
+  <audio id="_audio_interaction" class="pointer-events-none" playsinline autoplay></audio>
   <audio id="_audio_voice" class="pointer-events-none" playsinline autoplay></audio>
   <main class="w-screen h-screen overflow-hidden bg-black">
     <RouterView class="w-full h-full flex flex-col justify-center items-center *:screen-1920p" />
