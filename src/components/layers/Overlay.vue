@@ -26,12 +26,10 @@
     text: string,
     speaker: string | null,
     trigger: boolean,
-    clickCallback: () => void,
-    reset: () => void,
   }
   const props = defineProps<Props>()
 
-  const $emit = defineEmits(['toggleBackdrop'])
+  const $emit = defineEmits(['toggleBackdrop', 'progress', 'skip'])
 
   const config = useConfiguration()
   const script = useScriptEngine()
@@ -59,7 +57,8 @@
   }
   function skipToggle(){
     console.log('Skipping');
-    props.reset();
+    // props.reset();
+    $emit('skip');
     setTransitionDuration(true);
   }
 
@@ -97,7 +96,7 @@
       viewBackdropToggle();
     } else {
       clearTimer();
-      props.clickCallback();
+      $emit('progress');
     }
   }
 

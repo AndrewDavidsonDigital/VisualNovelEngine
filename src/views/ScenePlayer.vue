@@ -141,9 +141,10 @@
     scriptEngine.progress();
   }
 
-  function reset(){
+  function skipScene(){
     triggerToggle.value = !(triggerToggle.value);
     setTimeout((() => triggerToggle.value = true),300);
+    scriptEngine.skipFowards();
   }
 
   function resolveMimeType () {
@@ -196,8 +197,8 @@
         :text="textInstance.text"
         :speaker="textInstance.speaker"
         :trigger="triggerToggle"
-        :clickCallback="() => handleProgress()"
-        :reset="() => reset()"
+        @skip="() => skipScene()"
+        @progress="() => handleProgress()"
         @toggle-backdrop="(toggleTo) => toggleEffects(toggleTo)"
       />
     </div>
