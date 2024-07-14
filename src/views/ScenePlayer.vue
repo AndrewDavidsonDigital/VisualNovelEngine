@@ -26,6 +26,7 @@
     type: 'video',
   });
 
+  const visibleEffectsToggle = ref(true);
   const triggerToggle = ref(false);
   const textInstance = ref<IText>({
     text: '',
@@ -155,6 +156,11 @@
   }
   handleProgress();
 
+
+  function toggleEffects(toggleTo: boolean){
+    visibleEffectsToggle.value = !toggleTo;
+  }
+
   function firstRun(){
 
     backdropInstance.value = scriptEngine.getSceneBackdrop;
@@ -178,7 +184,11 @@
         :contentType="resolveMimeType()"
       />
       <!-- Interactions / Effects Layer -->
-      <Effectslay effect="good-bad" :data-attributes="['animateLeft', 'animateRight']"/>
+      <Effectslay 
+        effect="good-bad" 
+        :data-attributes="['animateLeft', 'animateRight']"
+        :visible="visibleEffectsToggle"
+      />
       <!-- char layer -->
       <Characterlay :characters="charInstance" />
       <!-- Overlay -->
@@ -188,6 +198,7 @@
         :trigger="triggerToggle"
         :clickCallback="() => handleProgress()"
         :reset="() => reset()"
+        @toggle-backdrop="(toggleTo) => toggleEffects(toggleTo)"
       />
     </div>
   </div>

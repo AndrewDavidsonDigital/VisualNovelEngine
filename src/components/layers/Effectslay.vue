@@ -10,6 +10,7 @@ import { onMounted, ref, watch } from 'vue';
       type: Boolean;
       default: false;
     },
+    visible: boolean,
     dataAttributes?: string[];
   }
   const props = defineProps<Props>()
@@ -37,7 +38,11 @@ import { onMounted, ref, watch } from 'vue';
 </script>
 
 <template>
-  <div class="z-10 *:size-full" ref="layerRef">
+  <div 
+    v-show="props.visible"
+    class="z-10 *:size-full"
+    ref="layerRef"
+  >
     <section 
       v-if="props.effect === 'warning'"
       class="animate-effectWarning"

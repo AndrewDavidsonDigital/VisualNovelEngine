@@ -30,6 +30,8 @@
   }
   const props = defineProps<Props>()
 
+  const $emit = defineEmits(['toggleBackdrop'])
+
   const config = useConfiguration()
   const script = useScriptEngine()
   const voiceEngine = useVoiceEngine()
@@ -50,6 +52,7 @@
 
   const transitionDuration = ref<number>(props.text.length * 10 / config.text.displayRatio);
 
+
   function autoToggle(){
     isAuto.value = !isAuto.value;
   }
@@ -58,9 +61,12 @@
     props.reset();
     setTransitionDuration(true);
   }
+
   function viewBackdropToggle(){
     isViewBackdrop.value = !isViewBackdrop.value;
+    $emit('toggleBackdrop', isViewBackdrop.value)
   }
+
   function historyToggle(){
     if (history.value?.length === 0) return;
     dialogToggle.value = !dialogToggle.value;
