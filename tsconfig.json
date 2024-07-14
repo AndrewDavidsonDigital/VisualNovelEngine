@@ -10,6 +10,7 @@
       "@assets/*": ["./src/assets/*"],
       "@views/*": ["./src/views/*"],
       "@stores/*": ["./src/stores/*"],
+      "@lib/*": ["./src/lib/*"],
       "&audio": ["./src/stores/audio/index.ts"],
     },
 
