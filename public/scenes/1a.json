@@ -7,6 +7,7 @@
   "backdrop" : {
     "path" : "/backdrop/bg-static.png"
   },
+  "description" : "In this scene it was presented that at the inception of modern web we were limited by on JQuery.",
   "initialText": {
     "speaker": null,
     "text" : "In the begining there was only ",

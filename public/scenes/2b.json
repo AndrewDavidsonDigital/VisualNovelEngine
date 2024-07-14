@@ -1,65 +1,66 @@
 {
-  "bgm" : {
-    "path" : "",
-    "forceRestart" : true
+  "bgm": {
+    "path": "",
+    "forceRestart": true
   },
-  "chars" : [],
-  "backdrop" : {
-    "path" : ""
+  "chars": [],
+  "backdrop": {
+    "path": ""
   },
+  "description": "Well what do you know, also here we couldn't be bothered writing anything witty as was full of lorem ipsum.",
   "initialText": {
     "speaker": null,
-    "text" : "In the begining there was only ",
-    "position" : "center",
+    "text": "In the begining there was only ",
+    "position": "center",
     "voice": null,
-    "delay" : {
+    "delay": {
       "min": 3000,
       "default": 5000
     }
   },
-  "transitions" : [
+  "transitions": [
     {
-      "chars" : [],
+      "chars": [],
       "text": {
         "speaker": null,
-        "text" : "JQuery",
-        "position" : "center",
+        "text": "JQuery",
+        "position": "center",
         "voice": null
       },
-      "delay" : {
+      "delay": {
         "min": 1000,
         "default": 2000
       }
     },
     {
-      "chars" : [
+      "chars": [
         {
-          "name" : "Aoko",
-          "img" : "Aoko.png",
+          "name": "Aoko",
+          "img": "Aoko.png",
           "location": "center"
         }
       ],
       "text": {
         "speaker": "Aoko",
-        "text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         "voice": null
       },
-      "delay" : {
+      "delay": {
         "min": 1000,
         "default": 2000
       }
     },
     {
-      "chars" : [
+      "chars": [
         {
-          "name" : "Aoko",
-          "img" : "Aoko.png",
+          "name": "Aoko",
+          "img": "Aoko.png",
           "location": "center"
         }
       ],
       "text": {
         "speaker": "Aoko",
-        "text" : "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "text": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         "voice": null
       }
     }

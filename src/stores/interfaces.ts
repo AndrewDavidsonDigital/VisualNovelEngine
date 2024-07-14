@@ -29,6 +29,7 @@ export interface IScene {
   chapterIndex: number;
   sceneIndex: number;
   transitionIndex: number;
+  description: string;
   activeChars: Array<IChar>;
   activeBmg: IBGM;
   text: IText,
@@ -40,6 +41,7 @@ export interface INewScene {
   chars: IChar[];
   bgm: IBGM;
   backdrop: IBackdrop;
+  description: string;
   transitions: ITransition[];
   initialText: IInitialText;
 }

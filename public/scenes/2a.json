@@ -7,6 +7,7 @@
   "backdrop" : {
     "path" : "/backdrop/bg-animated.mp4"
   },
+  "description" : "Here we couldn't be bothered writing anything witty as was full of lorem ipsum.",
   "initialText": {
     "speaker": null,
     "text" : "AAA In the begining there was only ",
