@@ -115,7 +115,7 @@
     const id = setTimeout(() => {
       timer.value = true;
       timerId.value = -1;
-    }, durr);
+    }, durr) as unknown as number;
     timerId.value = id;
   }
 
@@ -313,8 +313,9 @@
     'bg-slate-500/80',
     ' w-0 max-w-[400px]', 
     'glass z-menu ml-auto rounded-l-xl',
-    'transition-all duration-500 ',
+    'transition-all duration-500',
     { '!w-1/4' : isMenuOpen },
+    { 'translate-x-8' : !isMenuOpen },
   ]">
     <section class=" px-5 py-10 flex flex-col gap-y-2">
       <Clickable>

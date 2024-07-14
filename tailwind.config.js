@@ -34,6 +34,8 @@ export default {
       animation: {
         fadeIn: 'fadeIn 1s ease-in-out',
         fadeOut: 'fadeOut 1s ease-in-out',
+        effectWarning: 'effectWarning 5s ease-in-out forwards infinite',
+        effectGoodBad: 'effectGoodBad 5s linear forwards infinite',
       },
       keyframes: {
         fadeIn: {
@@ -44,6 +46,40 @@ export default {
           '0%': { opacity: 1 },
           '100%': { opacity: 0 },
         },
+        effectWarning: {
+          '0%' : {
+            boxShadow: 'inset 0 0 20px 15px rgb(255 0 0)',
+          },
+          '30%' : {
+            boxShadow: 'inset 0 0 20px 0px rgb(255 0 0)',
+          },
+          '45%' : {
+            boxShadow: 'inset 0 0 20px 25px rgb(255 0 0)',
+          },
+          '85%' : {
+            boxShadow: 'inset 0 0 20px 0px rgb(255 0 0)',
+          },
+          '100%' : {
+            boxShadow: 'inset 0 0 20px 15px rgb(255 0 0)',
+          },
+        },
+        effectGoodBad: {
+          '0%' : {
+            opacity: 0.5,
+          },
+          '30%' : {
+            opacity: 1,
+          },
+          '45%' : {
+            opacity: 0.5,
+          },
+          '85%' : {
+            opacity: 0.8,
+          },
+          '100%' : {
+            opacity: 0.5,
+          },
+        }
       }
     },
   },

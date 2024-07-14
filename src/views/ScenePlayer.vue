@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import defaultVideoSrc from '@assets/video/bg-game-default.mp4';
   import Backdrop from '@components/Backdrop.vue';
-  import Overlay from '@components/Overlay.vue';
+  import Overlay from '@components/layers/Overlay.vue';
   import { IBackdrop, IChar, IText } from '@stores/interfaces';
   import { useScriptEngine } from '@stores/scriptEngine';
   import { ref, watch } from 'vue';
@@ -10,6 +10,8 @@
     useSfxEngine,
     useVoiceEngine,
   } from '&audio';
+  import Characterlay from '@components/layers/Characterlay.vue';
+  import Effectslay from '@components/layers/Effectslay.vue';
 
   const scriptEngine = useScriptEngine()
   const bgmEngine = useBgmEngine();
@@ -175,12 +177,10 @@
         :contentSrc="videoSrc"
         :contentType="resolveMimeType()"
       />
-      <!-- Interactions / char layer -->
-      <section class="z-10">
-        <template v-for="char in charInstance">
-          <img :src="char.path" class="max-h-[200px]">
-        </template>
-      </section>
+      <!-- Interactions / Effects -->
+      <Effectslay effect="good-bad" :data-attributes="['animateLeft', 'animateRight']"/>
+      <!-- char layer -->
+      <Characterlay :characters="charInstance" />
       <!-- Overlay -->
       <Overlay  
         :text="textInstance.text"
