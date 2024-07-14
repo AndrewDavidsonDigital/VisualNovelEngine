@@ -48,7 +48,7 @@ import { onMounted, ref, watch } from 'vue';
     >
       <section 
         :class="[
-          'grid [grid-template-areas:_\'effects\'] *:[grid-area:_effects] w-1/2 relative opacity-0',
+          'effects-grid w-1/2 relative opacity-0',
           { 'leftAnimated': props.effect === 'good-bad'},
         ]"
         style="--shadowColour:white"
@@ -59,7 +59,7 @@ import { onMounted, ref, watch } from 'vue';
       </section>
       <section
         :class="[
-          'grid [grid-template-areas:_\'effects\'] *:[grid-area:_effects] w-1/2 relative opacity-0',
+          'effects-grid w-1/2 relative opacity-0',
           { 'rightAnimated': props.effect === 'good-bad'},
         ]"
         style="--shadowColour:black"
@@ -73,6 +73,11 @@ import { onMounted, ref, watch } from 'vue';
 </template>
 
 <style scoped>
+
+  .effects-grid {
+    @apply grid [grid-template-areas:_"effects"] *:[grid-area:_effects];
+  }
+
   .effect-shadow {
     box-shadow: 0 0 30px 30px var(--shadowColour);
   }

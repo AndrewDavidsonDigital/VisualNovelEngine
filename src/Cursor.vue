@@ -33,14 +33,14 @@
 <style>
   div#cursor svg[data-icon="navigation"]{
     @apply transition-colors duration-500;
-    > polygon[data-layer="inner"] {
+    &> polygon[data-layer="inner"] {
       @apply transition-colors;
     }
   }
   div#cursor.default svg[data-icon="navigation"] {
     @apply stroke-red-500;
     @apply fill-red-500;
-    > polygon[data-layer="inner"] {
+    &> polygon[data-layer="inner"] {
       @apply stroke-orange-500;
       @apply fill-orange-500;
     }
@@ -48,7 +48,7 @@
   div#cursor.pointer > svg[data-icon="navigation"] {
     @apply stroke-blue-500;
     @apply fill-blue-500;
-    polygon[data-layer="inner"] {
+    & polygon[data-layer="inner"] {
       @apply stroke-green-500;
       @apply fill-green-500;
     }

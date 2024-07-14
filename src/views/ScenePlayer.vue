@@ -171,13 +171,13 @@
 <template>
   <div class="animate-fadeIn">
     <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack] overflow-hidden'>
-      <!-- Backdrop -->
+      <!-- Backdrop (AKA Background Layer) -->
       <Backdrop
         :isVideo="isBackdropVideo"
         :contentSrc="videoSrc"
         :contentType="resolveMimeType()"
       />
-      <!-- Interactions / Effects -->
+      <!-- Interactions / Effects Layer -->
       <Effectslay effect="good-bad" :data-attributes="['animateLeft', 'animateRight']"/>
       <!-- char layer -->
       <Characterlay :characters="charInstance" />
