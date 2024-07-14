@@ -55,7 +55,7 @@
   <audio id="_audio_sfx" class="pointer-events-none" playsinline autoplay></audio>
   <audio id="_audio_voice" class="pointer-events-none" playsinline autoplay></audio>
   <main class="w-screen h-screen overflow-hidden bg-black">
-    <RouterView class="w-full h-full flex flex-col justify-center items-center *:max-w-1920p *.aspect-16/9" />
+    <RouterView class="w-full h-full flex flex-col justify-center items-center *:screen-1920p" />
   </main>
   <Cursor />
 </template>

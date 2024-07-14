@@ -7,6 +7,14 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1600px',
+      '3xl': '1920px',
+    },
     extend: {
       backgroundSize: {
         '0_100'  : '0% 100%',
@@ -65,6 +73,11 @@ export default {
           '--tw-ring-color': 'rgb(71 85 105 / 0.6)',
           backdropFilter   : "var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)",
           boxShadow        : '0 0 4px 2px var(--tw-ring-color)',
+        },
+        '.screen-1920p' : {
+          maxWidth: '1920px',
+          maxHeight: '100vh',
+          aspectRatio: '16/9',
         },
       })
     }),
