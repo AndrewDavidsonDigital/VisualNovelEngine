@@ -48,12 +48,44 @@ interface ISaveData {
 /**
  * @description: Scripting interpreter engine,
  * 
- * @function: prefixed with `$` are to be considered private and should never be used directly
+ * @function: prefixed with `$` are to be considered internal and should never be used directly
  * @function: prefixed with `_` are to be considered as mutation-triggering-actions
  */
 export const useScriptEngine = defineStore('scriptEngine', {
   state: () => {
-    return { ...DEFAULT_STATE } as IScriptEngine
+    const baseObject = {
+      chapterDetails: {
+        chapterIndex: -1,
+        path: '',
+        title: '',
+        displayTitle: false,
+        scenePaths: [],
+        history: [],
+      },
+      currentScene : {
+        description: '',
+        activeBmg: {
+          path: '',
+        },
+        activeChars: [],
+        chapterIndex: -1,
+        sceneIndex: -1,
+        transitionIndex: -1,
+        transitions: [],
+        backdrop : {
+          path: '',
+          type: 'image',
+        },
+        text: {
+          speaker: '',
+          text: '',
+          position: 'center',
+          voice: '',
+        }
+      },
+    } as IScriptEngine;
+
+    return baseObject;
   },
   getters: { 
     getSceneText(){
@@ -92,13 +124,16 @@ export const useScriptEngine = defineStore('scriptEngine', {
     },
   },
   actions: {
-    reset() {
-      CONFIG_KEYS.forEach((key) => {
-        this[key as keyof IScriptEngine] = (DEFAULT_STATE as any)[key];
-      });
+    /**
+     * Need to wrap internal reset to ensure we keep the static gamescript
+     */
+    reset(){
+      const existingGameScript = this.gameScript;
+      this.$reset();
+      this.gameScript = existingGameScript;
     },
     init(script: IGameScript) {
-      this.reset();
+      this.$reset();
       this.gameScript = script;
     },
     skipFowards(){
@@ -184,6 +219,17 @@ export const useScriptEngine = defineStore('scriptEngine', {
         this.$loadScene();
       }
     },
+    $writeHistory(){
+      const currentEntry: IHistoryEntry = {
+        actorName: this.currentScene.text.speaker,
+        text: this.currentScene.text.text,
+        audioPath: this.currentScene.text.voice || '',
+      }
+      if (!(this.chapterDetails.history)){
+        this.chapterDetails.history = [];
+      }
+      this.chapterDetails.history.push(currentEntry);
+    },
     _updateBgm(newBgm: IBGM){
       this.currentScene.activeBmg = newBgm;
     }, 
@@ -212,17 +258,6 @@ export const useScriptEngine = defineStore('scriptEngine', {
     _updateDescription(newDesc: string){
       this.currentScene.description = newDesc;
     },
-    $writeHistory(){
-      const currentEntry: IHistoryEntry = {
-        actorName: this.currentScene.text.speaker,
-        text: this.currentScene.text.text,
-        audioPath: this.currentScene.text.voice || '',
-      }
-      if (!(this.chapterDetails.history)){
-        this.chapterDetails.history = [];
-      }
-      this.chapterDetails.history.push(currentEntry);
-    }
   },
 })
 
