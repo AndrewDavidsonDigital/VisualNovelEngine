@@ -4,6 +4,7 @@
   import { 
     useBgmEngine, 
     useSfxEngine,
+    useInteractionEngine,
     useVoiceEngine,
   } from '&audio'
   import { LoaderIcon } from '@components/icon'
@@ -11,10 +12,19 @@
   import Clickable from '@components/Clickable.vue'
   import videoSrc from '@assets/video/bg-menu.mp4';
 
+  const speedIndex = Object.freeze([
+    'Slowest',
+    'Slower',
+    'Average',
+    'Faster',
+    'Fastest',
+  ])
+
   const router = useRouter()
 
   const bgmEngine = useBgmEngine()
   const sfxEngine = useSfxEngine()
+  const interactionEngine = useInteractionEngine()
   const voiceEngine = useVoiceEngine()
 
   const config = useConfiguration()
@@ -77,6 +87,7 @@
           break;
         case('sfx'):
           sfxEngine.setVolume(configurables.audio[key]);
+          interactionEngine.setVolume(configurables.audio[key]);
           break;
         case('voice'):
           voiceEngine.setVolume(configurables.audio[key]);
@@ -119,14 +130,6 @@
     }
   }
 
-  const speedIndex = Object.freeze([
-    'Slowest',
-    'Slower',
-    'Average',
-    'Faster',
-    'Fastest',
-  ])
-
   watch(() => localText.value.displayRatio , () => {
     clearTimer();
     setTransitionDuration();
@@ -136,7 +139,6 @@
   watch(() => localText.value.autoWaitRatio , () => {
     clearTimer();
     setAutoPauseDuration();
-    // restartText();
   })
 
   watch(transitionDuration, () => {
@@ -149,7 +151,7 @@
 
   function setAutoPauseDuration(){
     const newValue = 500 / localText.value.autoWaitRatio;
-    console.log(`setAutoPauseDuration: ${newValue}`)
+    // console.log(`setAutoPauseDuration: ${newValue}`)
     autoDuration.value = newValue;
   }
 
@@ -175,13 +177,13 @@
     clearTimer();
     timer.value = false;
     const durr = (transitionDuration.value < 500 ? 500 : transitionDuration.value);
-    console.log(`\t: creating timeout for ${durr}`);
+    // console.log(`\t: creating timeout for ${durr}`);
     const id = setTimeout(() => {
       timer.value = true;
       timerId_display.value = -1;
-      console.log(`\t\t: auto in "${autoDuration.value}"`);
+      // console.log(`\t\t: auto in "${autoDuration.value}"`);
       const id = setTimeout(() => {
-        console.log('\t\t: auto done');
+        // console.log('\t\t: auto done');
         restartText();
       }, autoDuration.value);
       timerId_auto.value = id as unknown as number;
