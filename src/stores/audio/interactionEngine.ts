@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
 import { IAudioEngine } from '.';
+import { logger } from '@lib/logging';
+
+const LOGGING_PREFIX = '🖱️Interaction Engine:\t';
 
 export const useInteractionEngine = defineStore('sfxInteractionEngine', {
   state: () => {
@@ -87,5 +90,5 @@ export const useInteractionEngine = defineStore('sfxInteractionEngine', {
 
 
 function trace(message: string){
-  console.log(`${Date.now()}🖱️Interaction Engine:\t${message}`)
+  logger(`${LOGGING_PREFIX}${message}`);
 }

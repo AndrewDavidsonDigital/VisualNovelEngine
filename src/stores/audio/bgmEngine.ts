@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
 import { IAudioEngine } from '.';
+import { logger } from '@lib/logging';
+
+const LOGGING_PREFIX = '🍃 BGM Engine:\t';
 
 export const useBgmEngine = defineStore('bgmAudioEngine', {
   state: () => {
@@ -99,5 +102,5 @@ export const useBgmEngine = defineStore('bgmAudioEngine', {
 
 
 function trace(message: string){
-  console.log(`${Date.now()}🍃 BGM Engine:\t${message}`)
+  logger(`${LOGGING_PREFIX}${message}`);
 }

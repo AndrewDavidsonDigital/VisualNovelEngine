@@ -1,43 +1,8 @@
 import { defineStore } from 'pinia'
 import { IBGM, IBackdrop, IChar, IGameScript, IHistoryEntry, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
+import { logger } from '@lib/logging';
 
-const DEFAULT_STATE = Object.freeze({
-  chapterDetails: {
-    chapterIndex: -1,
-    path: '',
-    title: '',
-    displayTitle: false,
-    scenePaths: [],
-    history: [],
-  },
-  currentScene : {
-    description: '',
-    activeBmg: {
-      path: '',
-    },
-    activeChars: [],
-    chapterIndex: -1,
-    sceneIndex: -1,
-    transitionIndex: -1,
-    transitions: [],
-    backdrop : {
-      path: '',
-      type: 'image',
-    },
-    text: {
-      speaker: '',
-      text: '',
-      position: 'center',
-      voice: '',
-    }
-  },
-  gameScript: undefined,
-});
-
-const CONFIG_KEYS = Object.freeze([
-  'chapterDetails',
-  'currentScene',
-]);
+const LOGGING_PREFIX = '📕 Scripting Engine:\t';
 
 interface ISaveData {
   chapterIndex: number;
@@ -263,5 +228,5 @@ export const useScriptEngine = defineStore('scriptEngine', {
 
 
 function trace(message: string){
-  console.log(`${Date.now()}📕Scripting Engine:\t${message}`);
+  logger(`${LOGGING_PREFIX}${message}`);
 }

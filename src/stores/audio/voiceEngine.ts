@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
 import { IAudioEngine } from '.';
+import { logger } from '@lib/logging';
+
+const LOGGING_PREFIX = '🗣️Voice Engine:\t';
 
 export const useVoiceEngine = defineStore('voiceAudioEngine', {
   state: () => {
@@ -87,5 +90,5 @@ export const useVoiceEngine = defineStore('voiceAudioEngine', {
 
 
 function trace(message: string){
-  console.log(`${Date.now()}🗣️Voice Engine:\t${message}`)
+  logger(`${LOGGING_PREFIX}${message}`);
 }
