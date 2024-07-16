@@ -27,6 +27,7 @@ export const useVoiceEngine = defineStore('voiceAudioEngine', {
       this.el.volume = this.volumeMultiplier;
     },
     setAndPlay(track: string){
+      trace(`SetAndPlay Called for track: ${track}`);
       if (!this.el) return;
       this.setTrack(track);
       this.play();
@@ -62,7 +63,7 @@ export const useVoiceEngine = defineStore('voiceAudioEngine', {
       this.fadeOut();
     },
     fadeOut(){
-      // console.log(Date.now(), ' \tFadeOut Called');
+      trace(`FadeOut Called`);
       if (!this.el) return;
 
       if (this.el.volume > 0.1){
@@ -83,3 +84,8 @@ export const useVoiceEngine = defineStore('voiceAudioEngine', {
     }
   },
 })
+
+
+function trace(message: string){
+  console.log(`${Date.now()}🗣️Voice Engine:\t${message}`)
+}

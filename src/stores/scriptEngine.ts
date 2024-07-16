@@ -263,5 +263,5 @@ export const useScriptEngine = defineStore('scriptEngine', {
 
 
 function trace(message: string){
-  console.log(`Scripting Engine:\t${message}`)
+  console.log(`${Date.now()}📕Scripting Engine:\t${message}`);
 }

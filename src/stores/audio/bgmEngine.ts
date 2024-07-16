@@ -57,7 +57,7 @@ export const useBgmEngine = defineStore('bgmAudioEngine', {
       this.fadeOut();
     },
     fadeOut(){
-      // console.log(Date.now(), ' \tFadeOut Called');
+      trace(`FadeOut Called`);
       if (!this.el) return;
 
       if (this.el.volume > 0.1){
@@ -72,7 +72,7 @@ export const useBgmEngine = defineStore('bgmAudioEngine', {
       }
     },
     fadeUp(){
-      console.log(Date.now(), ' \tFadeUp Called');
+      trace(`FadeUp Called`);
       if (!this.el) return;
 
       if (this.el.volume < this.volumeMultiplier){
@@ -96,3 +96,8 @@ export const useBgmEngine = defineStore('bgmAudioEngine', {
     }
   },
 })
+
+
+function trace(message: string){
+  console.log(`${Date.now()}🍃 BGM Engine:\t${message}`)
+}
