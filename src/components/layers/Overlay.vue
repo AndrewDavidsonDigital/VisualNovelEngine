@@ -56,8 +56,6 @@
     isAuto.value = !isAuto.value;
   }
   function skipToggle(){
-    console.log('Skipping');
-    // props.reset();
     $emit('skip');
     setTransitionDuration(true);
   }

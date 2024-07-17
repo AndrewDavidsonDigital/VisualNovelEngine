@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { IBGM, IBackdrop, IChar, IGameScript, IHistoryEntry, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
-import { logger } from '@lib/logging';
+import { trace } from '@lib/logging';
 
 const LOGGING_PREFIX = '📕 Scripting Engine:\t';
 
@@ -54,22 +54,22 @@ export const useScriptEngine = defineStore('scriptEngine', {
   },
   getters: { 
     getSceneText(){
-      trace('getSceneText');
+      logger('getSceneText');
       const sceneText: IText = {...this.currentScene.text};
       return sceneText;
     },
     getSceneBGM(){
-      trace('getSceneBGM');
+      logger('getSceneBGM');
       const sceneBgm: IBGM = {...this.currentScene.activeBmg};
       return sceneBgm;
     },
     getSceneBackdrop(){
-      trace('getSceneBackdrop');
+      logger('getSceneBackdrop');
       const sceneBackdrop: IBackdrop = {...this.currentScene.backdrop};
       return sceneBackdrop;
     },
     getSaveData(){
-      trace('getSaveData');
+      logger('getSaveData');
       const saveData: ISaveData = {
         chapterIndex: this.chapterDetails.chapterIndex,
         sceneIndex: this.currentScene.sceneIndex,
@@ -78,12 +78,12 @@ export const useScriptEngine = defineStore('scriptEngine', {
       return saveData;
     },
     getSceneChars(){
-      trace('getSceneChars');
+      logger('getSceneChars');
       const chars: IChar[] = [...this.currentScene.activeChars];
       return chars;
     },
     getSkipDescription(){
-      trace('getSkipDescription');
+      logger('getSkipDescription');
       const desc: string = this.currentScene.description;
       return desc;
     },
@@ -102,11 +102,11 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.gameScript = script;
     },
     skipFowards(){
-      trace('skipFowards');
+      logger('skipFowards');
       this.$loadScene();
     },
     progress(){
-      trace('progress');
+      logger('progress');
       // ensure we can progress
       if (this.currentScene.transitionIndex >= this.currentScene.transitions.length || this.currentScene.transitionIndex === -1){
         this.$loadScene();
@@ -116,14 +116,14 @@ export const useScriptEngine = defineStore('scriptEngine', {
         this._updateTransition(nextTransition)
       }
       // transition
-      trace('progress_end');
+      logger('progress_end');
     },
     postProgressChapter(){
       this.currentScene.sceneIndex = 0;
       this.currentScene.chapterIndex = this.chapterDetails.chapterIndex;
     },
     $loadScene(){
-      trace('$loadScene');
+      logger('$loadScene');
       let nextSceneIndex = this.currentScene.sceneIndex + 1;
       if (this.chapterDetails.chapterIndex === -1){
         this.$loadChapter();
@@ -136,9 +136,9 @@ export const useScriptEngine = defineStore('scriptEngine', {
         nextSceneIndex = 0;
       }
       
-      trace(`nextSceneIndex (${nextSceneIndex})`);
+      logger(`nextSceneIndex (${nextSceneIndex})`);
       const nextScenePath = `${this.chapterDetails.scenePaths[nextSceneIndex]}.json`
-      trace(`nextScenePath (${nextScenePath})`);
+      logger(`nextScenePath (${nextScenePath})`);
 
       fetch(nextScenePath)
         .then((resp) => {
@@ -166,7 +166,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
         });
     },
     $loadChapter(andLoadScene = false){
-      trace('$loadChapter');
+      logger('$loadChapter');
       let nextChapterIndex = this.chapterDetails.chapterIndex + 1
       if (this.chapterDetails.chapterIndex === -1){
         nextChapterIndex = 0;
@@ -227,6 +227,6 @@ export const useScriptEngine = defineStore('scriptEngine', {
 })
 
 
-function trace(message: string){
-  logger(`${LOGGING_PREFIX}${message}`);
+function logger(message: string){
+  trace(`${LOGGING_PREFIX}${message}`);
 }

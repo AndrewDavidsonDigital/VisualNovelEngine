@@ -52,12 +52,10 @@
     });
 
     document.addEventListener('click', (e: MouseEvent) => {
-      console.log('clicked-main')
       interactionEngine.setAndPlay('/audio/sfx/click_2.wav');
     });
 
     document.addEventListener('inner-click', (e: any) => {
-      console.log('clicked-custom - inner-click')
       interactionEngine.setAndPlay('/audio/sfx/click_2.wav');
     });
 

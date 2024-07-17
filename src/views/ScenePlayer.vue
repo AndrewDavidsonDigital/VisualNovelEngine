@@ -106,7 +106,7 @@
     if (el.name === '_updateChars'){
       el.after((result) => {
         charInstance.value = scriptEngine.getSceneChars;
-        console.log('KAYD update Chars: \t' + JSON.stringify(el.args));
+        console.log('update Chars: \t' + JSON.stringify(el.args));
       })
     }
 
@@ -165,7 +165,7 @@
   function firstRun(){
 
     backdropInstance.value = scriptEngine.getSceneBackdrop;
-    console.log(`ROIDEN:::: `,scriptEngine.getSceneText)
+    // console.log(`:::: `,scriptEngine.getSceneText)
     textInstance.value = scriptEngine.getSceneText;
 
     resolveMimeType();

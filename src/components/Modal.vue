@@ -36,7 +36,6 @@ import { ref, watch } from 'vue';
     if (!(bounds.left < click.x  && click.x < bounds.right
       && bounds.top < click.y  && click.y < bounds.bottom
     )){
-      console.log('I am Outsied');
       dialogRef.value?.close();
     }
   }

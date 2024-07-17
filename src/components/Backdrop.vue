@@ -7,7 +7,8 @@
 
   const props = defineProps<Props>()
 
-  console.log(props)
+  import { trace } from '@lib/logging';
+  trace(JSON.stringify(props));
 
 </script>
 

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { IAudioEngine } from '.';
-import { logger } from '@lib/logging';
+import { trace } from '@lib/logging';
 
 const LOGGING_PREFIX = '🍃 BGM Engine:\t';
 
@@ -60,7 +60,7 @@ export const useBgmEngine = defineStore('bgmAudioEngine', {
       this.fadeOut();
     },
     fadeOut(){
-      trace(`FadeOut Called`);
+      logger(`FadeOut Called`);
       if (!this.el) return;
 
       if (this.el.volume > 0.1){
@@ -75,7 +75,7 @@ export const useBgmEngine = defineStore('bgmAudioEngine', {
       }
     },
     fadeUp(){
-      trace(`FadeUp Called`);
+      logger(`FadeUp Called`);
       if (!this.el) return;
 
       if (this.el.volume < this.volumeMultiplier){
@@ -101,6 +101,6 @@ export const useBgmEngine = defineStore('bgmAudioEngine', {
 })
 
 
-function trace(message: string){
-  logger(`${LOGGING_PREFIX}${message}`);
+function logger(message: string){
+  trace(`${LOGGING_PREFIX}${message}`);
 }

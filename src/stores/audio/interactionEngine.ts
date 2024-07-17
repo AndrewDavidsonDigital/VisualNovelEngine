@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { IAudioEngine } from '.';
-import { logger } from '@lib/logging';
+import { trace } from '@lib/logging';
 
 const LOGGING_PREFIX = '🖱️Interaction Engine:\t';
 
@@ -30,7 +30,7 @@ export const useInteractionEngine = defineStore('sfxInteractionEngine', {
       this.el.volume = this.volumeMultiplier;
     },
     setAndPlay(track: string){
-      trace(`SetAndPlay Called for track: ${track}`);
+      logger(`SetAndPlay Called for track: ${track}`);
       if (!this.el) return;
       this.setTrack(track);
       this.play();
@@ -66,7 +66,7 @@ export const useInteractionEngine = defineStore('sfxInteractionEngine', {
       this.fadeOut();
     },
     fadeOut(){
-      trace(`FadeOut Called`);
+      logger(`FadeOut Called`);
       if (!this.el) return;
 
       if (this.el.volume > 0.1){
@@ -89,6 +89,6 @@ export const useInteractionEngine = defineStore('sfxInteractionEngine', {
 })
 
 
-function trace(message: string){
-  logger(`${LOGGING_PREFIX}${message}`);
+function logger(message: string){
+  trace(`${LOGGING_PREFIX}${message}`);
 }

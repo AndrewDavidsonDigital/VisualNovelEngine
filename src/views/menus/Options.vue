@@ -122,7 +122,6 @@
   }
 
   function discardConfiguration(destination: string){
-    console.log(props.routeless);
     if (props.routeless){
       props.onClose ? props.onClose():null;
     } else {
