@@ -145,7 +145,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
           if (resp.ok) return resp.json();
         })
         .then((resJson) => {
-          console.log(resJson);
+          logger(`${JSON.stringify(resJson)}`);
           this.currentScene.sceneIndex = nextSceneIndex;
           this.currentScene.chapterIndex = this.chapterDetails.chapterIndex;
           const newSceneData = {...resJson} as INewScene

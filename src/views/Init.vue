@@ -60,7 +60,7 @@
         ]"
     >
       <div class="max-w-[1000px] *:text-lg *:text-gray-500">
-        <p>This product is brought to you by Indexes out of Bounds & segmentation faults</p>
+        <p>This product is brought to you by Indecies out of Bounds & Segmentation Faults</p>
       </div>
     </article>
     <article 

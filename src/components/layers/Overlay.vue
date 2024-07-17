@@ -20,6 +20,8 @@
   import Option from '@views/menus/Options.vue';
   import Save from '@views/menus/Save.vue';
   import { innerClickEvent } from '@lib/mouse';
+  import { trace } from '@lib/logging';
+  const LOGGING_PREFIX = '🖼️ScenePlayer:\t';
 
 
   interface Props {
@@ -117,7 +119,7 @@
     clearTimer();
     timer.value = false;
     const durr = (transitionDuration.value < 500 ? 500 : transitionDuration.value);
-    console.log(`\t: creating timeout for ${durr}`);
+    trace(`${LOGGING_PREFIX}creating timeout for ${durr}` );
     const id = setTimeout(() => {
       timer.value = true;
       timerId.value = -1;

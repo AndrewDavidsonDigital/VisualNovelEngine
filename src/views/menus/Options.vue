@@ -11,6 +11,8 @@
   import { useRouter } from 'vue-router'
   import Clickable from '@components/Clickable.vue'
   import videoSrc from '@assets/video/bg-menu.mp4';
+  import { trace as debug } from '@lib/logging';
+  const LOGGING_PREFIX = '⚛️OPTIONS:\t';
 
   const speedIndex = Object.freeze([
     'Slowest',
@@ -67,7 +69,7 @@
     try {
       retval = thing[key];
     }catch{
-      console.log(`unable to resolve value for key: '${key}' in collection: ${thing}`);
+      debug(`${LOGGING_PREFIX}unable to resolve value for key: '${key}' in collection: ${thing}`);
     }
 
     return retval;

@@ -12,6 +12,8 @@
   } from '&audio';
   import Characterlay from '@components/layers/Characterlay.vue';
   import Effectslay from '@components/layers/Effectslay.vue';
+  import { trace } from '@lib/logging';
+  const LOGGING_PREFIX = '🖼️ScenePlayer:\t';
 
   const scriptEngine = useScriptEngine()
   const bgmEngine = useBgmEngine();
@@ -87,7 +89,7 @@
 
     if (el.name === '_updateBgm'){
       el.after((result) => {
-        console.log('update BGM: \t' + JSON.stringify(el.args));
+        trace(`${LOGGING_PREFIX}update BGM: \t${JSON.stringify(el.args)}` );
         bgmEngine.fadeOut();
         setTimeout((() => {
           bgmEngine.setTrack(scriptEngine.getSceneBGM.path);
@@ -99,14 +101,14 @@
     if (el.name === '_updateBackdrop'){
       el.after((result) => {
         backdropInstance.value = scriptEngine.getSceneBackdrop;
-        console.log('update Backdrop: \t' + JSON.stringify(el.args));
+        trace(`${LOGGING_PREFIX}update Backdrop: \t${JSON.stringify(el.args)}` );
       })
     }
 
     if (el.name === '_updateChars'){
       el.after((result) => {
         charInstance.value = scriptEngine.getSceneChars;
-        console.log('update Chars: \t' + JSON.stringify(el.args));
+        trace(`${LOGGING_PREFIX}update Chars: \t${JSON.stringify(el.args)}` );
       })
     }
 
@@ -114,13 +116,13 @@
       el.after((result) => {
         triggerToggle.value = false;
         setTimeout((() => triggerToggle.value = true),300);
-        console.log('update Text: \t' + JSON.stringify(el.args));
+        trace(`${LOGGING_PREFIX}update Text: \t${JSON.stringify(el.args)}` );
       })
     }
 
     // if (el.name === '_updateTransitions'){
     //   el.after((result) => {
-    //     console.log('update Transitions: \t' + JSON.stringify(el.args));
+    //     trace(`${LOGGING_PREFIX}update Transitions: \t${JSON.stringify(el.args)}` );
     //   })
     // }
 
@@ -129,7 +131,7 @@
         triggerToggle.value = false;
         textInstance.value = scriptEngine.getSceneText;
         setTimeout((() => triggerToggle.value = true),300);
-        console.log('update Transition: \t' + JSON.stringify(el.args));
+        trace(`${LOGGING_PREFIX}update Transition: \t${JSON.stringify(el.args)}` );
       })
     }
   });
@@ -149,7 +151,7 @@
 
   function resolveMimeType () {
     const extension = videoSrc.value.substring(videoSrc.value.lastIndexOf('.')); // result will incldue the period
-    // console.log('ext = ' + extension);
+    // trace(`${LOGGING_PREFIX}ext =  ${extension}` );
     if (SUPPORTERD_MIMES.hasOwnProperty(extension)){
       return SUPPORTERD_MIMES[extension as keyof ISupportedMimes];
     }
@@ -162,10 +164,11 @@
     visibleEffectsToggle.value = !toggleTo;
   }
 
+
   function firstRun(){
 
     backdropInstance.value = scriptEngine.getSceneBackdrop;
-    // console.log(`:::: `,scriptEngine.getSceneText)
+    trace(`${LOGGING_PREFIX}:::: ${JSON.stringify(scriptEngine.getSceneText)}` );
     textInstance.value = scriptEngine.getSceneText;
 
     resolveMimeType();
