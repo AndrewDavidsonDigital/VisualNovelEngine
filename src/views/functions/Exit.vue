@@ -11,9 +11,21 @@
   const config = useConfiguration()
   config.save();
 
+  function handleCloseTab(){
+    const shouldExist = window.confirm('Are you sure you wan\'t to quite?');
+    if (shouldExist){
+      window.location = 'https://google.com' as  (string & Location);
+    }
+  }
+
 </script>
 
 <template>
-  <section><Clickable><RouterLink to="/menu">Go Back</RouterLink></Clickable></section>
+  <section>
+    <div class="flex flex-col">
+      <Clickable><RouterLink to="/menu">Go Back</RouterLink></Clickable>
+      <Clickable><div @click="handleCloseTab()">Close Tab</div></Clickable>
+    </div>
+  </section>
 </template>
 
