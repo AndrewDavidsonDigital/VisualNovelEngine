@@ -3,6 +3,7 @@
   import videoSrc from '@assets/video/bg-menu.mp4';
   import { useSfxEngine } from '&audio'
   import { useCustomCursor } from '@stores/customCursor';
+  import Clickable from '@components/Clickable.vue';
 
 
   const sfxEngine = useSfxEngine();
@@ -35,7 +36,7 @@
           @mouseleave="customCursor.clear()"
           @click="playSfx()"
         >AYAYA?</button>
-        <div> foo bar baz</div>
+        <Clickable><RouterLink to="/" class="hover:text-orange-400">Restart</RouterLink></Clickable>
       </section>
     </div>
   </div>

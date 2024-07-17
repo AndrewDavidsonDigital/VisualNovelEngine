@@ -4,7 +4,6 @@
 
 <template>
   <nav class="flex flex-col gap-5">
-    <Clickable><RouterLink to="/" class="hover:text-orange-400">Restart</RouterLink></Clickable>
     <Clickable><RouterLink to="/new-game" class="hover:text-orange-400">New Game</RouterLink></Clickable>
     <Clickable><RouterLink to="/continue" class="hover:text-orange-400">Continue</RouterLink></Clickable>
     <Clickable><RouterLink to="/load" class="hover:text-orange-400">Load Game</RouterLink></Clickable>
