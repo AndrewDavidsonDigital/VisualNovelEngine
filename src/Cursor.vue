@@ -31,6 +31,12 @@
   </div>
 </template>
 <style>
+
+  *{
+    @apply !cursor-none;
+  }
+
+
   div#cursor svg[data-icon="navigation"]{
     @apply transition-colors duration-500;
     &> polygon[data-layer="inner"] {

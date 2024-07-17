@@ -5,8 +5,6 @@
 *{
     @apply text-white;
     @apply font-semibold;
-
-    @apply !cursor-none;
 }
 
 ruby, rt, rp {

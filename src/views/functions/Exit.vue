@@ -24,7 +24,7 @@
   <section>
     <div class="flex flex-col">
       <Clickable><RouterLink to="/menu">Go Back</RouterLink></Clickable>
-      <Clickable><div @click="handleCloseTab()">Close Tab</div></Clickable>
+      <Clickable><div @click="handleCloseTab()" class="cursor-pointer">Close Tab</div></Clickable>
     </div>
   </section>
 </template>

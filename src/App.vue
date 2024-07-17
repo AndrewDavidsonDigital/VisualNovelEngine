@@ -4,7 +4,6 @@
   import { RouterView } from 'vue-router'
   import { useConfiguration } from '@stores/configuration';
   import { useScriptEngine } from '@stores/scriptEngine';
-  import { useCustomCursor } from '@stores/customCursor';
   import gameChapters from '@assets/game.chapters.json';
   import Cursor from './Cursor.vue';
   import { 
@@ -21,7 +20,6 @@
 
   const config = useConfiguration();
   const scriptEngine = useScriptEngine();
-  const customCursor = useCustomCursor();
 
   onMounted(() => {
     config.init();
@@ -38,18 +36,6 @@
     voiceEngine.setVolume(config.audio.voice);
 
     scriptEngine.init(gameChapters);
-
-    const cursorEl = document.getElementById('cursor') as HTMLDivElement;
-    customCursor.init(cursorEl);
-
-    document.addEventListener('mousemove', (e: MouseEvent) => {
-      const cursorEl = document.getElementById('cursor') as HTMLDivElement;
-      const curX = e.clientX - cursorEl.offsetWidth / 2;
-      const curY = e.clientY - cursorEl.offsetHeight / 2;
-
-      cursorEl.style.left = `${curX}px`
-      cursorEl.style.top = `${curY}px`
-    });
 
     document.addEventListener('click', (e: MouseEvent) => {
       interactionEngine.setAndPlay('/audio/sfx/click_2.wav');
