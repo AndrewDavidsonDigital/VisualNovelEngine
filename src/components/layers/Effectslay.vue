@@ -44,8 +44,9 @@ import { onMounted, ref, watch } from 'vue';
     class="z-10 *:size-full"
     ref="layerRef"
   >
+    <section v-if="props.effect === 'off'"></section>
     <section 
-      v-if="props.effect === 'warning'"
+      v-else-if="props.effect === 'warning'"
       class="animate-effectWarning"
     ></section>
     <section 
