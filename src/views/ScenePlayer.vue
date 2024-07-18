@@ -28,6 +28,9 @@
     type: 'video',
   });
 
+  
+  const backdropLastUpdated = ref(Date.now());
+
   const visibleEffectsToggle = ref(true);
   const triggerToggle = ref(false);
   const textInstance = ref<IText>({
@@ -186,12 +189,14 @@
         :isVideo="isBackdropVideo"
         :contentSrc="videoSrc"
         :contentType="resolveMimeType()"
+        @backdropChanged="backdropLastUpdated = Date.now()"
       />
       <!-- Interactions / Effects Layer -->
       <Effectslay 
-        effect="good-bad" 
+        effect="off" 
         :data-attributes="['animateLeft', 'animateRight']"
         :visible="visibleEffectsToggle"
+        :backdropLastUpdated="backdropLastUpdated"
       />
       <!-- char layer -->
       <Characterlay :characters="charInstance" />
