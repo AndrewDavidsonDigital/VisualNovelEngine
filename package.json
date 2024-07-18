@@ -8,7 +8,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "boot": "yarn && yarn test && yarn dev"
+    "boot": "yarn && yarn test && yarn dev --host"
   },
   "dependencies": {
     "pinia": "^2.0.21",
