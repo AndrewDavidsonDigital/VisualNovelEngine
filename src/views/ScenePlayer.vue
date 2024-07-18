@@ -183,7 +183,7 @@
 
 <template>
   <div class="animate-fadeIn">
-    <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack] overflow-hidden'>
+    <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack] overflow-hidden  w-fit'>
       <!-- Backdrop (AKA Background Layer) -->
       <Backdrop
         :isVideo="isBackdropVideo"

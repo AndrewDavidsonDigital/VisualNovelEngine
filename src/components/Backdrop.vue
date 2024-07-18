@@ -13,7 +13,7 @@
 </script>
 
 <template>
-  <section class="aspect-video pointer-events-none min-w-[min(100vw,1920px)]">
+  <section class="aspect-video pointer-events-none w-fit">
     <Transition>
       <video
         v-if="props.isVideo"
@@ -21,14 +21,14 @@
         loop
         muted
         playsinline
-        class="fixed"
+        class=""
       >
         <source :src="props.contentSrc" :type="props.contentType">
       </video>
       <img 
         v-else 
         :src="props.contentSrc" 
-        class="fixed max-w-[min(100vw,1920px)]"
+        class="max-w-[min(100%,1920px)]"
       >
     </Transition>
   </section>
