@@ -116,6 +116,7 @@
     if (el.name === '_updateText'){
       el.after((result) => {
         triggerToggle.value = false;
+        textInstance.value = scriptEngine.getSceneText;
         setTimeout((() => triggerToggle.value = true),300);
         trace(`${LOGGING_PREFIX}update Text: \t${JSON.stringify(el.args)}` );
       })
@@ -195,7 +196,9 @@
         :visible="visibleEffectsToggle"
       />
       <!-- char layer -->
-      <Characterlay :characters="charInstance" />
+      <Characterlay
+        :characters="charInstance"
+      />
       <!-- Overlay -->
       <Overlay  
         :text="textInstance.text"

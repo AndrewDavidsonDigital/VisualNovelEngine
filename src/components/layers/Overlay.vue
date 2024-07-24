@@ -48,18 +48,29 @@
   const saveLoadDialogToggle = ref(false);
 
   const history = ref(script.$state.chapterDetails.history);
+
+  const lastProgress = ref(Date.now());
   const timer = ref(false);
   const timerId = ref<number>(-1);
+  const timerId_auto = ref<number>(-1);
+  const autoDuration = ref<number>(500 / config.text.autoWaitRatio);
 
   const transitionDuration = ref<number>(props.text.length * 10 / config.text.displayRatio);
 
 
   function autoToggle(){
     isAuto.value = !isAuto.value;
+
+    if (Date.now() > lastProgress.value + transitionDuration.value + autoDuration.value){
+      clearTimer();
+      $emit('progress');
+    }
   }
+
   function skipToggle(){
     $emit('skip');
     setTransitionDuration(true);
+    isAuto.value = false;
   }
 
   function viewBackdropToggle(){
@@ -96,10 +107,10 @@
       viewBackdropToggle();
     } else {
       clearTimer();
+      isAuto.value = false;
       $emit('progress');
     }
   }
-
 
   watch(() => props.text, () => {
     setTransitionDuration();
@@ -113,27 +124,45 @@
     if (timerId.value !== -1){
       clearTimeout(timerId.value);
     }
+    if (timerId_auto.value !== -1){
+      clearTimeout(timerId_auto.value);
+    }
   }
 
   function resetTimer(){
     clearTimer();
     timer.value = false;
     const durr = (transitionDuration.value < 500 ? 500 : transitionDuration.value);
-    trace(`${LOGGING_PREFIX}creating timeout for ${durr}` );
+    // trace(`${LOGGING_PREFIX}creating timeout for ${durr}` );
     const id = setTimeout(() => {
       timer.value = true;
       timerId.value = -1;
+      const id = setTimeout(() => {
+        timmerIsUp();
+        clearTimeout(timerId_auto.value);
+      }, autoDuration.value);
+      timerId_auto.value = id as unknown as number;
+      clearTimeout(timerId.value);
     }, durr) as unknown as number;
     timerId.value = id;
   }
 
+  function timmerIsUp(){
+    // trace(`${LOGGING_PREFIX}timeout UP, should auto ${isAuto.value}` );
+    if (isAuto.value){
+      $emit('progress');
+    }
+  }
+
   function setTransitionDuration(force = false){
     const newValue = props.text.length * 10 / config.text.displayRatio;
+    // trace(`${LOGGING_PREFIX} setTransitionDuration - length: ${newValue}` );
     if (force && transitionDuration.value === newValue){
       transitionDuration.value++;
     } else {
       transitionDuration.value = Math.floor(newValue)
     }
+    // trace(`${LOGGING_PREFIX} setTransitionDuration - duration: ${transitionDuration.value}` );
   }
 
   function playVoiceLine(audioPath: string) {
@@ -275,7 +304,7 @@
             <RefreshIcon
               :class='[
                 "[animation-duration:_3s] transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
-                { "animate-spin": isAuto },
+                { "animate-spin stroke-orange-300/80": isAuto },
                 { "animate-end": !isAuto },
               ]'
             />
