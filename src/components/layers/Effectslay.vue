@@ -11,7 +11,6 @@ import { onMounted, ref, watch } from 'vue';
     },
     visible: boolean,
     dataAttributes?: string[];
-    backdropLastUpdated: number;
   }
   const props = defineProps<Props>()
 
