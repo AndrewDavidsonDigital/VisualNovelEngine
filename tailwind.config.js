@@ -6,6 +6,9 @@ export default {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'animate-ripple',
+  ],
   theme: {
     screens: {
       'sm': '600px',
@@ -36,8 +39,27 @@ export default {
         fadeOut: 'fadeOut 1s ease-in-out',
         effectWarning: 'effectWarning 5s ease-in-out forwards infinite',
         effectGoodBad: 'effectGoodBad 5s linear forwards infinite',
+        ripple: 'ripple 0.5s linear',
       },
       keyframes: {
+        ripple: {
+          '0%': { 
+            opacity: 0,
+          },
+          '20%': { 
+            opacity: 1,
+          },
+          '60%': { 
+            opacity: 0.8,
+          },
+          '80%': { 
+            opacity: 0.5,
+          },
+          '100%': { 
+            opacity: 0,
+            scale: '150%',
+          },
+        },
         fadeIn: {
           '0%': { opacity: 0 },
           '100%': { opacity: 1 },
