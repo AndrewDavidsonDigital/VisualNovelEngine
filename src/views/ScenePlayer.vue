@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import defaultVideoSrc from '@assets/video/bg-game-default.mp4';
+  // import defaultVideoSrc from '@assets/video/bg-game-default.mp4';
   import Backdrop from '@components/Backdrop.vue';
   import Overlay from '@components/layers/Overlay.vue';
   import { IBackdrop, IChar, IText } from '@stores/interfaces';
@@ -20,7 +20,7 @@
   const sfxEngine = useSfxEngine();
   const voiceEngine = useVoiceEngine();
 
-  const videoSrc = ref(defaultVideoSrc);
+  const videoSrc = ref('');
   const isBackdropVideo = ref(true);
 
   const backdropInstance = ref<IBackdrop>({
