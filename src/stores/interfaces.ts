@@ -45,7 +45,7 @@ export interface INewScene {
   bgm: IBGM;
   backdrop: IBackdrop;
   description: string;
-  effect?: EffectType,
+  initialEffect?: EffectType,
   transitions: ITransition[];
   initialText: IInitialText;
 }

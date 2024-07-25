@@ -158,7 +158,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this._updateText(newSceneData.initialText);
           this._updateTransitions(newSceneData.transitions);
           this._updateDescription(newSceneData.description);
-          this._updateEffect(newSceneData.effect || 'off');
+          this._updateEffect(newSceneData.initialEffect || 'off');
           // set Backdrop
           // set Chars
           // set Text

@@ -18,7 +18,7 @@
       "default": 5000
     }
   },
-  "initialEffect": "monochorme",
+  "initialEffect": "monochrome",
   "transitions" : [
     {
       "chars" : [],
