@@ -24,12 +24,9 @@ import { onMounted, ref, watch } from 'vue';
     }
   }
 
-
   watch(() => props.dataAttributes, () => {
     resetDataAttributes();
   })
-
-
 
   onMounted(() => {
     resetDataAttributes();

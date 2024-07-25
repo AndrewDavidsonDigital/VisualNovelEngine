@@ -15,6 +15,10 @@
   import { trace } from '@lib/logging';
   const LOGGING_PREFIX = '🖼️ScenePlayer:\t';
 
+
+
+  /**********************************Initialisation********************************************/  
+
   const scriptEngine = useScriptEngine()
   const bgmEngine = useBgmEngine();
   const sfxEngine = useSfxEngine();
@@ -66,6 +70,9 @@
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
   })
+
+
+  /******************************************************************************/
 
   watch(backdropInstance, () => {
     videoSrc.value = backdropInstance.value.path;
@@ -176,6 +183,7 @@
     visibleEffectsToggle.value = !toggleTo;
   }
 
+  /**********************************Initial Boot********************************************/
 
   function firstRun(){
 
