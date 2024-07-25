@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { IBGM, IBackdrop, IChar, IGameScript, IHistoryEntry, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
 import { trace } from '@lib/logging';
+import { EffectType } from '@components/layers/Effectslay.vue';
 
 const LOGGING_PREFIX = '📕 Scripting Engine:\t';
 
@@ -41,6 +42,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
           path: '',
           type: 'image',
         },
+        effect: 'off',
         text: {
           speaker: '',
           text: '',
@@ -156,6 +158,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this._updateText(newSceneData.initialText);
           this._updateTransitions(newSceneData.transitions);
           this._updateDescription(newSceneData.description);
+          this._updateEffect(newSceneData.effect || 'off');
           // set Backdrop
           // set Chars
           // set Text
@@ -216,12 +219,17 @@ export const useScriptEngine = defineStore('scriptEngine', {
     _updateTransition(newTransition: ITransition){
       this.currentScene.text = {...(newTransition.text)}
       this._updateChars([...(newTransition.chars)])
+      this._updateEffect(newTransition.effect || 'off');
       // add stuff relating to delay limiting
       // this.currentScene
       this.$writeHistory();
     },
     _updateDescription(newDesc: string){
       this.currentScene.description = newDesc;
+    },
+    _updateEffect(newEffect: string){      
+      const effectName: EffectType = (newEffect as EffectType) || 'off';
+      this.currentScene.effect = effectName;
     },
   },
 })

@@ -1,3 +1,5 @@
+import { EffectType } from "@components/layers/Effectslay.vue";
+
 export interface IGameScript {
   chapters: IGameChapter[],
 }
@@ -32,6 +34,7 @@ export interface IScene {
   description: string;
   activeChars: Array<IChar>;
   activeBmg: IBGM;
+  effect: EffectType,
   text: IText,
   backdrop: IBackdrop;
   transitions: ITransition[];
@@ -42,6 +45,7 @@ export interface INewScene {
   bgm: IBGM;
   backdrop: IBackdrop;
   description: string;
+  effect?: EffectType,
   transitions: ITransition[];
   initialText: IInitialText;
 }
@@ -62,7 +66,8 @@ export interface ITransition {
   delay : {
     min: number,
     default: number
-  }
+  },
+  effect?: EffectType,
 }
 export interface IText {
   speaker: string,

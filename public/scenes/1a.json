@@ -18,6 +18,7 @@
       "default": 5000
     }
   },
+  "initialEffect": "monochorme",
   "transitions" : [
     {
       "chars" : [],
@@ -30,7 +31,8 @@
       "delay" : {
         "min": 1000,
         "default": 2000
-      }
+      },
+      "effect": "glitch"
     },
     {
       "chars" : [
@@ -48,7 +50,8 @@
       "delay" : {
         "min": 1000,
         "default": 2000
-      }
+      },
+      "effect": "monochrome"
     },
     {
       "chars" : [
@@ -62,7 +65,8 @@
         "speaker": "Aoko",
         "text" : "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         "voice": null
-      }
+      },
+      "effect": "monochrome"
     }
   ]
 }
