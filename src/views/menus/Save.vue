@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import Clickable from '@components/Clickable.vue';
-  import ConfirmDialog from '@components/ComfirmDialog.vue';
-  import InputDialog from '@components/InputDialog.vue';
+  import ConfirmDialog from '@components/Dialogs/ConfirmDialog.vue';
+  import InputDialog from '@components/Dialogs/InputDialog.vue';
   import SceneCard from '@components/SceneCard.vue';
   import videoSrc from '@assets/video/bg-menu.mp4';
   import { innerClickEvent } from '@lib/mouse';

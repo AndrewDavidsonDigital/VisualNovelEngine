@@ -20,6 +20,10 @@
   import Option from '@views/menus/Options.vue';
   import Save from '@views/menus/Save.vue';
   import { innerClickEvent } from '@lib/mouse';
+  import { 
+    ConfirmDialog,
+    MessageDialog,
+  } from '@components/Dialogs';
   import { trace } from '@lib/logging';
   const LOGGING_PREFIX = '🖼️ScenePlayer:\t';
 
@@ -57,6 +61,12 @@
 
   const transitionDuration = ref<number>(props.text.length * 10 / config.text.displayRatio);
 
+  const messageDialogContent = ref('');
+  const showingMessageDialog = ref<boolean>(false);
+  
+  const showingConfirmDialog = ref(false);
+  const confirmDontShowAgain = ref<boolean>(false);
+
 
   function autoToggle(){
     isAuto.value = !isAuto.value;
@@ -68,6 +78,11 @@
   }
 
   function skipToggle(){
+    const skipMessage = script.getSkipDescription;
+    if (skipMessage){
+      messageDialogContent.value = skipMessage;
+      showingMessageDialog.value = true;
+    }
     $emit('skip');
     setTransitionDuration(true);
     isAuto.value = false;
@@ -165,10 +180,6 @@
     // trace(`${LOGGING_PREFIX} setTransitionDuration - duration: ${transitionDuration.value}` );
   }
 
-  function playVoiceLine(audioPath: string) {
-    voiceEngine.setAndPlay(audioPath);
-  }
-
   function toggleOpening (isOppnening: boolean){
     isModalOpen.value = isOppnening;
   }
@@ -191,9 +202,39 @@
     saveLoadDialogToggle.value = false;
   }
 
+  function handleSkipClick(event: MouseEvent){
+    innerClickEvent(event)
+    if (confirmDontShowAgain.value){
+      skipToggle();
+    } else {
+      showingConfirmDialog.value = true
+    }
+  }
+
+  function toggleDontShow(){
+    const node = document.getElementById('dontShowId') as HTMLInputElement;
+    node.checked = !node.checked;
+  }
+
 </script>
 
 <template>
+  <MessageDialog
+    :message="messageDialogContent"
+    :show="showingMessageDialog"
+    @close-ok="showingMessageDialog = false"
+  />
+  <ConfirmDialog 
+    message="Skipping content in a narative centric game can drastically reduce your enjoyment due to posibly missing key / core information, Are you sure you want to skip?"
+    :show="showingConfirmDialog"
+    :customisation="{
+      centerMessage: true,
+    }"
+    @close-ok="(e) => {showingConfirmDialog = false; skipToggle();}"
+    @close-cancel="showingConfirmDialog = false"
+  >
+    <span class="flex gap-2 justify-center"><input type="checkbox" v-model="confirmDontShowAgain" id="dontShowId"/><p @click="toggleDontShow()">Don't show this next time</p></span>
+  </ConfirmDialog>
   <Modal
     :id="`saveLoad-dialog`"
     :show="saveLoadDialogToggle"
@@ -247,7 +288,7 @@
             <Clickable>
               <article 
                 class="hover:stroke-orange-400 cursor-pointer mt-1"
-                @click.stop="playVoiceLine(entry.audioPath)"
+                @click.stop="voiceEngine.setAndPlay(entry.audioPath)"
               ><VolumeIcon v-show="entry.audioPath?.length > 0" class="hover:stroke-orange-400" />
               </article>
             </Clickable>
@@ -268,7 +309,7 @@
         <Clickable>
           <article 
             v-show="!isViewBackdrop"
-            @click.stop="(event: MouseEvent) => {skipToggle(); innerClickEvent(event)}"
+            @click.stop="(event: MouseEvent) => handleSkipClick(event)"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group">
             <SkipIcon
               :class='[
