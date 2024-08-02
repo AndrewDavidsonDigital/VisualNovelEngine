@@ -52,7 +52,9 @@ import { onMounted, ref, watch } from 'vue';
     ref="layerRef"
   >
     <Transition>
-      <section v-if="props.effect === 'off'"></section>
+      <section 
+        v-if="props.effect === 'off'"
+      ></section>
       <section 
         v-else-if="props.effect === 'warning'"
         class="animate-effectWarning"
@@ -105,8 +107,8 @@ import { onMounted, ref, watch } from 'vue';
         class="effects-grid effect-versus"
         :class="props.extraData.ratio"
       >
-        <div class="w-full h-full under"><img :src="props.extraData.left"></div>
-        <div class="w-full h-full over"><img :src="props.extraData.right"></div>
+        <div class="size-full under"><img :src="props.extraData.left"></div>
+        <div class="size-full over"><img :src="props.extraData.right"></div>
         <div class="borderEdge"></div>
       </section>
     </Transition>
@@ -143,36 +145,38 @@ import { onMounted, ref, watch } from 'vue';
 
     --versusClipPath: var(--versusClipPath_50);
     --versusEdgePath: var(--versusEdgePath_50);
+    --brightnessLeft:  0.5;
+    --brightnessRight: 0.5;
 
     &.ratio-30 {
       --versusClipPath: var(--versusClipPath_30);
       --versusEdgePath: var(--versusEdgePath_30);
-      --brightnessLeft:  0.3;
-      --brightnessRight: 0.7;
+      --brightnessLeft:  0.5;
+      --brightnessRight: 0.9;
     }
     &.ratio-40 {
       --versusClipPath: var(--versusClipPath_40);
       --versusEdgePath: var(--versusEdgePath_40);
-      --brightnessLeft:  0.4;
-      --brightnessRight: 0.6;
+      --brightnessLeft:  0.6;
+      --brightnessRight: 0.8;
     }
     &.ratio-50 {
       --versusClipPath: var(--versusClipPath_50);
       --versusEdgePath: var(--versusEdgePath_50);
-      --brightnessLeft:  0.5;
-      --brightnessRight: 0.5;
+      --brightnessLeft:  0.7;
+      --brightnessRight: 0.7;
     }
     &.ratio-60 {
       --versusClipPath: var(--versusClipPath_60);
       --versusEdgePath: var(--versusEdgePath_60);
-      --brightnessLeft:  0.6;
-      --brightnessRight: 0.4;
+      --brightnessLeft:  0.8;
+      --brightnessRight: 0.6;
     }
     &.ratio-70 {
       --versusClipPath: var(--versusClipPath_70);
       --versusEdgePath: var(--versusEdgePath_70);
-      --brightnessLeft:  0.7;
-      --brightnessRight: 0.3;
+      --brightnessLeft:  0.9;
+      --brightnessRight: 0.5;
     }
 
 

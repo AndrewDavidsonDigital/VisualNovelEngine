@@ -283,7 +283,7 @@
     <section class="flex flex-col p-5 gap-y-2">
       <template v-for="entry in history">
         <article class="grid grid-cols-[8rem,_1fr] gap-4">
-          <div class="flex justify-end h-fit items-center gap-x-1">
+          <div class="flex justify-start h-fit items-center gap-x-1 ml-[2%]">
             <p class="text-xl text-orange-400">{{ entry.actorName }}</p>
             <Clickable>
               <article 
