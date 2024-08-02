@@ -1,3 +1,4 @@
+import { useConfig } from '@lib/storage';
 import { defineStore } from 'pinia'
 
 export const labelMap_EN = new Map<String, String>();
@@ -72,7 +73,7 @@ export const useConfiguration = defineStore('configuration', {
 
   actions: {
     init() {
-      const existingSettings = window.localStorage.getItem(KEY) || null;
+      const existingSettings = useConfig().get() || null;
       if (existingSettings){
         const settings = JSON.parse(existingSettings);
         // find a better way to merge this in
@@ -83,7 +84,7 @@ export const useConfiguration = defineStore('configuration', {
     },
     save() {
       const localInstance = pluckKeys({...this}, CONFIG_KEYS);      
-      window.localStorage.setItem(KEY, JSON.stringify(localInstance));
+      useConfig().set(JSON.stringify(localInstance));
     },
     update(accessPath: string, value: any){
 

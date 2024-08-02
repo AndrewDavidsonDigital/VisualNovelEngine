@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import Clickable from '@components/Clickable.vue';
   import ConfirmDialog from '@components/Dialogs/ConfirmDialog.vue';
   import InputDialog from '@components/Dialogs/InputDialog.vue';
@@ -10,8 +10,31 @@
   import {
     CloseIcon,
   } from '@components/icon';
+  import { trace } from '@lib/logging';
+  import { useStorage } from '@lib/storage';
 
+  const LOGGING_PREFIX = '💾 SAVE/LOAD:\t';
+
+  const stateStorage = useStorage();
   const MAX_SAVES = 10;
+
+  interface ISave {
+    title: string,
+    chapterIndex: number | string,
+    sceneIndex: number | string,
+    transitionIndex: number | string,
+    active?: boolean,
+    dateTime: number,
+  }
+
+  const defaultSave: ISave =  { 
+    title  : 'New Save',
+    chapterIndex: '',
+    sceneIndex  : '',
+    transitionIndex: '',
+    active : false,
+    dateTime: Date.now(),
+  }
 
   interface Props {
     routeless?: boolean,
@@ -32,75 +55,29 @@
 
   const scriptEngine = useScriptEngine();
 
+  // first run check
+  const hasSaves = stateStorage.get();
+
+  if (hasSaves === null){
+    trace(`${LOGGING_PREFIX} no saves located, instatiating new set`);
+    const tempSaves = new Array(MAX_SAVES);
+    tempSaves.fill(defaultSave)
+    stateStorage.set(JSON.stringify(tempSaves));
+  }
+
+  // load existing saves
+  const existingSavesJSON = stateStorage.get() || '';
+
+
   function handleClose(){
     if (props.routeless){
       $emit('close');
     }
   }
 
-  interface ISave {
-    title: string,
-    chapterIndex: number | string,
-    sceneIndex: number | string,
-    transitionIndex: number | string,
-    active?: boolean,
-  }
-
-  const demoSaves = Object.freeze([
-    { 
-      title: 'test save 1',
-      chapterIndex: 1,
-      sceneIndex: 2,
-      transitionIndex: 0,
-      active: true,
-    },
-    { 
-      title: 'test save 2',
-      chapterIndex: 2,
-      sceneIndex: 1,
-      transitionIndex: 0,
-      active: true,
-    },
-    { 
-      title: 'foo bar ',
-      chapterIndex: 1,
-      sceneIndex: 3,
-      transitionIndex: 0,
-      active: true,
-    },
-    { 
-      title: 'baz arraz',
-      chapterIndex: 0,
-      sceneIndex: 3,
-      transitionIndex: 0,
-      active: true,
-    },
-    { 
-      title: 'double save??',
-      chapterIndex: 0,
-      sceneIndex: 3,
-      transitionIndex: 0,
-      active: true,
-    },
-  ]) as ISave[]
-
-  allSaves.value = [...demoSaves];
-
-  if (!(allSaves.value.length >= MAX_SAVES)){
-    allSaves.value.length = MAX_SAVES;
-    const savesUsed = demoSaves.length;
-    const defaultSave: ISave =  { 
-      title  : 'New Save',
-      chapterIndex: '',
-      sceneIndex  : '',
-      transitionIndex: '',
-      active : false,
-    }
-    allSaves.value?.fill( {...defaultSave}, savesUsed , MAX_SAVES);
-  }
-
+  allSaves.value = JSON.parse(existingSavesJSON);
   function tryToSave(alreadyHasSave: boolean, index: number){
-    console.log('am I overwritting', alreadyHasSave);
+    trace(`${LOGGING_PREFIX}am I overwritting: ${alreadyHasSave}`);
     if (alreadyHasSave){
       confirmDialogData.value = { index }
       showingConfirmDialog.value = true;
@@ -110,16 +87,17 @@
   }
 
   function actionSave(index: number){
-    console.log('New Save at index: ', index);
+    trace(`${LOGGING_PREFIX}New Save at index: ${index}`);
     saveDialogData.value = { index: index };
     showingSaveDialog.value = true;
   }
+
   function completeSave(data: ISaveDialogData & { input: string } ){
     showingSaveDialog.value = false;
-    console.log('User input', data);
+    trace(`${LOGGING_PREFIX}User input: ${data}`);
     saveDialogData.value = null;
 
-    if (!(data?.index)) return
+    if (!(data?.index) && data.index !== 0) return
     
     const saveIndex = data.index
 
@@ -128,10 +106,19 @@
       title: data.input,
       active : true,
       ...scriptEngine.getSaveData,
+      dateTime: Date.now(),
     }
-    console.log('newSave: ', newSave);
+    trace(`${LOGGING_PREFIX}newSave: ${newSave}`);
 
     allSaves.value[saveIndex] = {...newSave};
+
+    commitSaves();
+  }
+
+  function commitSaves(){
+    trace(`${LOGGING_PREFIX}saving data updated`);
+    // trace(`${LOGGING_PREFIX}SAVEDATA: ${JSON.stringify(allSaves.value)}`);
+    stateStorage.set(JSON.stringify(allSaves.value));
   }
 
 </script>

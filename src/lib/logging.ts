@@ -1,12 +1,14 @@
+import { useLogging } from "@lib/storage";
+
 interface ILoggingConfig {
   trace: boolean;
   debug: boolean;
 }
 
-const KEY = 'illusionEngine_logging';
+const loggingStorage = useLogging();
 
-const loggingConfig = (JSON.parse(window.localStorage.getItem(KEY) || '{ "trace": true, "debug": true }')) as ILoggingConfig;
-window.localStorage.setItem(KEY, JSON.stringify(loggingConfig));
+const loggingConfig = JSON.parse((loggingStorage.get() || '{ "trace": true, "debug": true }')) as ILoggingConfig;;
+loggingStorage.set(JSON.stringify(loggingConfig));
 
 export function trace(message: string){  
   if (loggingConfig.trace){
