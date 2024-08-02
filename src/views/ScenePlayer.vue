@@ -11,7 +11,7 @@
     useVoiceEngine,
   } from '&audio';
   import Characterlay from '@components/layers/Characterlay.vue';
-  import Effectslay, { EffectType } from '@components/layers/Effectslay.vue';
+  import Effectslay, { EffectExtraDataType, EffectType } from '@components/layers/Effectslay.vue';
   import { trace } from '@lib/logging';
   const LOGGING_PREFIX = '🖼️ScenePlayer:\t';
 
@@ -28,6 +28,7 @@
   const isBackdropVideo = ref(true);
 
   const effectName = ref<EffectType>('off')
+  const effectExtraData = ref<EffectExtraDataType>();
 
   const backdropInstance = ref<IBackdrop>({
     path: '',
@@ -149,6 +150,11 @@
     if (el.name === '_updateEffect'){
       el.after((result) => {
         effectName.value = el.args[0] as EffectType;
+        if (el.args[1] && el.args[1] !== null){
+          effectExtraData.value = el.args[1];
+        } else {
+          effectExtraData.value = undefined
+        }
         trace(`${LOGGING_PREFIX}update Effect: \t${JSON.stringify(el.args)}` );
       })
     }
@@ -212,6 +218,7 @@
         :effect="effectName" 
         :data-attributes="['animateLeft', 'animateRight']"
         :visible="visibleEffectsToggle"
+        :extra-data="effectExtraData"
       />
       <!-- char layer -->
       <Characterlay

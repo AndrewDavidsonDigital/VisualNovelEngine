@@ -1,4 +1,4 @@
-import { EffectType } from "@components/layers/Effectslay.vue";
+import { EffectExtraDataType, EffectType } from "@components/layers/Effectslay.vue";
 
 export interface IGameScript {
   chapters: IGameChapter[],
@@ -34,8 +34,9 @@ export interface IScene {
   description: string;
   activeChars: Array<IChar>;
   activeBmg: IBGM;
-  effect: EffectType,
-  text: IText,
+  effect: EffectType;
+  effectData?: EffectExtraDataType;
+  text: IText;
   backdrop: IBackdrop;
   transitions: ITransition[];
 }
@@ -46,6 +47,7 @@ export interface INewScene {
   backdrop: IBackdrop;
   description: string;
   initialEffect?: EffectType,
+  initialEffectData?: EffectExtraDataType,
   transitions: ITransition[];
   initialText: IInitialText;
 }
@@ -68,6 +70,7 @@ export interface ITransition {
     default: number
   },
   effect?: EffectType,
+  effectData?: any,
 }
 export interface IText {
   speaker: string,

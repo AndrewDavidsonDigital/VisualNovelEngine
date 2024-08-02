@@ -43,6 +43,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
           type: 'image',
         },
         effect: 'off',
+        effectData: undefined,
         text: {
           speaker: '',
           text: '',
@@ -158,7 +159,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this._updateText(newSceneData.initialText);
           this._updateTransitions(newSceneData.transitions);
           this._updateDescription(newSceneData.description);
-          this._updateEffect(newSceneData.initialEffect || 'off');
+          this._updateEffect(newSceneData.initialEffect || 'off', newSceneData.initialEffectData);
           // set Backdrop
           // set Chars
           // set Text
@@ -219,7 +220,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
     _updateTransition(newTransition: ITransition){
       this.currentScene.text = {...(newTransition.text)}
       this._updateChars([...(newTransition.chars)])
-      this._updateEffect(newTransition.effect || 'off');
+      this._updateEffect(newTransition.effect || 'off', newTransition.effectData);
       // add stuff relating to delay limiting
       // this.currentScene
       this.$writeHistory();
@@ -227,9 +228,14 @@ export const useScriptEngine = defineStore('scriptEngine', {
     _updateDescription(newDesc: string){
       this.currentScene.description = newDesc;
     },
-    _updateEffect(newEffect: string){      
+    _updateEffect(newEffect: string, newEffectData?: any){      
       const effectName: EffectType = (newEffect as EffectType) || 'off';
       this.currentScene.effect = effectName;
+      if (newEffectData){
+        this.currentScene.effectData = newEffectData;
+      } else {
+        this.currentScene.effectData = undefined;
+      }
     },
   },
 })

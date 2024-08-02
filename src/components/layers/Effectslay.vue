@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 
-  export type EffectType = 'off' | 'warning' | 'good-bad' | 'old-school' | 'monochrome' | 'glitch';
+  export type EffectType = 'off' | 'warning' | 'good-bad' | 'old-school' | 'monochrome' | 'glitch' | 'versus';
+
+  export type EffectExtraDataType = VersusData;
+  type VersusData = IVersusData;
+
+  interface IVersusData {
+    _discriminator: 'IVersusData';
+    left: string;
+    right: string;
+    ratio?: string;
+  }
 
   interface Props {
     effect: EffectType;
@@ -11,6 +21,7 @@ import { onMounted, ref, watch } from 'vue';
     },
     visible: boolean,
     dataAttributes?: string[];
+    extraData?: EffectExtraDataType;
   }
   const props = defineProps<Props>()
 
@@ -40,56 +51,65 @@ import { onMounted, ref, watch } from 'vue';
     class="z-10 *:size-full"
     ref="layerRef"
   >
-  <Transition>
-    <section v-if="props.effect === 'off'"></section>
-    <section 
-      v-else-if="props.effect === 'warning'"
-      class="animate-effectWarning"
-    ></section>
-    <section 
-      v-else-if="props.effect === 'good-bad'"
-      class='flex'
-    >
+    <Transition>
+      <section v-if="props.effect === 'off'"></section>
       <section 
-        :class="[
-          'effects-grid w-1/2 relative opacity-0',
-          { 'leftAnimated': props.effect === 'good-bad'},
-        ]"
-        style="--shadowColour:white"
+        v-else-if="props.effect === 'warning'"
+        class="animate-effectWarning"
+      ></section>
+      <section 
+        v-else-if="props.effect === 'good-bad'"
+        class='flex'
       >
-        <div class="h-0 w-full effect-shadow"></div>
-        <div class="h-full w-0 effect-shadow"></div>
-        <div class="h-0 w-full effect-shadow absolute -bottom-0"></div>
+        <section 
+          :class="[
+            'effects-grid w-1/2 relative opacity-0',
+            { 'leftAnimated': props.effect === 'good-bad'},
+          ]"
+          style="--shadowColour:white"
+        >
+          <div class="h-0 w-full effect-shadow"></div>
+          <div class="h-full w-0 effect-shadow"></div>
+          <div class="h-0 w-full effect-shadow absolute -bottom-0"></div>
+        </section>
+        <section
+          :class="[
+            'effects-grid w-1/2 relative opacity-0',
+            { 'rightAnimated': props.effect === 'good-bad'},
+          ]"
+          style="--shadowColour:black"
+        >
+          <div class="h-0 w-full effect-shadow"></div>
+          <div class="h-full w-0 effect-shadow absolute -right-0"></div>
+          <div class="h-0 w-full effect-shadow absolute -bottom-0"></div>
+        </section>
       </section>
-      <section
-        :class="[
-          'effects-grid w-1/2 relative opacity-0',
-          { 'rightAnimated': props.effect === 'good-bad'},
-        ]"
-        style="--shadowColour:black"
+      <section 
+        v-else-if="props.effect === 'old-school'"
+        class="oldSchool"
+      ></section>
+      <section 
+        v-else-if="props.effect === 'monochrome'"
+        class="monochrome"
+      ></section>
+      <section 
+        v-else-if="props.effect === 'glitch'"
+        class="overflow-hidden relative opacity-75"
       >
-        <div class="h-0 w-full effect-shadow"></div>
-        <div class="h-full w-0 effect-shadow absolute -right-0"></div>
-        <div class="h-0 w-full effect-shadow absolute -bottom-0"></div>
+        <div class="glitch glitch_pink bg-rose-500 left-1 -top-1"></div>
+        <div class="glitch glitch_green bg-emerald-400 -left-1 top-1"></div>
+        <div class="glitch glitch_black bg-black left-0"></div>
       </section>
-    </section>
-    <section 
-      v-else-if="props.effect === 'old-school'"
-      class="oldSchool"
-    ></section>
-    <section 
-      v-else-if="props.effect === 'monochrome'"
-      class="monochrome"
-    ></section>
-    <section 
-      v-else-if="props.effect === 'glitch'"
-      class="overflow-hidden relative opacity-75"
-    >
-      <div class="glitch glitch_pink bg-rose-500 left-1 -top-1"></div>
-      <div class="glitch glitch_green bg-emerald-400 -left-1 top-1"></div>
-      <div class="glitch glitch_black bg-black left-0"></div>
-    </section>
-  </Transition>
+      <section 
+        v-else-if="props.effect === 'versus' && props.extraData?._discriminator === 'IVersusData'"
+        class="effects-grid effect-versus"
+        :class="props.extraData.ratio"
+      >
+        <div class="w-full h-full under"><img :src="props.extraData.left"></div>
+        <div class="w-full h-full over"><img :src="props.extraData.right"></div>
+        <div class="borderEdge"></div>
+      </section>
+    </Transition>
   </div>
 </template>
 
@@ -102,6 +122,80 @@ import { onMounted, ref, watch } from 'vue';
   .v-enter-from,
   .v-leave-to {
     opacity: 0;
+  }
+
+  .effect-versus {
+    @apply relative;
+
+    --shadowColour: rgb(187, 54, 207);
+
+    --versusClipPath_30: polygon(0% 0%, 20% 0%, 40% 100%, 100% 100%, 100% 0%);
+    --versusClipPath_40: polygon(0% 0%, 30% 0%, 50% 100%, 100% 100%, 100% 0%);
+    --versusClipPath_50: polygon(0% 0%, 40% 0%, 60% 100%, 100% 100%, 100% 0%); /* DEFAULT 50-50 */
+    --versusClipPath_60: polygon(0% 0%, 50% 0%, 70% 100%, 100% 100%, 100% 0%);
+    --versusClipPath_70: polygon(0% 0%, 60% 0%, 80% 100%, 100% 100%, 100% 0%);
+
+    --versusEdgePath_30: 30%;
+    --versusEdgePath_40: 40%;
+    --versusEdgePath_50: 50%;
+    --versusEdgePath_60: 60%;
+    --versusEdgePath_70: 70%;
+
+    --versusClipPath: var(--versusClipPath_50);
+    --versusEdgePath: var(--versusEdgePath_50);
+
+    &.ratio-30 {
+      --versusClipPath: var(--versusClipPath_30);
+      --versusEdgePath: var(--versusEdgePath_30);
+      --brightnessLeft:  0.3;
+      --brightnessRight: 0.7;
+    }
+    &.ratio-40 {
+      --versusClipPath: var(--versusClipPath_40);
+      --versusEdgePath: var(--versusEdgePath_40);
+      --brightnessLeft:  0.4;
+      --brightnessRight: 0.6;
+    }
+    &.ratio-50 {
+      --versusClipPath: var(--versusClipPath_50);
+      --versusEdgePath: var(--versusEdgePath_50);
+      --brightnessLeft:  0.5;
+      --brightnessRight: 0.5;
+    }
+    &.ratio-60 {
+      --versusClipPath: var(--versusClipPath_60);
+      --versusEdgePath: var(--versusEdgePath_60);
+      --brightnessLeft:  0.6;
+      --brightnessRight: 0.4;
+    }
+    &.ratio-70 {
+      --versusClipPath: var(--versusClipPath_70);
+      --versusEdgePath: var(--versusEdgePath_70);
+      --brightnessLeft:  0.7;
+      --brightnessRight: 0.3;
+    }
+
+
+    .over {
+      clip-path: var(--versusClipPath);
+      filter: brightness(var(--brightnessRight));
+      @apply transition-all duration-300;
+    }
+
+    .borderEdge {
+      @apply absolute;
+      @apply transition-all duration-300;
+      @apply w-0 h-full;
+      box-shadow: 0 0 30px 25px var(--shadowColour);
+      left: calc(var(--versusEdgePath) - 2px);
+      rotate: -19.55deg; /* no clue why this is this actual rotational value */
+      scale: 1.1;
+    }
+
+    .under {
+      filter: brightness(var(--brightnessLeft));
+      @apply transition-all duration-300;
+    }
   }
 
   .effects-grid {
