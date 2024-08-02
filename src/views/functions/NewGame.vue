@@ -13,3 +13,5 @@
   router.push('game');
 
 </script>
+<template>
+</template>

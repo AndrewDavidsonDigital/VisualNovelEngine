@@ -11,6 +11,15 @@ interface ISaveData {
   transitionIndex: number;
 }
 
+interface ISave {
+  title: string,
+  chapterIndex: number | string,
+  sceneIndex: number | string,
+  transitionIndex: number | string,
+  active?: boolean,
+  dateTime: number,
+}
+
 /**
  * @description: Scripting interpreter engine,
  * 
@@ -92,6 +101,31 @@ export const useScriptEngine = defineStore('scriptEngine', {
     },
   },
   actions: {
+    loadGameState(state: ISave){
+      logger('loadGameState');
+      logger(JSON.stringify(state))
+      const cpIndex = Number(state.chapterIndex);
+      const scIndex = Number(state.sceneIndex);
+      const trIndex = Number(state.transitionIndex);
+      if (cpIndex >= 1){
+        this.currentScene.chapterIndex = cpIndex -1;
+        this.chapterDetails.chapterIndex = cpIndex -1;
+      }
+      this.currentScene.sceneIndex = scIndex -1;
+      
+      this.$loadScene();
+
+      setTimeout(() => {
+         // de-index as we will pre-load one before so player loads NEXT scene (i.e. the one we want.)
+        this.currentScene.transitionIndex = trIndex -1;
+        const nextTransition: ITransition = this.currentScene.transitions[this.currentScene.transitionIndex];
+        // logger(JSON.stringify(this.currentScene));
+        // logger(JSON.stringify(this.currentScene.transitions));
+        this._updateTransition(nextTransition)
+      },
+      100);
+
+    },
     /**
      * Need to wrap internal reset to ensure we keep the static gamescript
      */

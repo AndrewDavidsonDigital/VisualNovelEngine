@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, watch } from 'vue';
+  import { ref } from 'vue';
   import Clickable from '@components/Clickable.vue';
   import ConfirmDialog from '@components/Dialogs/ConfirmDialog.vue';
   import InputDialog from '@components/Dialogs/InputDialog.vue';

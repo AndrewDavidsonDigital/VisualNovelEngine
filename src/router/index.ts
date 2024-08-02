@@ -5,6 +5,7 @@ import Exit from '@views/functions/Exit.vue'
 import Landing from '@views/menus/Landing.vue'
 import Options from '@views/menus/Options.vue'
 import ScenePlayer from '@views/ScenePlayer.vue'
+import Continue from '@views/functions/Continue.vue'
 
 import { useCustomCursor } from '@stores/customCursor';
 
@@ -25,6 +26,11 @@ const router = createRouter({
       path: '/new-game',
       name: 'newGame',
       component: NewGame,
+    },
+    {
+      path: '/continue',
+      name: 'continue',
+      component: Continue,
     },
     {
       path: '/menu',

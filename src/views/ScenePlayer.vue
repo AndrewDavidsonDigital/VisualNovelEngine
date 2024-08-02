@@ -109,21 +109,21 @@
       })
     }
 
-    if (el.name === '_updateBackdrop'){
+    else if (el.name === '_updateBackdrop'){
       el.after((result) => {
         backdropInstance.value = scriptEngine.getSceneBackdrop;
         trace(`${LOGGING_PREFIX}update Backdrop: \t${JSON.stringify(el.args)}` );
       })
     }
 
-    if (el.name === '_updateChars'){
+    else if (el.name === '_updateChars'){
       el.after((result) => {
         charInstance.value = scriptEngine.getSceneChars;
         trace(`${LOGGING_PREFIX}update Chars: \t${JSON.stringify(el.args)}` );
       })
     }
 
-    if (el.name === '_updateText'){
+    else if (el.name === '_updateText'){
       el.after((result) => {
         triggerToggle.value = false;
         textInstance.value = scriptEngine.getSceneText;
@@ -132,13 +132,13 @@
       })
     }
 
-    // if (el.name === '_updateTransitions'){
+    // else if (el.name === '_updateTransitions'){
     //   el.after((result) => {
     //     trace(`${LOGGING_PREFIX}update Transitions: \t${JSON.stringify(el.args)}` );
     //   })
     // }
 
-    if (el.name === '_updateTransition'){
+    else if (el.name === '_updateTransition'){
       el.after((result) => {
         triggerToggle.value = false;
         textInstance.value = scriptEngine.getSceneText;
@@ -147,7 +147,7 @@
       })
     }
 
-    if (el.name === '_updateEffect'){
+    else if (el.name === '_updateEffect'){
       el.after((result) => {
         effectName.value = el.args[0] as EffectType;
         if (el.args[1] && el.args[1] !== null){
@@ -158,6 +158,8 @@
         trace(`${LOGGING_PREFIX}update Effect: \t${JSON.stringify(el.args)}` );
       })
     }
+
+    else { trace(`${LOGGING_PREFIX} OTHER CALL: \t${el.name}` );}
 
   });
 
