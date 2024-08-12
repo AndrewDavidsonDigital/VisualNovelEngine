@@ -22,8 +22,9 @@
         muted
         playsinline
         class=""
+        :src="props.contentSrc"
       >
-        <source :src="props.contentSrc" :type="props.contentType">
+        <!-- <source :src="props.contentSrc" :type="props.contentType"> -->
       </video>
       <img 
         v-else 
