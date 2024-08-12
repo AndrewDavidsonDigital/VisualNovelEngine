@@ -47,7 +47,7 @@ import { ref, watch } from 'vue';
     :id="props.id"
     ref="dialogRef"
     class="
-      max-w-[calc(1920px*0.95)] w-[95%] place-self-center mx-5
+      max-w-[calc(1920px*0.95)] w-[97vw] place-self-center mx-5
       backdrop-blur-[5px] !outline-none
 
       relative
