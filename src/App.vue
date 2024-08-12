@@ -16,8 +16,6 @@
   
   onMounted(() => {
     config.init();
-
-
     scriptEngine.init(gameChapters);
 
     document.addEventListener('click', (e: MouseEvent) => {

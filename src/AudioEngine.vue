@@ -18,18 +18,22 @@
   const config = useConfiguration();
 
   onMounted(() => {
+    // need small delay to ensure config has been loaded & init'd 
+    // by the time we grab audio levels
+    setTimeout(() => {
+      console.log(`config:`, config.audio)
 
-    bgmEngine.init('_audio_bgm');
-    bgmEngine.setVolume(config.audio.bgm);
-    bgmEngine.setTrack('/audio/bgm/bgm.m4a');
-    
-    sfxEngine.init('_audio_sfx');
-    sfxEngine.setVolume(config.audio.sfx);
-    interactionEngine.init('_audio_interaction');
-    interactionEngine.setVolume(config.audio.sfx);
-    voiceEngine.init('_audio_voice');
-    voiceEngine.setVolume(config.audio.voice);
-
+      bgmEngine.init('_audio_bgm');
+      bgmEngine.setVolume(config.audio.bgm);
+      bgmEngine.setTrack('/audio/bgm/bgm.m4a');
+      
+      sfxEngine.init('_audio_sfx');
+      sfxEngine.setVolume(config.audio.sfx);
+      interactionEngine.init('_audio_interaction');
+      interactionEngine.setVolume(config.audio.sfx);
+      voiceEngine.init('_audio_voice');
+      voiceEngine.setVolume(config.audio.voice);
+    }, 100);
   });
 
 </script>
