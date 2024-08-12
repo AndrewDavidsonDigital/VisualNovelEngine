@@ -3,14 +3,20 @@ import { onMounted, ref, watch } from 'vue';
 
   export type EffectType = 'off' | 'warning' | 'good-bad' | 'old-school' | 'monochrome' | 'glitch' | 'versus';
 
-  export type EffectExtraDataType = VersusData;
+  export type EffectExtraDataType = VersusData | BaseData;
   type VersusData = IVersusData;
+  type BaseData = IBaseData
 
   interface IVersusData {
     _discriminator: 'IVersusData';
     left: string;
     right: string;
     ratio?: string;
+  }
+
+  interface IBaseData {
+    _discriminator: 'IBase';
+    isOverlayingChars?: boolean;
   }
 
   interface Props {
@@ -26,6 +32,11 @@ import { onMounted, ref, watch } from 'vue';
   const props = defineProps<Props>()
 
   const layerRef = ref<HTMLDivElement>()
+  const isPermaVisible = ref<boolean>(false);
+
+  const PERMA_VISIBLE_EFFECTS: EffectType[] = [
+    'versus',
+  ]
 
   function resetDataAttributes(){
     if (props.dataAttributes && props.dataAttributes?.length > 0){
@@ -38,6 +49,9 @@ import { onMounted, ref, watch } from 'vue';
   watch(() => props.dataAttributes, () => {
     resetDataAttributes();
   })
+  watch(() => props.effect, (newValue) => {
+    isPermaVisible.value = PERMA_VISIBLE_EFFECTS.indexOf(newValue) !== -1;
+  })
 
   onMounted(() => {
     resetDataAttributes();
@@ -47,7 +61,7 @@ import { onMounted, ref, watch } from 'vue';
 
 <template>
   <div 
-    v-show="props.visible"
+    v-show="props.visible || isPermaVisible"
     class="z-10 *:size-full"
     ref="layerRef"
   >

@@ -62,7 +62,11 @@
         "min": 1000,
         "default": 2000
       },
-      "effect": "glitch"
+      "effect": "glitch",
+      "effectData": {
+        "_discriminator": "IBase",
+        "isOverlayingChars": true
+      }
     },
     {
       "chars" : [

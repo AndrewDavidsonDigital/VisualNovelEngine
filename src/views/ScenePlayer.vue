@@ -151,7 +151,7 @@
       el.after((result) => {
         effectName.value = el.args[0] as EffectType;
         if (el.args[1] && el.args[1] !== null){
-          effectExtraData.value = el.args[1];
+          effectExtraData.value = el.args[1] as EffectExtraDataType;
         } else {
           effectExtraData.value = undefined
         }
@@ -225,6 +225,9 @@
       <!-- char layer -->
       <Characterlay
         :characters="charInstance"
+        :class="[
+          { '-order-1' : (effectExtraData?._discriminator === 'IBase' && effectExtraData?.isOverlayingChars) || false },
+        ]"
       />
       <!-- Overlay -->
       <Overlay  
