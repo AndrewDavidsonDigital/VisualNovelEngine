@@ -16,10 +16,20 @@
       ]
     },
     {
+      "title" : "Diverging Paths",
+      "displayTitle" : false,
+      "scenePaths" : [
+        "/scenes/3a",
+        "/scenes/3b-1",
+        "/scenes/3b-2",
+        "/scenes/3b-3"
+      ]
+    },
+    {
       "title" : "Ending",
       "displayTitle" : true,
       "scenePaths" : [
-        "/scenes/3a",
+        "/scenes/4a",
         "/scenes/credits"
       ]
     }

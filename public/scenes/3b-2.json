@@ -1,0 +1,22 @@
+{
+  "bgm" : {
+    "path" : "/audio/bgm/bgm.m4a",
+    "forceRestart" : true
+  },
+  "chars" : [],
+  "backdrop" : {
+    "path" : "/backdrop/bg-audio-3.mp4"
+  },
+  "description" : "Vue",
+  "initialText": {
+    "speaker": null,
+    "text" : "View from a mirror",
+    "position" : "center",
+    "voice": null,
+    "delay" : {
+      "min": 3000,
+      "default": 5000
+    }
+  },
+  "transitions" : []
+}

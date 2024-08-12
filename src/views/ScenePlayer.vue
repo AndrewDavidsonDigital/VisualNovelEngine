@@ -2,7 +2,7 @@
   // import defaultVideoSrc from '@assets/video/bg-game-default.mp4';
   import Backdrop from '@components/Backdrop.vue';
   import Overlay from '@components/layers/Overlay.vue';
-  import { IBackdrop, IChar, IText } from '@stores/interfaces';
+  import { IBackdrop, IChar, IChoice, IText } from '@stores/interfaces';
   import { useScriptEngine } from '@stores/scriptEngine';
   import { ref, watch } from 'vue';
   import { 
@@ -13,6 +13,7 @@
   import Characterlay from '@components/layers/Characterlay.vue';
   import Effectslay, { EffectExtraDataType, EffectType } from '@components/layers/Effectslay.vue';
   import { trace } from '@lib/logging';
+  import { useCurrentGame } from '@lib/storage';
   const LOGGING_PREFIX = '🖼️ScenePlayer:\t';
 
 
@@ -23,6 +24,8 @@
   const bgmEngine = useBgmEngine();
   const sfxEngine = useSfxEngine();
   const voiceEngine = useVoiceEngine();
+
+  const currentGame = useCurrentGame();
 
   const videoSrc = ref('');
   const isBackdropVideo = ref(true);
@@ -166,8 +169,39 @@
   /*****************************************************************************************************/
 
   function handleProgress(){
+    if (scriptEngine.isChoice){
+      return;
+    }
     triggerToggle.value = !(triggerToggle.value);
     scriptEngine.progress();
+  }
+
+  interface ISelectedChoice{
+    key: string;
+    value: string;
+  }
+
+  interface IGameState {
+    choices: ISelectedChoice[];
+  }
+
+  function handleChoice(data: IChoice){
+    scriptEngine.progressChoice(data);
+    const currentStateString = currentGame.get();
+    let currentSate = {
+      choices: []
+    } as IGameState;
+
+    if (currentStateString !== null && currentStateString !== '{}'){
+      currentSate = JSON.parse(currentStateString) as IGameState;
+    }
+
+    const newChocie: ISelectedChoice = {
+      key: scriptEngine.currentScene.optionKey,
+      value: data.value,
+    }
+    currentSate.choices.push(newChocie);
+    currentGame.$set(currentSate);
   }
 
   function skipScene(){
@@ -234,9 +268,11 @@
         :text="textInstance.text"
         :speaker="textInstance.speaker"
         :trigger="triggerToggle"
+        :choices="scriptEngine.getChoices"
         @skip="() => skipScene()"
         @progress="() => handleProgress()"
         @toggle-backdrop="(toggleTo) => toggleEffects(toggleTo)"
+        @choose="(data) => handleChoice(data)"
       />
     </div>
   </div>

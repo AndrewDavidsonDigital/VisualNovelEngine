@@ -1,0 +1,52 @@
+{
+  "bgm" : {
+    "path" : "/audio/bgm/bgm.m4a",
+    "forceRestart" : true
+  },
+  "chars" : [],
+  "backdrop" : {
+    "path" : "/backdrop/bg-audio-3.mp4"
+  },
+  "description" : "Here we couldn't be bothered writing anything witty as was full of lorem ipsum.",
+  "initialText": {
+    "speaker": null,
+    "text" : "What was once just a JQurey Monolith",
+    "position" : "center",
+    "voice": null,
+    "delay" : {
+      "min": 3000,
+      "default": 5000
+    }
+  },
+  "transitions" : [
+    {
+      "_discriminator": "IChoice",
+      "chars" : [],
+      "text": {
+        "speaker": null,
+        "text" : "Was fractured into multitudes of frameworks",
+        "position" : "center",
+        "voice": null
+      },
+      "delay" : {
+        "min": 1000,
+        "default": 2000
+      },
+      "optionKey": "frameworkFragment",
+      "options": [
+        {
+          "value": "React",
+          "jump" : "/scenes/3b-1"
+        },
+        {
+          "value": "Vue",
+          "jump" : "/scenes/3b-2"
+        },
+        {
+          "value": "Svelte",
+          "jump" : "/scenes/3b-3"
+        }
+      ]
+    }
+  ]
+}

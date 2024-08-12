@@ -1,8 +1,15 @@
 <script setup lang="ts">
+  import { onMounted } from 'vue'
   import Navigation from '@components/Navigation.vue';
   import videoSrc from '@assets/video/bg-menu.mp4';
   import Clickable from '@components/Clickable.vue';
+  import { useCurrentGame } from '@lib/storage';
 
+  const currentGame = useCurrentGame();
+
+  onMounted(() => {
+    currentGame.clear();
+  });
 </script>
 
 <template>

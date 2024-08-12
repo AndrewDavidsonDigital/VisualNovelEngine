@@ -25,6 +25,7 @@
     MessageDialog,
   } from '@components/Dialogs';
   import { trace } from '@lib/logging';
+  import { IChoice } from '@stores/interfaces';
   const LOGGING_PREFIX = '🖼️ScenePlayer:\t';
 
 
@@ -32,10 +33,11 @@
     text: string,
     speaker: string | null,
     trigger: boolean,
+    choices?: IChoice[],
   }
   const props = defineProps<Props>()
 
-  const $emit = defineEmits(['toggleBackdrop', 'progress', 'skip'])
+  const $emit = defineEmits(['toggleBackdrop', 'progress', 'skip', 'choose'])
 
   const config = useConfiguration()
   const script = useScriptEngine()
@@ -293,7 +295,12 @@
               </article>
             </Clickable>
           </div>
-          <div><span v-html="entry.text"></span></div>
+          <div>
+            <span 
+              v-html="entry.text" 
+              :class="[{ 'italic text-teal-500' : entry?.isChoice }]"
+            ></span>
+          </div>
         </article>
       </template>
       <article class="absolute top-0 right-0 group mr-5 mt-4" @click="closeHistory">
@@ -369,6 +376,21 @@
         </Clickable>
       </section>
     </div>
+    <section 
+      v-if="props.choices && props.choices.length > 0"
+      class="flex justify-around"
+    >
+      <template v-for="choice in props.choices">
+        <Clickable :inline="false">
+          <button
+            class="bg-slate-700/80 px-4 py-2 rounded-sm"
+            @click="() => $emit('choose', choice)"
+          >
+            {{ choice.value }}
+          </button>
+        </Clickable>
+      </template>
+    </section>
     <div v-show="!isViewBackdrop" class="min-h-[20%] mb-4">
       <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass'>
         <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{props.speaker}}</h3>

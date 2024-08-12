@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { IBGM, IBackdrop, IChar, IGameScript, IHistoryEntry, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
+import { IBGM, IBackdrop, IChar, IChoice, IGameScript, IHistoryEntry, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
 import { trace } from '@lib/logging';
 import { EffectType } from '@components/layers/Effectslay.vue';
 
@@ -38,6 +38,9 @@ export const useScriptEngine = defineStore('scriptEngine', {
         history: [],
       },
       currentScene : {
+        isChoice: false,
+        optionKey: '',
+        options: [],
         description: '',
         activeBmg: {
           path: '',
@@ -99,6 +102,14 @@ export const useScriptEngine = defineStore('scriptEngine', {
       const desc: string = this.currentScene.description;
       return desc;
     },
+    isChoice(): boolean{
+      logger('isChoice');
+      return this.currentScene.isChoice || false
+    },
+    getChoices(): IChoice[]{
+      logger('getChoices');
+      return this.currentScene.options || [];
+    }
   },
   actions: {
     loadGameState(state: ISave){
@@ -142,8 +153,26 @@ export const useScriptEngine = defineStore('scriptEngine', {
       logger('skipFowards');
       this.$loadScene();
     },
+    progressChoice(choice: IChoice){
+      logger(`progressChoice ${JSON.stringify(choice)}`);
+      let nextSceneIndex = this.chapterDetails.scenePaths.indexOf(choice.jump)
+      if (nextSceneIndex === -1){
+        nextSceneIndex = 0;
+      }
+      this.$writeChoiceHistory({
+        actor: 'user',
+        choice: choice.value,
+      });
+      this.__callScene(`${choice.jump}.json`, nextSceneIndex);
+      logger('progressChoice_end');
+    },
     progress(){
       logger('progress');
+      // escape if we need to choose a choice instead
+      if (this.currentScene.isChoice){
+        logger('progress_end');
+        return
+      }
       // ensure we can progress
       if (this.currentScene.transitionIndex >= this.currentScene.transitions.length || this.currentScene.transitionIndex === -1){
         this.$loadScene();
@@ -176,8 +205,10 @@ export const useScriptEngine = defineStore('scriptEngine', {
       logger(`nextSceneIndex (${nextSceneIndex})`);
       const nextScenePath = `${this.chapterDetails.scenePaths[nextSceneIndex]}.json`
       logger(`nextScenePath (${nextScenePath})`);
-
-      fetch(nextScenePath)
+      this.__callScene(nextScenePath, nextSceneIndex)
+    },
+    __callScene(scenePath: string, nextSceneIndex: number){
+      fetch(scenePath)
         .then((resp) => {
           if (resp.ok) return resp.json();
         })
@@ -185,6 +216,8 @@ export const useScriptEngine = defineStore('scriptEngine', {
           logger(`${JSON.stringify(resJson)}`);
           this.currentScene.sceneIndex = nextSceneIndex;
           this.currentScene.chapterIndex = this.chapterDetails.chapterIndex;
+          this.currentScene.options = null;
+          this.currentScene.optionKey = '';
           const newSceneData = {...resJson} as INewScene
           // set BMG
           this._updateBgm(newSceneData.bgm);
@@ -233,10 +266,28 @@ export const useScriptEngine = defineStore('scriptEngine', {
       }
       this.chapterDetails.history.push(currentEntry);
     },
+    $writeChoiceHistory(obj: {
+      actor: string,
+      choice: string,
+    }){
+
+      const currentEntry: IHistoryEntry = {
+        actorName: '',
+        text: obj.choice,
+        audioPath: '',
+        isChoice: true,
+      }
+
+      if (!(this.chapterDetails.history)){
+        this.chapterDetails.history = [];
+      }
+      this.chapterDetails.history.push(currentEntry);
+    },
     _updateBgm(newBgm: IBGM){
       this.currentScene.activeBmg = newBgm;
     }, 
     _updateBackdrop(newBackdrop: IBackdrop){
+      logger(`_updateBackdrop ${JSON.stringify(newBackdrop)}`);
       if (newBackdrop.path !== ''){
         this.currentScene.backdrop = newBackdrop;
       }
@@ -252,6 +303,16 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.currentScene.transitions = newTransitions
     },
     _updateTransition(newTransition: ITransition){
+      const isChoice = (newTransition?._discriminator && newTransition._discriminator === 'IChoice') || false;
+      this.currentScene.isChoice = isChoice;
+
+      if (isChoice && newTransition?.options && newTransition.options.length > 0 && newTransition.optionKey){
+        this._updateOptions(newTransition.options, newTransition.optionKey);
+      }else{
+        this.currentScene.options = null;
+        this.currentScene.optionKey = '';
+      }
+
       this.currentScene.text = {...(newTransition.text)}
       this._updateChars([...(newTransition.chars)])
       this._updateEffect(newTransition.effect || 'off', newTransition.effectData);
@@ -271,6 +332,10 @@ export const useScriptEngine = defineStore('scriptEngine', {
         this.currentScene.effectData = undefined;
       }
     },
+    _updateOptions(newOptoins: IChoice[], key:string){
+      this.currentScene.options = [...newOptoins];
+      this.currentScene.optionKey = key;
+    }
   },
 })
 

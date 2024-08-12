@@ -1,0 +1,22 @@
+{
+  "bgm" : {
+    "path" : "/audio/bgm/bgm.m4a",
+    "forceRestart" : true
+  },
+  "chars" : [],
+  "backdrop" : {
+    "path" : "/backdrop/bg-animated.mp4"
+  },
+  "description" : "React",
+  "initialText": {
+    "speaker": null,
+    "text" : "React, not a framwork btw",
+    "position" : "center",
+    "voice": null,
+    "delay" : {
+      "min": 3000,
+      "default": 5000
+    }
+  },
+  "transitions" : []
+}

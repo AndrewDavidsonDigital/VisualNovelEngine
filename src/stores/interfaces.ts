@@ -14,6 +14,7 @@ export interface IHistoryEntry {
   actorName: string,
   text: string,
   audioPath: string,
+  isChoice?: boolean;
 }
 
 export interface IScriptEngine {
@@ -28,6 +29,9 @@ export interface IChapter {
 }
 
 export interface IScene {
+  isChoice: boolean;
+  optionKey: string;
+  options: IChoice[] | null;
   chapterIndex: number;
   sceneIndex: number;
   transitionIndex: number;
@@ -62,15 +66,25 @@ export interface IInitialText {
     default: number
   }
 }
+
+export type Transition = 'IChoice'
+
 export interface ITransition {
-  chars : IChar[],
+  _discriminator?: Transition,
+  chars: IChar[],
+  optionKey?: string;
+  options?: IChoice[],
   text: IText,
-  delay : {
+  delay?: {
     min: number,
     default: number
   },
   effect?: EffectType,
   effectData?: any,
+}
+export interface IChoice {
+  value : string;
+  jump  : string;
 }
 export interface IText {
   speaker: string,

@@ -1,4 +1,4 @@
-export type StorageKeys = 'illusionEngine_logging' | 'illusionEngine_config' | 'illusionEngine_state';
+export type StorageKeys = 'illusionEngine_logging' | 'illusionEngine_config' | 'illusionEngine_state' | 'illusionEngine_CG';
 
 export function has(key: StorageKeys){
   return window.localStorage.getItem(key) !== null;
@@ -9,7 +9,17 @@ function get(key: StorageKeys){
 }
 
 function set(key: StorageKeys, value: string){
+  console.log(`Storage:\t${key}`)
   return window.localStorage.setItem(key, value);
+}
+
+export function useCurrentGame() {
+  return {
+    'get'  : () => get('illusionEngine_CG'),
+    'set'  : (value: string) => set('illusionEngine_CG', value),
+    '$set' : (value: object) => set('illusionEngine_CG', JSON.stringify(value)),
+    'clear': () => set('illusionEngine_CG', '{}')
+  }
 }
 
 export function useStorage() {
