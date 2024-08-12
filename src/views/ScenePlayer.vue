@@ -26,6 +26,7 @@
   const voiceEngine = useVoiceEngine();
 
   const currentGame = useCurrentGame();
+  const decisions = ref<string[]>([]);
 
   const videoSrc = ref('');
   const isBackdropVideo = ref(true);
@@ -186,6 +187,7 @@
   }
 
   function handleChoice(data: IChoice){
+    decisions.value.push(data.value);
     scriptEngine.progressChoice(data);
     const currentStateString = currentGame.get();
     let currentSate = {
@@ -269,6 +271,7 @@
         :speaker="textInstance.speaker"
         :trigger="triggerToggle"
         :choices="scriptEngine.getChoices"
+        :decisions="decisions"
         @skip="() => skipScene()"
         @progress="() => handleProgress()"
         @toggle-backdrop="(toggleTo) => toggleEffects(toggleTo)"

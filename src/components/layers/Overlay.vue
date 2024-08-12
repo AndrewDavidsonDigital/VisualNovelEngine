@@ -7,6 +7,7 @@
     RefreshIcon,
     EyeIcon,
     BookIcon,
+    GitMergeIcon,
     SkipIcon,
     VolumeIcon,
     SlidersIcon,
@@ -34,6 +35,7 @@
     speaker: string | null,
     trigger: boolean,
     choices?: IChoice[],
+    decisions?: string[],
   }
   const props = defineProps<Props>()
 
@@ -49,9 +51,12 @@
   const isViewBackdrop = ref(false);
   const isSaveLoadSave = ref(false);
 
-  const dialogToggle = ref(false);
+  const historyDialogToggle = ref(false);
+  const decisionDialogToggle = ref(false);
   const optionsDialogToggle = ref(false);
   const saveLoadDialogToggle = ref(false);
+
+  
 
   const history = ref(script.$state.chapterDetails.history);
 
@@ -97,7 +102,11 @@
 
   function historyToggle(){
     if (history.value?.length === 0) return;
-    dialogToggle.value = !dialogToggle.value;
+    historyDialogToggle.value = !historyDialogToggle.value;
+  }
+
+  function decisionToggle(){
+    decisionDialogToggle.value = !decisionDialogToggle.value;
   }
 
   function viewOptions(){
@@ -111,7 +120,7 @@
       if (optionsDialogToggle.value) {
         viewOptions();
       }
-      if (dialogToggle.value) {
+      if (historyDialogToggle.value) {
         historyToggle();
       }
       return;
@@ -188,7 +197,12 @@
 
   function closeHistory(){
     toggleOpening(false);
-    dialogToggle.value = false;
+    historyDialogToggle.value = false;
+  }
+
+  function closeDecision(){
+    toggleOpening(false);
+    decisionDialogToggle.value = false;
   }
 
   function setMenu(to = true){
@@ -276,7 +290,7 @@
   </Modal>
   <Modal
     :id="`history-dialog`"
-    :show="dialogToggle"
+    :show="historyDialogToggle"
     class="scrollbar"
     @click.stop
     @open="() => toggleOpening(true)"
@@ -304,6 +318,27 @@
         </article>
       </template>
       <article class="absolute top-0 right-0 group mr-5 mt-4" @click="closeHistory">
+        <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
+      </article>
+    </section>
+  </Modal>
+  <Modal
+    :id="`decisionTree-dialog`"
+    :show="decisionDialogToggle"
+    class="scrollbar"
+    @click.stop
+    @open="() => toggleOpening(true)"
+    @close="() => toggleOpening(false)"
+  >
+    <section class="flex flex-col p-5 gap-y-2">
+      <article>
+        <div class="border border-solid bg-slate-700/80 w-fit py-2 px-6 rounded-md">Start</div>
+        <template v-for="decicion in props.decisions">
+          <article>\/</article>
+          <div class="border border-solid bg-slate-700/80 w-fit py-2 px-6 rounded-md">{{decicion}}</div>
+        </template>
+      </article>
+      <article class="absolute top-0 right-0 group mr-5 mt-4" @click="closeDecision">
         <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
       </article>
     </section>
@@ -340,6 +375,17 @@
                 { "hover:stroke-orange-400 group-hover:stroke-orange-400": history?.length !== 0 },
               ]'
             />
+          </article>
+        </Clickable>
+        <Clickable>
+          <article 
+            v-show="!isViewBackdrop && (props?.decisions && props.decisions.length > 0)"
+            @click.stop="(event: MouseEvent) => {decisionToggle(); innerClickEvent(event)}"
+            :disabled="history?.length === 0"
+            :class='[
+              "flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg group cursor-pointer",
+            ]'>
+            <GitMergeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
           </article>
         </Clickable>
       </section>

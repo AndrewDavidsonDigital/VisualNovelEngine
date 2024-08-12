@@ -9,7 +9,6 @@ function get(key: StorageKeys){
 }
 
 function set(key: StorageKeys, value: string){
-  console.log(`Storage:\t${key}`)
   return window.localStorage.setItem(key, value);
 }
 

@@ -10,6 +10,7 @@ import CloseIcon from './close.vue';
 import MenuIcon from './package.vue';
 import SaveIcon from './download.vue';
 import LoadIcon from './upload.vue';
+import GitMergeIcon from './git-merge.vue'
 
 export { 
   EyeIcon,
@@ -24,4 +25,5 @@ export {
   MenuIcon,
   SaveIcon,
   LoadIcon,
+  GitMergeIcon,
 };
