@@ -1,0 +1,22 @@
+{
+  "bgm" : {
+    "path" : "/audio/bgm/bgm-story.m4a",
+    "forceRestart" : true
+  },
+  "chars" : [],
+  "backdrop" : {
+    "path" : "/backdrop/bg-animated.mp4"
+  },
+  "description" : "Here we couldn't be bothered writing anything witty as was full of lorem ipsum.",
+  "initialText": {
+    "speaker": null,
+    "text" : "Post Choice contnet be here",
+    "position" : "center",
+    "voice": null,
+    "delay" : {
+      "min": 3000,
+      "default": 5000
+    }
+  },
+  "transitions" : []
+}

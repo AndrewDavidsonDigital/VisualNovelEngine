@@ -384,7 +384,7 @@
         <Clickable :inline="false">
           <button
             class="bg-slate-700/80 px-4 py-2 rounded-sm"
-            @click="() => $emit('choose', choice)"
+            @click.stop="() => $emit('choose', choice)"
           >
             {{ choice.value }}
           </button>

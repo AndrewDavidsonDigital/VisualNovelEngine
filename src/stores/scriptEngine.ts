@@ -38,6 +38,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
         history: [],
       },
       currentScene : {
+        isLastScene: false,
         isChoice: false,
         optionKey: '',
         options: [],
@@ -155,6 +156,10 @@ export const useScriptEngine = defineStore('scriptEngine', {
     },
     progressChoice(choice: IChoice){
       logger(`progressChoice ${JSON.stringify(choice)}`);
+      if (this.currentScene.isLastScene){
+        logger('progressChoice_end');
+        return
+      }
       let nextSceneIndex = this.chapterDetails.scenePaths.indexOf(choice.jump)
       if (nextSceneIndex === -1){
         nextSceneIndex = 0;
@@ -163,13 +168,17 @@ export const useScriptEngine = defineStore('scriptEngine', {
         actor: 'user',
         choice: choice.value,
       });
-      this.__callScene(`${choice.jump}.json`, nextSceneIndex);
+      this.__callScene(`${choice.jump}.json`, 99);
+      logger('progressChoice_CleanUp');
+      this.currentScene.options = [];
+      this.currentScene.optionKey = '';
+      this.currentScene.isChoice = false;
       logger('progressChoice_end');
     },
     progress(){
       logger('progress');
       // escape if we need to choose a choice instead
-      if (this.currentScene.isChoice){
+      if (this.currentScene.isChoice || this.currentScene.isLastScene){
         logger('progress_end');
         return
       }
@@ -219,7 +228,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this.currentScene.options = null;
           this.currentScene.optionKey = '';
           const newSceneData = {...resJson} as INewScene
-          // set BMG
+          
           this._updateBgm(newSceneData.bgm);
           this._updateBackdrop(newSceneData.backdrop);
           this._updateChars(newSceneData.chars);
@@ -227,10 +236,14 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this._updateTransitions(newSceneData.transitions);
           this._updateDescription(newSceneData.description);
           this._updateEffect(newSceneData.initialEffect || 'off', newSceneData.initialEffectData);
-          // set Backdrop
-          // set Chars
-          // set Text
+          
           this.currentScene.transitionIndex = 0;
+
+          if (this.gameScript?.chapters){
+            const isLastChap = this.currentScene.chapterIndex >= (this.gameScript?.chapters.length - 1);
+            const isLastScene = this.currentScene.sceneIndex >= (this.chapterDetails.scenePaths.length -1);
+            this.currentScene.isLastScene = isLastChap && isLastScene;
+          }
         })
         .catch(err => {
           console.error(err);

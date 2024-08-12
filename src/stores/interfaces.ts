@@ -29,6 +29,7 @@ export interface IChapter {
 }
 
 export interface IScene {
+  isLastScene: boolean;
   isChoice: boolean;
   optionKey: string;
   options: IChoice[] | null;
