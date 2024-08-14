@@ -16,14 +16,21 @@ POC for a VN engine in the browser or as a install stack to run locally.
 
 * Ensure you have the Requirements installed
 * Open your comandLine of choise to the root directory
-* run the following combination command `yarn boot`
+* For first time runs, run the following combination command `yarn install && yarn boot`
+* For any consecutive runs just `yarn boot` will suffices
 * once completed you should see a message indicating how to access the running dev-server
+
+
 ![Done](./documentation/boot.png)
 
 `yarn boot`, runs the following chain:
 > yarn install
 > yarn test
 > yarn dev
+
+# Features
+
+Comprehensive list of expected features and their completion is available under `Features.md`
 
 # Example Sources Used
 
