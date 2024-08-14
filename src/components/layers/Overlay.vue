@@ -15,6 +15,7 @@
     MenuIcon,
     SaveIcon,
     LoadIcon,
+    DownChevronsIcon,
   } from '@components/icon';
   import Modal from '@components/Modal.vue';
   import Clickable from '@components/Clickable.vue';
@@ -330,11 +331,11 @@
     @open="() => toggleOpening(true)"
     @close="() => toggleOpening(false)"
   >
-    <section class="flex flex-col p-5 gap-y-2">
-      <article>
+    <section class="flex flex-col items-center p-5 gap-y-2">
+      <article class="flex flex-col items-center">
         <div class="border border-solid bg-slate-700/80 w-fit py-2 px-6 rounded-md">Start</div>
         <template v-for="decicion in props.decisions">
-          <article>\/</article>
+          <DownChevronsIcon />
           <div class="border border-solid bg-slate-700/80 w-fit py-2 px-6 rounded-md">{{decicion}}</div>
         </template>
       </article>
