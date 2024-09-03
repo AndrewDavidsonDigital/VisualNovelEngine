@@ -38,6 +38,6 @@ VN engines have a plethora of core features and some custom/optional ones depend
 | Continue | ![Partial](./documentation/partial.svg) | Ability to continue from the exact place the user ended their last session. |
 | Skip Scene Context Explainer | ![Partial](./documentation/partial.svg) | When a user opts to skip a scene / transition, they should be prompted with a small explainer detailing the scene they are skipping |
 | Options - extra | ![Incomplete](./documentation/incomplete.svg) | All games should have other options for how visual texts are displayed |
-| Hisory | ![Incomplete](./documentation/incomplete.svg) | History should clear, or indicate that it is now fragmented, on skip. |
+| History | ![Incomplete](./documentation/incomplete.svg) | History should clear, or indicate that it is now fragmented, on skip. |
 | Layer_3 - Characters | ![Incomplete](./documentation/incomplete.svg) | Ability for characters to be slightly animated while / when they start a line when a change of speaker occurs. |
 | Layer_4 - Choices | ![Partial](./documentation/partial.svg) | Ability to select a branching choice from 1 or more options, and allow for options to be hidden / disabled due to missing previous interactions |
