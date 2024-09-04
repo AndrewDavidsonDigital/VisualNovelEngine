@@ -8,6 +8,7 @@ export default {
   ],
   safelist: [
     'animate-ripple',
+    'dbsv',
   ],
   theme: {
     screens: {

@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* debugging stack visualization */
+.dbsv * {
+    @apply outline outline-1;
+    --debugging-colour: #f87171;
+    outline-color: var(--debugging-colour);
+
+    &:hover {
+        --debugging-colour: #71f891;
+    }
+}
+
 *{
     @apply text-white;
     @apply font-semibold;
