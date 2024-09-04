@@ -340,7 +340,7 @@
         </template>
       </article>
       <article class="absolute top-0 right-0 group mr-5 mt-4" @click="closeDecision">
-        <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
+        <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
       </article>
     </section>
   </Modal>
@@ -424,8 +424,12 @@
       </section>
     </div>
     <section 
-      v-if="props.choices && props.choices.length > 0"
-      class="flex justify-around"
+      v-if="props.choices && props.choices.length > 0 && !isViewBackdrop"
+      :class="[
+        'flex justify-around !duration-[max(var(--dynamicDuration),_500ms)] opacity-0',
+        { 'opacity-100': !timer },
+      ]"
+      :style="{'--dynamicDuration': `${transitionDuration}ms`}"
     >
       <template v-for="choice in props.choices">
         <Clickable :inline="false">
@@ -443,13 +447,13 @@
         <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{props.speaker}}</h3>
         <p class="reveal">
           <span :class="[
-            { '!bg-100_100 !duration-[max(var(--dynamicDuartion),_500ms)]' : trigger },
+            { '!bg-100_100 !duration-[max(var(--dynamicDuration),_500ms)]' : trigger },
             { '[&>span>ruby]:text-opacity-100': trigger && timer },
             { '[&>span>ruby]:!duration-0 [&>span>ruby]:!delay-0': !timer },
             { '[&>span>ruby>rt]:text-opacity-100': trigger && timer },
             { '[&>span>ruby>rt]:!duration-0 [&>span>ruby>rt]:!delay-0': !timer },
             ]"
-            :style="{'--dynamicDuartion': `${transitionDuration}ms`}"
+            :style="{'--dynamicDuration': `${transitionDuration}ms`}"
             v-html="props.text"></span>
         </p>
       </section>

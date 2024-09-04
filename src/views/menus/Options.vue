@@ -53,7 +53,7 @@
   }
   const props = defineProps<Props>()
 
-  function isItterable(thing: any): boolean{
+  function isIterable(thing: any): boolean{
     if (Array.isArray(thing)){
       return true;
     } else if (typeof thing === 'object'){
@@ -235,7 +235,7 @@
           <section class='grid grid-cols-2'>
             <div v-for="(key) in Object.keys(configurables)">
               <h2 class="text-xl">{{resolveLabel(key)}}</h2>
-              <template v-if="isItterable(configurables[key as keyof IConfiguration])">
+              <template v-if="isIterable(configurables[key as keyof IConfiguration])">
                 <template v-if="key === 'audio'">
                   <div v-for="(el) in Object.keys(configurables[key])" class="flex justify-around mx-4">
                     <div class="flex justify-between min-w-32">
