@@ -33,8 +33,11 @@
 
 <template>
   <AudioEngine />
-  <main class="w-screen h-screen overflow-hidden bg-black hidden sm:block">
+  <main class="h-screen overflow-hidden bg-black hidden sm:block">
     <RouterView class="w-full h-full flex flex-col justify-center items-center *:screen-1920p" />
+  </main>
+  <main class="sm:hidden h-screen flex flex-col justify-center items-center">
+    <h1 class="">Engine does not currently support rendering at this size</h1>
   </main>
   <Cursor />
 </template>

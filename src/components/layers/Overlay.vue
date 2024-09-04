@@ -476,7 +476,7 @@
           <span class="transition-colors duration-500 group-hover:text-orange-400">Close</span><CloseIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>
       </Clickable>
-      <Clickable audible>
+      <Clickable>
         <article
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); viewOptions(); innerClickEvent(event)}"
@@ -484,7 +484,7 @@
           <span class="transition-colors duration-500 group-hover:text-orange-400">Options</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>
       </Clickable>
-      <Clickable audible>
+      <Clickable>
         <article
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(true); innerClickEvent(event)}"
@@ -492,7 +492,7 @@
           <span class="transition-colors duration-500 group-hover:text-orange-400">Save</span><SaveIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>
       </Clickable>
-      <Clickable audible>
+      <Clickable>
         <article
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(false); innerClickEvent(event)}"
@@ -500,7 +500,7 @@
           <span class="transition-colors duration-500 group-hover:text-orange-400">Load</span><LoadIcon class="transition-colors duration-500 group-hover:stroke-orange-400"/>
         </article>
       </Clickable>
-      <Clickable audible>
+      <Clickable>
         <article
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); $router.push('/menu'); innerClickEvent(event)}"
