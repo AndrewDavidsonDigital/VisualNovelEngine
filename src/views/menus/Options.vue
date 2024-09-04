@@ -242,16 +242,19 @@
                       <span>{{ resolveLabel(el) }}</span>
                       <span>{{ Math.floor(resolveValue(configurables[key], el) * 100) }}%</span>
                     </div>
-                    <input 
-                      type="range"
-                      name="volume"
-                      min="0" 
-                      max="1" 
-                      step="0.05"
-                      v-model.number="localAudio[el as keyof IAudioConfiguration]"
-                      @input="() => saveOnUpdate(el)"
-                    />
-                    <button v-if="el !== 'bgm'" @click="testAudio(el)" class="min-w-8">Test</button>
+                    <Clickable>
+                      <input 
+                        class="thin-slider"
+                        type="range"
+                        name="volume"
+                        min="0" 
+                        max="1" 
+                        step="0.05"
+                        v-model.number="localAudio[el as keyof IAudioConfiguration]"
+                        @input="() => saveOnUpdate(el)"
+                      />
+                    </Clickable>
+                    <Clickable v-if="el !== 'bgm'"><button  @click="testAudio(el)" class="min-w-8">Test</button></Clickable>
                     <div v-else class="min-w-8"></div>
                   </div>
                 </template>
@@ -261,14 +264,17 @@
                       <span>{{ resolveLabel(el) }}</span>
                       <span>{{ speedIndex[(resolveValue(configurables[key], el) * 5) -1 ] }}</span>
                     </div>
-                    <input 
-                      type="range"
-                      name="speed"
-                      min="0.2" 
-                      max="1" 
-                      step="0.2"
-                      v-model.number="localText[el as keyof ITextConfiguraion]"
-                    />
+                    <Clickable>
+                      <input 
+                        class="thin-slider"
+                        type="range"
+                        name="speed"
+                        min="0.2" 
+                        max="1" 
+                        step="0.2"
+                        v-model.number="localText[el as keyof ITextConfiguraion]"
+                      />
+                    </Clickable>
                   </div>
                 </template>
               </template>
@@ -298,3 +304,30 @@
     </div>
   </div>
 </template>
+<style>
+  input[type=range].thin-slider{
+    @apply appearance-none;
+    @apply bg-transparent;
+  }
+
+  input[type=range].thin-slider:focus,
+  input[type=range].thin-slider:hover{
+    @apply outline-none;
+  }
+
+  input[type=range].thin-slider::-webkit-slider-runnable-track{
+    @apply bg-orange-300;
+    @apply h-1;
+    @apply shadow-none border-none;
+  }
+
+  input[type=range].thin-slider::-webkit-slider-thumb{
+    @apply appearance-none;
+
+    @apply bg-orange-400/80;
+    @apply shadow-none border-none;
+    @apply h-4 w-1.5;
+    @apply rotate-[30deg];
+    @apply -mt-1.5;
+  }
+</style>
