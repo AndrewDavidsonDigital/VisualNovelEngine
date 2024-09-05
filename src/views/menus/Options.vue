@@ -12,6 +12,9 @@
   import Clickable from '@components/Clickable.vue'
   import videoSrc from '@assets/video/bg-menu.mp4';
   import { trace as debug } from '@lib/logging';
+  import { 
+    ConfirmDialog,
+  } from '@components/Dialogs';
   const LOGGING_PREFIX = '⚛️OPTIONS:\t';
 
   const speedIndex = Object.freeze([
@@ -34,6 +37,8 @@
   const configurables = config.getConfigurables();
   const localAudio = ref<IAudioConfiguration>(configurables.audio);
   const localText = ref<ITextConfiguraion>(configurables.text);
+
+  const showingConfirmDialog = ref<boolean>(false);
 
   const testingText = Object.freeze({
     speaker: 'Narrator',
@@ -200,6 +205,14 @@
     }, 50);
   }
 
+  function handleGameReset(){
+    showingConfirmDialog.value = true;
+  }
+
+  function resetGame(){
+    console.log('deleting game progress');
+  }
+
   restartText();
 
   // ensure timers are destroyed
@@ -211,7 +224,19 @@
 </script>
 
 <template>
-  <div class="animate-fadeIn">
+  <ConfirmDialog 
+    :message="`This action will irreversibly delete all current game progress; this includes your save files, as well as any unlocks.\n Are you completely sure you wish to proceed`"
+    :show="showingConfirmDialog"
+    :customisation="{
+      centerMessage: true,
+      splitOn: '\n',
+      oktext: 'Yes, Reset GameData',
+    }"
+    @close-ok="() => {showingConfirmDialog = false; resetGame();}"
+    @close-cancel="showingConfirmDialog = false"
+  >
+  </ConfirmDialog>
+  <div class="animate-fadeIn" :class="$attrs.class">
     <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack]'>
       <section class='aspect-video pointer-events-none'>
         <video
@@ -281,24 +306,29 @@
             </div>
           </section>
         </div>
-        <div class="min-h-[20%]">
-          <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass relative'>
-            <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{testingText.speaker}}</h3>
-            <p class="reveal">
-              <span :class="[
-                { '!bg-100_100 !duration-[max(var(--dynamicDuartion),_500ms)]' : trigger },
-                { '[&>span>ruby]:text-opacity-100': trigger && timer },
-                { '[&>span>ruby]:!duration-0 [&>span>ruby]:!delay-0': !timer },
-                { '[&>span>ruby>rt]:text-opacity-100': trigger && timer },
-                { '[&>span>ruby>rt]:!duration-0 [&>span>ruby>rt]:!delay-0': !timer },
-                ]"
-                :style="{'--dynamicDuartion': `${transitionDuration}ms`}"
-                v-html="testingText.text"></span>
-            </p>
-            <LoaderIcon 
-              class="absolute right-0 bottom-0 mr-4 mb-4 animate-spin [animation-duration:_3s]"
-            />
-          </section>
+        <div>
+          <div class="flex justify-end">
+            <Clickable><button @click="handleGameReset()">Reset Game Progress</button></Clickable>
+          </div>
+          <div class="min-h-[20%]">
+            <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass relative'>
+              <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{testingText.speaker}}</h3>
+              <p class="reveal">
+                <span :class="[
+                  { '!bg-100_100 !duration-[max(var(--dynamicDuartion),_500ms)]' : trigger },
+                  { '[&>span>ruby]:text-opacity-100': trigger && timer },
+                  { '[&>span>ruby]:!duration-0 [&>span>ruby]:!delay-0': !timer },
+                  { '[&>span>ruby>rt]:text-opacity-100': trigger && timer },
+                  { '[&>span>ruby>rt]:!duration-0 [&>span>ruby>rt]:!delay-0': !timer },
+                  ]"
+                  :style="{'--dynamicDuartion': `${transitionDuration}ms`}"
+                  v-html="testingText.text"></span>
+              </p>
+              <LoaderIcon 
+                class="absolute right-0 bottom-0 mr-4 mb-4 animate-spin [animation-duration:_3s]"
+              />
+            </section>
+          </div>
         </div>
       </div>
     </div>
