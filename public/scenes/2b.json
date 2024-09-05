@@ -1,7 +1,7 @@
 {
-  "bgm": {
-    "path": "",
-    "forceRestart": true
+  "bgm" : {
+    "path" : "/audio/bgm/bgm-story.m4a",
+    "forceRestart" : true
   },
   "chars": [],
   "backdrop": {
