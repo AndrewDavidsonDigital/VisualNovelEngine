@@ -138,6 +138,9 @@ export default {
           maxHeight: '100vh',
           aspectRatio: '16/9',
         },
+        '.animation-forwards':{
+          animationFillMode: 'forwards',
+        }
       })
     }),
   ],

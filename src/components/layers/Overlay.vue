@@ -426,8 +426,7 @@
     <section 
       v-if="props.choices && props.choices.length > 0 && !isViewBackdrop"
       :class="[
-        'flex justify-around !duration-[max(var(--dynamicDuration),_500ms)] opacity-0',
-        { 'opacity-100': !timer },
+        'flex justify-around ![animation-duration:1s] animate-fadeIn animation-forwards !animation-delay-[max(var(--dynamicDuration),_500ms)] opacity-0',
       ]"
       :style="{'--dynamicDuration': `${transitionDuration}ms`}"
     >
