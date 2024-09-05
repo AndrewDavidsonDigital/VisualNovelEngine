@@ -4,11 +4,22 @@
   import videoSrc from '@assets/video/bg-menu.mp4';
   import Clickable from '@components/Clickable.vue';
   import { useCurrentGame } from '@lib/storage';
+  import { 
+    useBgmEngine, 
+  } from '&audio'
+  import router from '../../router';
 
   const currentGame = useCurrentGame();
+  const bgmEngine = useBgmEngine();
+  const preserveAudioRoutes = ['/', '/options']
+
+  const firstStart = preserveAudioRoutes.indexOf(router.currentRoute.value.meta?.previousPath as string) !== -1 || false;
 
   onMounted(() => {
     currentGame.clear();
+    if (!firstStart){
+      bgmEngine.setTrack('/audio/bgm/bgm.m4a');
+    }
   });
 </script>
 

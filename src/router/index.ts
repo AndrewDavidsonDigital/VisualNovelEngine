@@ -52,9 +52,10 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
+  to.meta['previousPath'] = from.path;
   const cc = useCustomCursor();
   cc.clear();
   next();
-})
+});
 
 export default router;
