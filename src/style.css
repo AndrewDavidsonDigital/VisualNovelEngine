@@ -48,3 +48,8 @@ button:disabled{
 ::selection{
     @apply text-inherit;
 }
+
+
+* {
+    --text-color: #23282d;
+}

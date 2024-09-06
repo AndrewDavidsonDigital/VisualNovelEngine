@@ -7,7 +7,7 @@ interface ILoggingConfig {
 
 const loggingStorage = useLogging();
 
-const loggingConfig = JSON.parse((loggingStorage.get() || '{ "trace": true, "debug": true }')) as ILoggingConfig;;
+const loggingConfig = JSON.parse((loggingStorage.get() || '{ "trace": true, "debug": true }')) as ILoggingConfig;
 loggingStorage.set(JSON.stringify(loggingConfig));
 
 export function trace(message: string){  

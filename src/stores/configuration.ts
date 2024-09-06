@@ -23,7 +23,7 @@ export interface IConfiguration {
   text: ITextConfiguraion;
   bar: String;
   baz: String;
-};
+}
 export interface ITextConfiguraion {
   displayRatio: number,
   autoWaitRatio: number,
