@@ -160,7 +160,7 @@
           </Clickable>
         </section>
         <section class='grid grid-cols-2 gap-20 p-10' :data-modalOpen="showingConfirmDialog || showingSaveDialog">
-          <div v-for="(save, index) in allSaves">
+          <div v-for="(save, index) in allSaves" :key="`saveCards_${index}`">
             <SceneCard
               :chapter="save.chapterIndex"
               :scene="save.sceneIndex"

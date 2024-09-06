@@ -215,7 +215,7 @@
   function resolveMimeType () {
     const extension = videoSrc.value.substring(videoSrc.value.lastIndexOf('.')); // result will incldue the period
     // trace(`${LOGGING_PREFIX}ext =  ${extension}` );
-    if (SUPPORTERD_MIMES.hasOwnProperty(extension)){
+    if (Object.prototype.hasOwnProperty.call(SUPPORTERD_MIMES, extension)){
       return SUPPORTERD_MIMES[extension as keyof ISupportedMimes];
     }
     return '.mp4'

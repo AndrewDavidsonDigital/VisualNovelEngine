@@ -52,7 +52,7 @@ function pluckKeys(collection: {[x:string]: any}, keys: string[] | readonly stri
   const retval: {[x:string]: any} = {};
 
   keys.forEach((key) => {
-    if (collection.hasOwnProperty(key)){
+    if (Object.prototype.hasOwnProperty.call(collection, key)){
       if (typeof collection[key] === 'object'){
         retval[key] = {...collection[key]};
       } else if (Array.isArray(collection[key])) {

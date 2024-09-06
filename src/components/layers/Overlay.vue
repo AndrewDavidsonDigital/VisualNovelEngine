@@ -57,7 +57,7 @@
   const optionsDialogToggle = ref(false);
   const saveLoadDialogToggle = ref(false);
 
-  
+  const instantiationDate = Date.now();
 
   const history = ref(script.$state.chapterDetails.history);
 
@@ -298,7 +298,7 @@
     @close="() => toggleOpening(false)"
   >
     <section class="flex flex-col p-5 gap-y-2">
-      <template v-for="entry in history">
+      <template v-for="(entry, index) in history" :key="`history_${index}__${instantiationDate}`">
         <article class="grid grid-cols-[8rem,_1fr] gap-4">
           <div class="flex justify-start h-fit items-center gap-x-1 ml-[2%]">
             <p class="text-xl text-orange-400">{{ entry.actorName }}</p>
@@ -334,9 +334,9 @@
     <section class="flex flex-col items-center p-5 gap-y-2">
       <article class="flex flex-col items-center">
         <div class="border border-solid bg-slate-700/80 w-fit py-2 px-6 rounded-md">Start</div>
-        <template v-for="decicion in props.decisions">
+        <template v-for="(decision, index) in props.decisions"  :key="`decision_${index}__${instantiationDate}`">
           <DownChevronsIcon />
-          <div class="border border-solid bg-slate-700/80 w-fit py-2 px-6 rounded-md">{{decicion}}</div>
+          <div class="border border-solid bg-slate-700/80 w-fit py-2 px-6 rounded-md">{{decision}}</div>
         </template>
       </article>
       <article class="absolute top-0 right-0 group mr-5 mt-4" @click="closeDecision">
@@ -430,7 +430,7 @@
       ]"
       :style="{'--dynamicDuration': `${transitionDuration}ms`}"
     >
-      <template v-for="choice in props.choices">
+      <template v-for="(choice, index) in props.choices" :key="`choices_${index}__${instatiationDate}`">
         <Clickable :inline="false">
           <button
             class="bg-slate-700/80 px-4 py-2 rounded-sm"

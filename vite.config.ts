@@ -22,7 +22,7 @@ export default defineConfig({
     name: 'Illusion-Engine',
     root: './',
     environment: 'node',
-    include: ['**\/*.{test,spec,unit}.?(c|m)[jt]s?(x)'],
+    include: ['**/*.{test,spec,unit}.?(c|m)[jt]s?(x)'],
     watch: false,
   },
   plugins: [vue()],
