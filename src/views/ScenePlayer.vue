@@ -14,6 +14,7 @@
   import Effectslay, { EffectExtraDataType, EffectType } from '@components/layers/Effectslay.vue';
   import { trace } from '@lib/logging';
   import { useCurrentGame } from '@lib/storage';
+  import Versioning from '../Versioning.vue'
   const LOGGING_PREFIX = '🖼️ScenePlayer:\t';
 
 
@@ -277,6 +278,7 @@
         @toggle-backdrop="(toggleTo) => toggleEffects(toggleTo)"
         @choose="(data) => handleChoice(data)"
       />
+      <Versioning />
     </div>
   </div>
 </template>

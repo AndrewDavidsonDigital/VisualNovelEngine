@@ -8,6 +8,7 @@
     useBgmEngine, 
   } from '&audio'
   import router from '../../router';
+  import Versioning from '../../Versioning.vue';
 
   const currentGame = useCurrentGame();
   const bgmEngine = useBgmEngine();
@@ -40,6 +41,7 @@
         <Navigation />
         <Clickable><RouterLink to="/" class="hover:text-orange-400">Restart</RouterLink></Clickable>
       </section>
+      <Versioning />
     </div>
   </div>
 </template>

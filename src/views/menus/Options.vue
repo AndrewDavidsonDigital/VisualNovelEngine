@@ -15,6 +15,7 @@
   import { 
     ConfirmDialog,
   } from '@components/Dialogs';
+  import Versioning from '../../Versioning.vue';
   const LOGGING_PREFIX = '⚛️OPTIONS:\t';
 
   const speedIndex = Object.freeze([
@@ -331,6 +332,7 @@
           </div>
         </div>
       </div>
+      <Versioning v-if="!(props.routeless)"/>
     </div>
   </div>
 </template>
