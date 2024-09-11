@@ -1,15 +1,16 @@
 {
   "name": "illusion_engine",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "dev": "yarn resolveVersion && vite",
+    "build": "vue-tsc && yarn resolveVersion && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "boot": "yarn && yarn test && yarn dev --host",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "boot": "yarn && yarn resolveVersion && yarn test && yarn dev --host",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "resolveVersion": "node ./build/extractVersion.js"
   },
   "dependencies": {
     "pinia": "^2.0.21",

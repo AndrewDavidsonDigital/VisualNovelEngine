@@ -26,3 +26,4 @@ dist-ssr
 .yarnrc
 .yarn/
 .yarnrc.yml
+src/assets/game.version.json
