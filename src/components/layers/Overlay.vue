@@ -192,8 +192,8 @@
     // trace(`${LOGGING_PREFIX} setTransitionDuration - duration: ${transitionDuration.value}` );
   }
 
-  function toggleOpening (isOppnening: boolean){
-    isModalOpen.value = isOppnening;
+  function toggleOpening (isOpening: boolean){
+    isModalOpen.value = isOpening;
   }
 
   function closeHistory(){
@@ -430,7 +430,7 @@
       ]"
       :style="{'--dynamicDuration': `${transitionDuration}ms`}"
     >
-      <template v-for="(choice, index) in props.choices" :key="`choices_${index}__${instatiationDate}`">
+      <template v-for="(choice, index) in props.choices" :key="`choices_${index}__${instantiationDate}`">
         <Clickable :inline="false">
           <button
             class="bg-slate-700/80 px-4 py-2 rounded-sm"

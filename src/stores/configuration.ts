@@ -10,7 +10,6 @@ labelMap_EN.set('text', 'Text');
 labelMap_EN.set('displayRatio', 'Text Display Speed');
 labelMap_EN.set('autoWaitRatio', 'Auto Wait Duration');
 
-const KEY = 'illusionEngine_config';
 const CONFIG_KEYS = Object.freeze([
   'audio',
   'text',
