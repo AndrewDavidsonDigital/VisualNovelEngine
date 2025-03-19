@@ -146,6 +146,7 @@
   watch(() => localText.value.autoWaitRatio , () => {
     clearTimer();
     setAutoPauseDuration();
+    restartText();
   })
 
   watch(transitionDuration, () => {
