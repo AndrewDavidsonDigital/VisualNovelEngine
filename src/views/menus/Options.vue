@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { nextTick, ref, watch, onBeforeUnmount } from 'vue'
-  import { useConfiguration, IConfiguration, IAudioConfiguration, labelMap_EN, ITextConfiguraion } from '@stores/configuration';
+  import { useConfiguration, IConfiguration, IAudioConfiguration, labelMap_EN, ITextConfiguration } from '@stores/configuration';
   import { 
     useBgmEngine, 
     useSfxEngine,
@@ -37,7 +37,7 @@
 
   const configurables = config.getConfigurables();
   const localAudio = ref<IAudioConfiguration>(configurables.audio);
-  const localText = ref<ITextConfiguraion>(configurables.text);
+  const localText = ref<ITextConfiguration>(configurables.text);
 
   const showingConfirmDialog = ref<boolean>(false);
 
@@ -298,7 +298,7 @@
                         min="0.2" 
                         max="1" 
                         step="0.2"
-                        v-model.number="localText[el as keyof ITextConfiguraion]"
+                        v-model.number="localText[el as keyof ITextConfiguration]"
                       />
                     </Clickable>
                   </div>
@@ -316,13 +316,13 @@
               <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{testingText.speaker}}</h3>
               <p class="reveal">
                 <span :class="[
-                  { '!bg-100_100 !duration-[max(var(--dynamicDuartion),_500ms)]' : trigger },
+                  { '!bg-100_100 !duration-[max(var(--dynamicDuration),_500ms)]' : trigger },
                   { '[&>span>ruby]:text-opacity-100': trigger && timer },
                   { '[&>span>ruby]:!duration-0 [&>span>ruby]:!delay-0': !timer },
                   { '[&>span>ruby>rt]:text-opacity-100': trigger && timer },
                   { '[&>span>ruby>rt]:!duration-0 [&>span>ruby>rt]:!delay-0': !timer },
                   ]"
-                  :style="{'--dynamicDuartion': `${transitionDuration}ms`}"
+                  :style="{'--dynamicDuration': `${transitionDuration}ms`}"
                   v-html="testingText.text"></span>
               </p>
               <LoaderIcon 

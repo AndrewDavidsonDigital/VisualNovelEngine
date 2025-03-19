@@ -19,11 +19,11 @@ const CONFIG_KEYS = Object.freeze([
 
 export interface IConfiguration {
   audio: IAudioConfiguration;
-  text: ITextConfiguraion;
+  text: ITextConfiguration;
   bar: String;
   baz: String;
 }
-export interface ITextConfiguraion {
+export interface ITextConfiguration {
   displayRatio: number,
   autoWaitRatio: number,
 }
