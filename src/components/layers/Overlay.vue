@@ -242,7 +242,7 @@
     @close-ok="showingMessageDialog = false"
   />
   <ConfirmDialog 
-    message="Skipping content in a narative centric game can drastically reduce your enjoyment due to posibly missing key / core information, Are you sure you want to skip?"
+    message="Skipping content in a narrative centric game can drastically reduce your enjoyment due to possibly missing key / core information, Are you sure you want to skip?"
     :show="showingConfirmDialog"
     :customisation="{
       centerMessage: true,
@@ -250,7 +250,7 @@
     @close-ok="(e) => {showingConfirmDialog = false; skipToggle();}"
     @close-cancel="showingConfirmDialog = false"
   >
-    <span class="flex gap-2 justify-center"><input type="checkbox" v-model="confirmDontShowAgain" id="dontShowId"/><p @click="toggleDontShow()">Don't show this next time</p></span>
+    <span class="flex gap-2 justify-center"><input type="checkbox" v-model="confirmDontShowAgain" id="dontShowId" class="focus-visible:!outline-none"/><p @click="toggleDontShow()">Don't show this next time</p></span>
   </ConfirmDialog>
   <Modal
     :id="`saveLoad-dialog`"
@@ -344,8 +344,18 @@
       </article>
     </section>
   </Modal>
+  <section 
+    id="modal_backdrop"
+    class="z-modal-backdrop bg-slate-600/40 transition-all [transition-behavior:_allow-discrete] hidden duration-300 opacity-0"
+    :class="{
+      'open' : showingConfirmDialog || showingMessageDialog,
+    }"
+  >
+
+  </section>
   <section
     class='flex flex-col justify-between px-8 py-4 aspect-video z-10'
+    :class="{'pointer-events-none': showingConfirmDialog || showingMessageDialog }"
     @click.stop="(e) => checkBgClick(e)">
     <div class='flex justify-between px-8 py-4'>
       <section class='flex justify-between px-8 py-4 gap-x-4'>
@@ -459,14 +469,14 @@
     </div>
   </section>
   <aside 
-  :class="[
-    'bg-slate-500/80',
-    ' w-0 max-w-[400px]', 
-    'glass z-menu ml-auto rounded-l-xl',
-    'transition-all duration-500',
-    { '!w-1/4' : isMenuOpen },
-    { 'translate-x-8' : !isMenuOpen },
-  ]">
+    :class="[
+      'bg-slate-500/80',
+      ' w-0 max-w-[400px]', 
+      'glass z-menu ml-auto rounded-l-xl',
+      'transition-all duration-500',
+      { '!w-1/4' : isMenuOpen },
+      { 'translate-x-8' : !isMenuOpen },
+    ]">
     <section class=" px-5 py-10 flex flex-col gap-y-2">
       <Clickable>
         <article
@@ -540,4 +550,20 @@
     @apply !text-sm;
     @apply text-center;
   }
+
+  #modal_backdrop.open{
+    @apply block;
+    @apply opacity-100;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+  
+  #modal_backdrop {
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
 </style>

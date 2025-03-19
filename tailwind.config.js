@@ -27,6 +27,7 @@ export default {
       },
       zIndex:{
         'menu'  : 500,
+        'modal-backdrop' : 999,
         'dialog': 1000,
         'max'   : 10000,
       },
