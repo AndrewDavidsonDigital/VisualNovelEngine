@@ -165,7 +165,7 @@
       timer.value = true;
       timerId.value = -1;
       const id = setTimeout(() => {
-        timmerIsUp();
+        timerIsUp();
         clearTimeout(timerId_auto.value);
       }, autoDuration.value);
       timerId_auto.value = id as unknown as number;
@@ -174,8 +174,8 @@
     timerId.value = id;
   }
 
-  function timmerIsUp(){
-    // trace(`${LOGGING_PREFIX}timeout UP, should auto ${isAuto.value}` );
+  function timerIsUp(){
+    trace(`${LOGGING_PREFIX}timeout UP, should auto ${isAuto.value}` );
     if (isAuto.value){
       $emit('progress');
     }
@@ -247,7 +247,7 @@
     :customisation="{
       centerMessage: true,
     }"
-    @close-ok="(e) => {showingConfirmDialog = false; skipToggle();}"
+    @close-ok="(_e) => {showingConfirmDialog = false; skipToggle();}"
     @close-cancel="showingConfirmDialog = false"
   >
     <span class="flex gap-2 justify-center"><input type="checkbox" v-model="confirmDontShowAgain" id="dontShowId" class="focus-visible:!outline-none"/><p @click="toggleDontShow()">Don't show this next time</p></span>

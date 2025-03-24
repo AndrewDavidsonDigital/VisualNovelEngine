@@ -1,7 +1,7 @@
 import { useConfig } from '@lib/storage';
 import { defineStore } from 'pinia'
 
-export const labelMap_EN = new Map<String, String>();
+export const labelMap_EN = new Map<string, string>();
 labelMap_EN.set('audio', 'Audio');
 labelMap_EN.set('bgm'  , 'Music');
 labelMap_EN.set('sfx'  , 'Effects');
@@ -20,8 +20,8 @@ const CONFIG_KEYS = Object.freeze([
 export interface IConfiguration {
   audio: IAudioConfiguration;
   text: ITextConfiguration;
-  bar: String;
-  baz: String;
+  bar: string;
+  baz: string;
 }
 export interface ITextConfiguration {
   displayRatio: number,
@@ -85,7 +85,7 @@ export const useConfiguration = defineStore('configuration', {
       const localInstance = pluckKeys({...this}, CONFIG_KEYS);      
       useConfig().set(JSON.stringify(localInstance));
     },
-    update(accessPath: string, value: any){
+    update(_accessPath: string, _value: any){
 
       // this['audio']
       // this.audio

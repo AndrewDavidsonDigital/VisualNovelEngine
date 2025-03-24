@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
   import { onMounted, ref } from 'vue'
   import { useCustomCursor } from '@stores/customCursor';
@@ -23,13 +22,13 @@
       cursorEl.style.top = `${curY}px`
     });
 
-    document.addEventListener('click', (e: MouseEvent) => {
+    document.addEventListener('click', (_e: MouseEvent) => {
       shouldAnimate.value = true;
       setTimeout(() => {
         shouldAnimate.value = false;
       }, 500);
     });
-    document.addEventListener('inner-click', (e: any) => {
+    document.addEventListener('inner-click', (_e: any) => {
       shouldAnimate.value = true;
       setTimeout(() => {
         shouldAnimate.value = false;

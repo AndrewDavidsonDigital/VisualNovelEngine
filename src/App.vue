@@ -18,11 +18,11 @@
     config.init();
     scriptEngine.init(gameChapters);
 
-    document.addEventListener('click', (e: MouseEvent) => {
+    document.addEventListener('click', (_e: MouseEvent) => {
       interactionEngine.setAndPlay('/audio/sfx/click_2.wav');
     });
 
-    document.addEventListener('inner-click', (e: any) => {
+    document.addEventListener('inner-click', (_e: any) => {
       interactionEngine.setAndPlay('/audio/sfx/click_2.wav');
     });
 

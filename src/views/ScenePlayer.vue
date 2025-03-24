@@ -23,7 +23,7 @@
 
   const scriptEngine = useScriptEngine()
   const bgmEngine = useBgmEngine();
-  const sfxEngine = useSfxEngine();
+  const _sfxEngine = useSfxEngine();
   const voiceEngine = useVoiceEngine();
 
   const currentGame = useCurrentGame();
@@ -58,7 +58,7 @@
   const VideoMimeExtensions = Object.freeze([
     '.mp4'
   ])
-  const ImageMimeExtensions = Object.freeze([
+  const _ImageMimeExtensions = Object.freeze([
   '.webp',
   '.png',
   '.jpg',
@@ -70,7 +70,7 @@
     '.png': string;
     '.jpg': string,
   }
-  const SUPPORTERD_MIMES: ISupportedMimes = Object.freeze({
+  const SUPPORTED_MIMES: ISupportedMimes = Object.freeze({
     '.mp4': 'video/mp4',
     '.webp': 'image/webp',
     '.png': 'image/png',
@@ -104,7 +104,7 @@
     })
 
     if (el.name === '_updateBgm'){
-      el.after((result) => {
+      el.after((_result) => {
         trace(`${LOGGING_PREFIX}update BGM: \t${JSON.stringify(el.args)}` );
         bgmEngine.fadeOut();
         setTimeout((() => {
@@ -115,21 +115,21 @@
     }
 
     else if (el.name === '_updateBackdrop'){
-      el.after((result) => {
+      el.after((_result) => {
         backdropInstance.value = scriptEngine.getSceneBackdrop;
         trace(`${LOGGING_PREFIX}update Backdrop: \t${JSON.stringify(el.args)}` );
       })
     }
 
     else if (el.name === '_updateChars'){
-      el.after((result) => {
+      el.after((_result) => {
         charInstance.value = scriptEngine.getSceneChars;
         trace(`${LOGGING_PREFIX}update Chars: \t${JSON.stringify(el.args)}` );
       })
     }
 
     else if (el.name === '_updateText'){
-      el.after((result) => {
+      el.after((_result) => {
         triggerToggle.value = false;
         textInstance.value = scriptEngine.getSceneText;
         setTimeout((() => triggerToggle.value = true),300);
@@ -144,7 +144,7 @@
     // }
 
     else if (el.name === '_updateTransition'){
-      el.after((result) => {
+      el.after((_result) => {
         triggerToggle.value = false;
         textInstance.value = scriptEngine.getSceneText;
         setTimeout((() => triggerToggle.value = true),300);
@@ -153,7 +153,7 @@
     }
 
     else if (el.name === '_updateEffect'){
-      el.after((result) => {
+      el.after((_result) => {
         effectName.value = el.args[0] as EffectType;
         if (el.args[1] && el.args[1] !== null){
           effectExtraData.value = el.args[1] as EffectExtraDataType;
@@ -215,9 +215,9 @@
 
   function resolveMimeType () {
     const extension = videoSrc.value.substring(videoSrc.value.lastIndexOf('.')); // result will incldue the period
-    // trace(`${LOGGING_PREFIX}ext =  ${extension}` );
-    if (Object.prototype.hasOwnProperty.call(SUPPORTERD_MIMES, extension)){
-      return SUPPORTERD_MIMES[extension as keyof ISupportedMimes];
+    trace(`${LOGGING_PREFIX}ext =  ${extension}` );
+    if (Object.prototype.hasOwnProperty.call(SUPPORTED_MIMES, extension)){
+      return SUPPORTED_MIMES[extension as keyof ISupportedMimes];
     }
     return '.mp4'
   }

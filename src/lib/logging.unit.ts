@@ -1,6 +1,5 @@
 import { expect, test, beforeEach, vi } from 'vitest';
 import { trace, debug, _testing } from './logging';
-// import { useLogging } from './storage';
 
 // Mock the storage module
 vi.mock('./storage', () => ({
