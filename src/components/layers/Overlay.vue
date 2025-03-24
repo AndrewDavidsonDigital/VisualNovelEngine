@@ -250,7 +250,6 @@
         type="checkbox" 
         v-model="confirmDontShowAgain" 
         id="dontShowId" 
-        class="focus-visible:!outline-none"
         @click.stop
       />
       <label for="dontShowId">
