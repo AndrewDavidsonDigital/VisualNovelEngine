@@ -319,7 +319,7 @@
         </article>
       </template>
       <article class="absolute top-0 right-0 group mr-5 mt-4" @click="closeHistory">
-        <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
+        <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
       </article>
     </section>
   </Modal>
@@ -471,13 +471,13 @@
   <aside 
     :class="[
       'bg-slate-500/80',
-      ' w-0 max-w-[400px]', 
+      'w-0 max-w-[400px]', 
       'glass z-menu ml-auto rounded-l-xl',
       'transition-all duration-500',
       { '!w-1/4' : isMenuOpen },
       { 'translate-x-8' : !isMenuOpen },
     ]">
-    <section class=" px-5 py-10 flex flex-col gap-y-2">
+    <section class="px-5 py-10 flex flex-col gap-y-2">
       <Clickable>
         <article
           @click.stop="(event: MouseEvent) => {setMenu(false); innerClickEvent(event)}"
