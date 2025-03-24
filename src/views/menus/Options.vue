@@ -232,7 +232,7 @@
     :customisation="{
       centerMessage: true,
       splitOn: '\n',
-      oktext: 'Yes, Reset GameData',
+      okText: 'Yes, Reset GameData',
     }"
     @close-ok="() => {showingConfirmDialog = false; resetGame();}"
     @close-cancel="showingConfirmDialog = false"

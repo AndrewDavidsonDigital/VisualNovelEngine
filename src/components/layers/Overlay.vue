@@ -228,11 +228,6 @@
     }
   }
 
-  function toggleDontShow(){
-    const node = document.getElementById('dontShowId') as HTMLInputElement;
-    node.checked = !node.checked;
-  }
-
 </script>
 
 <template>
@@ -248,9 +243,20 @@
       centerMessage: true,
     }"
     @close-ok="(_e) => {showingConfirmDialog = false; skipToggle();}"
-    @close-cancel="showingConfirmDialog = false"
+    @close-cancel="(_e) => {showingConfirmDialog = false; confirmDontShowAgain = false}"
   >
-    <span class="flex gap-2 justify-center"><input type="checkbox" v-model="confirmDontShowAgain" id="dontShowId" class="focus-visible:!outline-none"/><p @click="toggleDontShow()">Don't show this next time</p></span>
+    <span class="flex gap-2 justify-center">
+      <input 
+        type="checkbox" 
+        v-model="confirmDontShowAgain" 
+        id="dontShowId" 
+        class="focus-visible:!outline-none"
+        @click.stop
+      />
+      <label for="dontShowId">
+        <p>Don't show this next time</p>
+      </label>
+    </span>
   </ConfirmDialog>
   <Modal
     :id="`saveLoad-dialog`"
@@ -271,7 +277,7 @@
     >
       LOAD
       <article class="absolute top-0 right-0 group mr-5 mt-4" @click="toggleSaveLoadDialog">
-        <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
+        <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
       </article>
     </section>
   </Modal>

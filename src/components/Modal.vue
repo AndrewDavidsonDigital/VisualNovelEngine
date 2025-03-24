@@ -1,6 +1,9 @@
 <script setup lang="ts">
+  import { trace } from '@lib/logging';
   import { innerClickEvent } from '@lib/mouse';
-import { ref, watch } from 'vue';
+  import { ref, watch } from 'vue';
+
+  const LOGGING_PREFIX = '▫️Modal:\t';
 
   interface Props {
     id: string,
@@ -19,6 +22,7 @@ import { ref, watch } from 'vue';
       dialogRef.value?.blur();
       $emit('open');
     } else {
+      trace(`${LOGGING_PREFIX}closing modal`);
       dialogRef.value?.close()
       $emit('close');
     }

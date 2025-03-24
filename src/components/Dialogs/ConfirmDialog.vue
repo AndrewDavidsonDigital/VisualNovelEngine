@@ -1,15 +1,15 @@
 <script setup lang="ts">
   import Modal from '@components/Modal.vue';
   import Clickable from '@components/Clickable.vue';
-import { ref } from 'vue';
-
+  import { ref } from 'vue';
+  
   interface Props {
     message: string,
     show: boolean,
     data?: any,
     customisation?: {
-      oktext?: string,
-      canceltext?: string,
+      okText?: string,
+      cancelText?: string,
       centerMessage?: boolean,
       splitOn?: string;
     }
@@ -45,8 +45,8 @@ import { ref } from 'vue';
       </div>
       <slot :content="props.data"></slot>
       <div class="inline-flex justify-around">
-        <Clickable><button @click="$emit('close-ok', props.data)" class="px-4 py-2 glass-sm rounded-md">{{ props.customisation?.oktext ? props.customisation.oktext : 'Ok'}}</button></Clickable>
-        <Clickable><button @click="$emit('close-cancel')"  class="px-4 py-2 glass-sm rounded-md">{{ props.customisation?.canceltext ? props.customisation.canceltext : 'Cancel'}}</button></Clickable>
+        <Clickable><button @click="(_e) => $emit('close-ok', props.data)" class="px-4 py-2 glass-sm rounded-md">{{ props.customisation?.okText ? props.customisation.okText : 'Ok'}}</button></Clickable>
+        <Clickable><button @click="(_e) => $emit('close-cancel')"  class="px-4 py-2 glass-sm rounded-md">{{ props.customisation?.cancelText ? props.customisation.cancelText : 'Cancel'}}</button></Clickable>
       </div>
     </section>
   </Modal>
