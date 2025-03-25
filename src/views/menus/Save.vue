@@ -5,7 +5,7 @@
   import InputDialog from '@components/Dialogs/InputDialog.vue';
   import SceneCard from '@components/SceneCard.vue';
   import videoSrc from '@assets/video/bg-menu.mp4';
-  import { innerClickEvent } from '@lib/mouse';
+  import { innerInteractionEvent } from '@lib/interactions';
   import { useScriptEngine } from '@stores/scriptEngine';
   import {
     CloseIcon,
@@ -124,7 +124,7 @@
 </script>
 
 <template>
-  <div class="animate-fadeIn" @click.stop="(event: MouseEvent) => innerClickEvent(event)">
+  <div class="animate-fadeIn" @click.stop="(event: MouseEvent) => innerInteractionEvent(event)">
     <InputDialog 
       message="This will overwrite your existing save, Are you sure you wish to overwrite this?"
       :data="saveDialogData"

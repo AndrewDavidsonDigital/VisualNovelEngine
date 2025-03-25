@@ -22,7 +22,7 @@
   import Clickable from '@components/Clickable.vue';
   import Option from '@views/menus/Options.vue';
   import Save from '@views/menus/Save.vue';
-  import { innerClickEvent } from '@lib/mouse';
+  import { innerInteractionEvent } from '@lib/interactions';
   import { 
     ConfirmDialog,
     MessageDialog,
@@ -116,7 +116,7 @@
   }
 
   function checkBgClick(event: MouseEvent){
-    innerClickEvent(event);
+    innerInteractionEvent(event);
 
     if (isModalOpen.value){
       if (optionsDialogToggle.value) {
@@ -222,7 +222,7 @@
 
   // eslint-disable-next-line no-undef
   function handleSkipClick(event: MouseEvent | KeyboardEvent){
-    innerClickEvent(event)
+    innerInteractionEvent(event)
     if (confirmDontShowAgain.value){
       skipToggle();
     } else {
@@ -382,8 +382,8 @@
         <Clickable>
           <article 
             v-show="!isViewBackdrop"
-            @click.stop="(event: MouseEvent) => {historyToggle(); innerClickEvent(event)}"
-            @keydown.space="(event: KeyboardEvent) => {historyToggle(); innerClickEvent(event)}"
+            @click.stop="(event: MouseEvent) => {historyToggle(); innerInteractionEvent(event)}"
+            @keydown.space="(event: KeyboardEvent) => {historyToggle(); innerInteractionEvent(event)}"
             tabindex="1"
             :disabled="history?.length === 0"
             :class='[
@@ -401,8 +401,8 @@
         <Clickable>
           <article 
             v-show="!isViewBackdrop && (props?.decisions && props.decisions.length > 0)"
-            @click.stop="(event: MouseEvent) => {decisionToggle(); innerClickEvent(event)}"
-            @keydown.space="(event: KeyboardEvent) => {decisionToggle(); innerClickEvent(event)}"
+            @click.stop="(event: MouseEvent) => {decisionToggle(); innerInteractionEvent(event)}"
+            @keydown.space="(event: KeyboardEvent) => {decisionToggle(); innerInteractionEvent(event)}"
             tabindex="1"
             :disabled="history?.length === 0"
             :class='[
@@ -416,8 +416,8 @@
         <Clickable>
           <article 
             v-show="!isViewBackdrop"
-            @click.stop="(event: MouseEvent) => {autoToggle(); innerClickEvent(event)}"
-            @keydown.space="(event: KeyboardEvent) => {autoToggle(); innerClickEvent(event)}"
+            @click.stop="(event: MouseEvent) => {autoToggle(); innerInteractionEvent(event)}"
+            @keydown.space="(event: KeyboardEvent) => {autoToggle(); innerInteractionEvent(event)}"
             tabindex="1"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling">
             <RefreshIcon
@@ -433,8 +433,8 @@
           <article
             v-show="!isViewBackdrop"
             tabindex="1"
-            @click.stop="(event: MouseEvent) => {viewBackdropToggle(); innerClickEvent(event)}"
-            @keydown.space="(event: KeyboardEvent) => {viewBackdropToggle(); innerClickEvent(event)}"
+            @click.stop="(event: MouseEvent) => {viewBackdropToggle(); innerInteractionEvent(event)}"
+            @keydown.space="(event: KeyboardEvent) => {viewBackdropToggle(); innerInteractionEvent(event)}"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling">
             <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
           </article>
@@ -443,8 +443,8 @@
           <article
             v-show="!isViewBackdrop"
             tabindex="1"
-            @click.stop="(event: MouseEvent) => {setMenu(); innerClickEvent(event)}"
-            @keydown.space="(event: KeyboardEvent) => {setMenu(); innerClickEvent(event)}"
+            @click.stop="(event: MouseEvent) => {setMenu(); innerInteractionEvent(event)}"
+            @keydown.space="(event: KeyboardEvent) => {setMenu(); innerInteractionEvent(event)}"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling ">
             <MenuIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
           </article>
@@ -506,8 +506,8 @@
     <section class="px-5 py-10 flex flex-col gap-y-2">
       <Clickable>
         <article
-          @click.stop="(event: MouseEvent) => {setMenu(false); innerClickEvent(event)}"
-          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); innerClickEvent(_event)}"
+          @click.stop="(event: MouseEvent) => {setMenu(false); innerInteractionEvent(event)}"
+          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Close</span><CloseIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
@@ -516,8 +516,8 @@
       <Clickable>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="(event: MouseEvent) => {setMenu(false); viewOptions(); innerClickEvent(event)}"
-          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); viewOptions(); innerClickEvent(_event)}"
+          @click.stop="(event: MouseEvent) => {setMenu(false); viewOptions(); innerInteractionEvent(event)}"
+          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); viewOptions(); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Options</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
@@ -526,8 +526,8 @@
       <Clickable>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(true); innerClickEvent(event)}"
-          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); handleSaveLoad(true); innerClickEvent(_event)}"
+          @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(true); innerInteractionEvent(event)}"
+          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); handleSaveLoad(true); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Save</span><SaveIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
@@ -536,8 +536,8 @@
       <Clickable>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(false); innerClickEvent(event)}"
-          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); handleSaveLoad(false); innerClickEvent(_event)}"
+          @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(false); innerInteractionEvent(event)}"
+          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); handleSaveLoad(false); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Load</span><LoadIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
@@ -546,8 +546,8 @@
       <Clickable>
         <article
           v-show="!isViewBackdrop"
-          @click.stop="(event: MouseEvent) => {setMenu(false); $router.push('/menu'); innerClickEvent(event)}"
-          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); $router.push('/menu'); innerClickEvent(_event)}"
+          @click.stop="(event: MouseEvent) => {setMenu(false); $router.push('/menu'); innerInteractionEvent(event)}"
+          @keydown.space="(_event: KeyboardEvent) => {setMenu(false); $router.push('/menu'); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
           class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Title</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>

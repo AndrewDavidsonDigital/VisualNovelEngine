@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { trace } from '@lib/logging';
-  import { innerClickEvent } from '@lib/mouse';
+  import { innerInteractionEvent } from '@lib/interactions';
   import { ref, watch } from 'vue';
 
   const LOGGING_PREFIX = '▫️Modal:\t';
@@ -29,7 +29,7 @@
   })
 
   function checkBackdropClick(event: MouseEvent ){
-    innerClickEvent(event);
+    innerInteractionEvent(event);
     const target = event.target as HTMLElement;
     const bounds = target.getBoundingClientRect()
     const click = {
