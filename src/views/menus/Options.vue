@@ -255,9 +255,8 @@
           <section class="flex justify-between">
             <h1>Options</h1>
             <span class="flex gap-2">
-              <Clickable><h1 @click="saveConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300">Save</h1></Clickable>
-              <Clickable><h1 @click="discardConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300">Back</h1></Clickable>
-            </span>
+              <Clickable class="interactable-styling"><a @click="saveConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl" tabindex="999">Save</a></Clickable>
+              <Clickable class="interactable-styling"><a @click="discardConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl" tabindex="1000">Back</a></Clickable>            </span>
           </section>
           <section class='grid grid-cols-2'>
             <div v-for="(key, index) in Object.keys(configurables)" :key="`options_${index}`">
@@ -269,9 +268,10 @@
                       <span>{{ resolveLabel(el) }}</span>
                       <span>{{ Math.floor(resolveValue(configurables[key], el) * 100) }}%</span>
                     </div>
-                    <Clickable>
+                    <Clickable class="interactable-styling">
                       <input 
                         class="thin-slider"
+                        tabindex="1"
                         type="range"
                         name="volume"
                         min="0" 
@@ -281,7 +281,7 @@
                         @input="() => saveOnUpdate(el)"
                       />
                     </Clickable>
-                    <Clickable v-if="el !== 'bgm'"><button  @click="testAudio(el)" class="min-w-8">Test</button></Clickable>
+                    <Clickable v-if="el !== 'bgm'" class="interactable-styling"><button  @click="testAudio(el)" tabindex="1" class="min-w-8">Test</button></Clickable>
                     <div v-else class="min-w-8"></div>
                   </div>
                 </template>
@@ -291,9 +291,10 @@
                       <span>{{ resolveLabel(el) }}</span>
                       <span>{{ speedIndex[(resolveValue(configurables[key], el) * 5) -1 ] }}</span>
                     </div>
-                    <Clickable>
+                    <Clickable class="interactable-styling">
                       <input 
                         class="thin-slider"
+                        tabindex="1"
                         type="range"
                         name="speed"
                         min="0.2" 
@@ -310,7 +311,7 @@
         </div>
         <div>
           <div class="flex justify-end">
-            <Clickable><button @click="handleGameReset()">Reset Game Progress</button></Clickable>
+            <Clickable class="interactable-styling"><button @click="handleGameReset()">Reset Game Progress</button></Clickable>
           </div>
           <div class="min-h-[20%]">
             <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass relative'>
@@ -362,5 +363,28 @@
     @apply h-4 w-1.5;
     @apply rotate-[30deg];
     @apply -mt-1.5;
+  }
+</style>
+
+<style scoped>
+  .interactable-styling{
+     > * {
+      &:focus-visible, &:hover {
+        @apply text-rose-400;
+      }
+      &:focus-visible, &:focus {
+        @apply !outline-none;
+      }
+    }
+    > input[type=range].thin-slider {
+      &:focus-visible, &:hover{
+        &::-webkit-slider-thumb{
+          @apply !bg-rose-400;
+        }
+        &::-webkit-slider-runnable-track{
+          @apply !bg-rose-400;
+        }
+      }
+    }
   }
 </style>

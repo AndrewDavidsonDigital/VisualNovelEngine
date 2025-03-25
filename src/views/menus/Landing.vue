@@ -39,10 +39,24 @@
       </section>
       <section class='flex justify-between px-8 py-4 aspect-video z-10'>
         <Navigation />
-        <Clickable><RouterLink to="/" class="hover:text-orange-400">Restart</RouterLink></Clickable>
+        <Clickable class="interactable-styling"><RouterLink to="/" class="hover:text-orange-400">Restart</RouterLink></Clickable>
       </section>
       <Versioning />
     </div>
   </div>
 </template>
 
+
+
+<style scoped>
+  .interactable-styling{
+     > * {
+      &:focus-visible, &:hover {
+        @apply text-orange-400;
+      }
+      &:focus-visible, &:focus {
+        @apply !outline-none;
+      }
+    }
+  }
+</style>
