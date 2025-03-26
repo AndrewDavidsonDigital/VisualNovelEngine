@@ -72,7 +72,12 @@
       "chars" : [
         {
           "name" : "Aoko",
-          "img" : "Aoko.png",
+          "path" : "/char/Aoko.png",
+          "location": "center"
+        },
+        {
+          "name" : "Shiki",
+          "path" : "/char/Shiki.webp",
           "location": "center"
         }
       ],
