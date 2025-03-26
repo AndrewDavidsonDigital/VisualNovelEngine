@@ -64,6 +64,7 @@ import { onMounted, ref, watch } from 'vue';
     v-show="props.visible || isPermaVisible"
     class="z-10 *:size-full"
     ref="layerRef"
+    data-layer="effects"
   >
     <Transition>
       <section 

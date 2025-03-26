@@ -362,6 +362,7 @@
     class='flex flex-col justify-between px-8 py-4 aspect-video z-10'
     :class="{'pointer-events-none': showingConfirmDialog || showingMessageDialog }"
     @click.stop="(e) => checkBgClick(e)"
+    data-layer="overlay"
   >
     <div class='flex justify-between px-8 py-4'>
       <section class='flex justify-between px-8 py-4 gap-x-4'>

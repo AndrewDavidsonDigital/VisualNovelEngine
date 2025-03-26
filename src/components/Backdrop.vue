@@ -13,7 +13,10 @@
 </script>
 
 <template>
-  <section class='aspect-video pointer-events-none w-fit grid [grid-template-areas:_"stack"] *:[grid-area:_stack]'>
+  <section 
+    class='aspect-video pointer-events-none w-fit grid [grid-template-areas:_"stack"] *:[grid-area:_stack]'
+    data-layer="backdrop"
+  >
     <Transition>
       <video
         v-if="props.isVideo"
