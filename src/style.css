@@ -53,3 +53,14 @@ button:disabled{
 * {
     --text-color: #23282d;
 }
+
+.scrollbar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+}
+.scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-orange-400;
+    @apply rounded-lg
+}
+.scrollbar::-webkit-scrollbar {
+    @apply w-[0.5em];
+}

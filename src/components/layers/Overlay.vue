@@ -558,22 +558,12 @@
 </template>
 
 <style>
-  .scrollbar::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
-  }
-  .scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-orange-400;
-    @apply rounded-lg
-  }
-  .scrollbar::-webkit-scrollbar {
-    @apply w-[0.5em];
-  }
-
   .reveal {
     ruby, rt, rp {
       @apply text-orange-300 text-opacity-0;
       @apply transition-colors duration-300;
     }
+
     > span {
       @apply inline transition-all ease-linear text-white/0 duration-0;
       @apply text-xl bg-0_100;
@@ -586,6 +576,10 @@
     @apply !text-sm;
     @apply text-center;
   }
+</style>
+
+<style scoped>
+
 
   #modal_backdrop.open{
     @apply block;
@@ -595,16 +589,12 @@
       opacity: 0;
     }
   }
-  
+
   #modal_backdrop {
     @starting-style {
       opacity: 0;
     }
   }
-
-</style>
-
-<style scoped>
   .interactable-styling{
     &:focus-visible {
       @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-500/80

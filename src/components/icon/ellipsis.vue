@@ -9,7 +9,6 @@
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class="feather feather-more-horizontal"
   >
     <circle cx="12" cy="12" r="1" class="dot dot-1"></circle>
     <circle cx="19" cy="12" r="1" class="dot dot-2"></circle>
@@ -18,25 +17,25 @@
 </template>
 
 <style scoped>
-.dot {
-  transform-origin: center;
-  animation: bounce 1.4s infinite ease-in-out;
-}
-
-.dot-1 {
-  animation-delay: -0.32s;
-}
-
-.dot-2 {
-  animation-delay: -0.16s;
-}
-
-@keyframes bounce {
-  0%, 80%, 100% { 
-    transform: translateY(0);
+  .dot {
+    transform-origin: center;
+    animation: bounce 1.4s infinite ease-in-out;
   }
-  40% { 
-    transform: translateY(-4px);
+
+  .dot-1 {
+    animation-delay: -0.18s;
   }
-}
+
+  .dot-2 {
+    animation-delay: -0.32s;
+  }
+
+  @keyframes bounce {
+    0%, 80%, 100% { 
+      transform: translateY(0);
+    }
+    40% { 
+      transform: translateY(-4px);
+    }
+  }
 </style> 
