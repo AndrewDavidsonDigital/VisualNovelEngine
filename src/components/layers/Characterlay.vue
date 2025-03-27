@@ -1,25 +1,17 @@
 <script setup lang="ts">
   import { IChar } from '@stores/interfaces';
-  import { computed, watch } from 'vue';
-  import { ref } from 'vue';
+  import { computed } from 'vue';
 
   interface Props {
     characters: IChar[],
   }
   const props = defineProps<Props>()
 
-  const cssConfig = ref({
-    columnCount: props.characters.length || 0,
-  })
 
   const instantiationDate = Date.now();
 
   const charCount = computed(() => {
     return props.characters.length;
-  })
-
-  watch(charCount, (newVal: number) => {
-    cssConfig.value.columnCount = newVal;
   })
 
 </script>
@@ -37,6 +29,6 @@
 
 <style scoped>
   .dynamic-grid {
-    grid-template-columns: 15% repeat( v-bind('cssConfig.columnCount'), 1fr) 15%;
+    grid-template-columns: 15% repeat( v-bind('charCount'), 1fr) 15%;
   }
 </style>
