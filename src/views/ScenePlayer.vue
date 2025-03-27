@@ -97,6 +97,7 @@
 
   scriptEngine.$onAction((el)=> {
     const startTime = Date.now()
+    trace(`${LOGGING_PREFIX} $onAction: \t${el.name}` );
     el.onError((error) => {
       console.warn(
         `Failed "${el.name}" after ${Date.now() - startTime}ms.\nError: ${error}.`
@@ -164,6 +165,20 @@
       })
     }
 
+    else if (el.name === '_loadCallback'){
+      el.after((_result) => {
+        trace(`${LOGGING_PREFIX}loadCallback: \t${JSON.stringify(el.args)}` );
+        // ensure bgm is reset post load.
+        bgmEngine.fadeOut();
+        setTimeout((() => {
+          bgmEngine.setTrack(scriptEngine.getSceneBGM.path);
+          bgmEngine.fadeUp();
+        }),1000);
+        // ensure transition index is correct
+        scriptEngine.currentScene.transitionIndex = el.args[0] as number;
+      })
+    }
+
     else { trace(`${LOGGING_PREFIX} OTHER CALL: \t${el.name}` );}
 
   });
@@ -210,7 +225,7 @@
   function skipScene(){
     triggerToggle.value = !(triggerToggle.value);
     setTimeout((() => triggerToggle.value = true),300);
-    scriptEngine.skipFowards();
+    scriptEngine.skipForwards();
   }
 
   function resolveMimeType () {
@@ -244,7 +259,7 @@
 </script>
 
 <template>
-  <div class="animate-fadeIn">
+  <div class="animate-fadeIn !animation-duration-1500">
     <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack] overflow-hidden  w-fit'>
       <!-- Backdrop (AKA Background Layer) -->
       <Backdrop

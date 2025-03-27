@@ -113,6 +113,11 @@ export const useScriptEngine = defineStore('scriptEngine', {
     }
   },
   actions: {
+    _loadCallback(trIndex: number = -1){
+      logger('_loadCallback');
+      logger(`trIndex: ${trIndex}`);
+      // do nothing, this is just a hook
+    },
     loadGameState(state: ISave){
       logger('loadGameState');
       logger(JSON.stringify(state))
@@ -125,17 +130,20 @@ export const useScriptEngine = defineStore('scriptEngine', {
       }
       this.currentScene.sceneIndex = scIndex -1;
       
+      // de-index as we will pre-load one before so player loads NEXT scene (i.e. the one we want.)
+      this.currentScene.transitionIndex = trIndex -1;
+
       this.$loadScene();
 
       setTimeout(() => {
-         // de-index as we will pre-load one before so player loads NEXT scene (i.e. the one we want.)
-        this.currentScene.transitionIndex = trIndex -1;
         const nextTransition: ITransition = this.currentScene.transitions[this.currentScene.transitionIndex];
-        // logger(JSON.stringify(this.currentScene));
-        // logger(JSON.stringify(this.currentScene.transitions));
+        logger(JSON.stringify(this.currentScene));
+        logger(JSON.stringify(this.currentScene.transitions));
+        logger(JSON.stringify(nextTransition));
         this._updateTransition(nextTransition)
+        this._loadCallback(trIndex -1);
       },
-      100);
+      200);
 
     },
     /**
@@ -150,8 +158,8 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.$reset();
       this.gameScript = script;
     },
-    skipFowards(){
-      logger('skipFowards');
+    skipForwards(){
+      logger('skipForwards');
       this.$loadScene();
     },
     progressChoice(choice: IChoice){
@@ -297,6 +305,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.chapterDetails.history.push(currentEntry);
     },
     _updateBgm(newBgm: IBGM){
+      logger(`_updateBgm ${JSON.stringify(newBgm)}`);
       this.currentScene.activeBmg = newBgm;
     }, 
     _updateBackdrop(newBackdrop: IBackdrop){

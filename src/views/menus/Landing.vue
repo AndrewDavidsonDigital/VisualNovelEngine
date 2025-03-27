@@ -9,7 +9,9 @@
   } from '&audio'
   import router from '../../router';
   import Versioning from '../../Versioning.vue';
-
+  import { useScriptEngine } from '@stores/scriptEngine';
+  
+  const scriptEngine = useScriptEngine();
   const currentGame = useCurrentGame();
   const bgmEngine = useBgmEngine();
   const preserveAudioRoutes = ['/', '/options']
@@ -18,6 +20,7 @@
 
   onMounted(() => {
     currentGame.clear();
+    scriptEngine.reset();
     if (!firstStart){
       bgmEngine.setTrack('/audio/bgm/bgm.m4a');
     }
