@@ -136,11 +136,15 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.$loadScene();
 
       setTimeout(() => {
+        logger('loadGameState_timer');
         const nextTransition: ITransition = this.currentScene.transitions[this.currentScene.transitionIndex];
         logger(JSON.stringify(this.currentScene));
         logger(JSON.stringify(this.currentScene.transitions));
-        logger(JSON.stringify(nextTransition));
-        this._updateTransition(nextTransition)
+        if (trIndex !== 0){
+          logger('loadGameState_timer: loading a transition');
+          logger(JSON.stringify(nextTransition));
+          this._updateTransition(nextTransition)
+        }
         this._loadCallback(trIndex -1);
       },
       200);
@@ -325,6 +329,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.currentScene.transitions = newTransitions
     },
     _updateTransition(newTransition: ITransition){
+      logger(`_updateTransition ${JSON.stringify(newTransition)}`);
       const isChoice = (newTransition?._discriminator && newTransition._discriminator === 'IChoice') || false;
       this.currentScene.isChoice = isChoice;
 
