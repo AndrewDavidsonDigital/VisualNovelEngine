@@ -214,11 +214,11 @@
       currentSate = JSON.parse(currentStateString) as IGameState;
     }
 
-    const newChocie: ISelectedChoice = {
+    const newChoice: ISelectedChoice = {
       key: scriptEngine.currentScene.optionKey,
       value: data.value,
     }
-    currentSate.choices.push(newChocie);
+    currentSate.choices.push(newChoice);
     currentGame.$set(currentSate);
   }
 
@@ -260,7 +260,7 @@
 
 <template>
   <div class="animate-fadeIn !animation-duration-1500">
-    <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack] overflow-hidden  w-fit'>
+    <div class='grid grid-stack overflow-hidden  w-fit'>
       <!-- Backdrop (AKA Background Layer) -->
       <Backdrop
         :isVideo="isBackdropVideo"
@@ -297,4 +297,10 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+  .grid-stack {
+    @apply [grid-template-areas:_"stack"] *:[grid-area:_stack];
+  }
+</style>
 
