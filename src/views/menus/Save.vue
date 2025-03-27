@@ -155,7 +155,7 @@
           <h1>Save</h1>
           <Clickable>
             <article class="absolute top-0 right-0 group mr-5 mt-4" @click="handleClose()">
-              <CloseIcon class="group-hover:stroke-orange-500 tranition-colors duration-300 scale-150"/>
+              <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
             </article>
           </Clickable>
         </section>
@@ -164,6 +164,7 @@
             <SceneCard
               :chapter="save.chapterIndex"
               :scene="save.sceneIndex"
+              :transition="save.transitionIndex"
               :title="save.title"
               :disabled="false"
               @click="tryToSave(save.active || false, index)"

@@ -11,6 +11,7 @@ import Clickable from './Clickable.vue';
   interface Props {
     chapter: string | number,
     scene: string | number,
+    transition: string | number,
     title: string,
     disabled: boolean,
   }
@@ -37,8 +38,16 @@ import Clickable from './Clickable.vue';
           >
           <div class="flex flex-col justify-around">
             <span>{{ props.title }}</span>
-            <span>Chapter: {{`${props.chapter}` !== '' ? Number(props.chapter) + 1 : 'TBD' }}</span>
-            <span>Scene: {{ `${props.scene}` !== '' ? Number(props.scene) + 1 : 'TBD'  }}</span>
+            <div>
+              <span>{{`${props.chapter}` !== '' ? Number(props.chapter) + 1 : 'TBD' }}</span><span>-</span>
+              <span>{{`${props.scene}` !== '' ? Number(props.scene) + 1 : 'TBD'  }}</span><span>-</span>
+              <span>{{`${props.transition}` !== '' ? Number(props.transition) + 1 : 'TBD'  }}</span>
+            </div>
+            <!-- <div class="flex gap-2">
+              <span>Chapter: {{`${props.chapter}` !== '' ? Number(props.chapter) + 1 : 'TBD' }}</span>
+              <span>Scene: {{ `${props.scene}` !== '' ? Number(props.scene) + 1 : 'TBD'  }}</span>
+              <span>Transition: {{ `${props.transition}` !== '' ? Number(props.transition) + 1 : 'TBD'  }}</span>
+            </div> -->
           </div>
         </div>
       </Clickable>
