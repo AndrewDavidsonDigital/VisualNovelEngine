@@ -244,7 +244,18 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this._updateBgm(newSceneData.bgm);
           this._updateBackdrop(newSceneData.backdrop);
           this._updateChars(newSceneData.chars);
-          this._updateText(newSceneData.initialText);
+          if (newSceneData.initialText){
+            this._updateText(newSceneData.initialText);
+          }else{
+            const extractedTextFormat: IInitialText = {
+              ...newSceneData.transitions[0].text,
+              delay: newSceneData.transitions[0].delay || {
+                min: 0,
+                default: 0
+              }
+            }
+            this._updateText(extractedTextFormat);
+          }
           this._updateTransitions(newSceneData.transitions);
           this._updateDescription(newSceneData.description);
           this._updateEffect(newSceneData.initialEffect || 'off', newSceneData.initialEffectData);

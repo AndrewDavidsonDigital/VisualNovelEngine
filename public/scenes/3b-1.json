@@ -7,15 +7,19 @@
     "path" : "/backdrop/bg-animated.mp4"
   },
   "description" : "React",
-  "initialText": {
-    "speaker": null,
-    "text" : "React, not a framwork btw",
-    "position" : "center",
-    "voice": null,
-    "delay" : {
-      "min": 3000,
-      "default": 5000
+  "transitions" : [
+    {
+      "chars" : [],
+      "text": {
+        "speaker": null,
+        "text" : "React, not a framework btw",
+        "position" : "center",
+        "voice": null
+      },
+      "delay" : {
+        "min": 3000,
+        "default": 5000
+      }
     }
-  },
-  "transitions" : []
+  ]
 }

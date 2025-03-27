@@ -183,6 +183,7 @@
   }
 
   function setTransitionDuration(force = false){
+    trace(`${LOGGING_PREFIX} setTransitionDuration - text: ${props.text}` );
     const newValue = props.text.length * 10 / config.text.displayRatio;
     // trace(`${LOGGING_PREFIX} setTransitionDuration - length: ${newValue}` );
     if (force && transitionDuration.value === newValue){

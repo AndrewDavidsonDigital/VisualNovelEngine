@@ -8,17 +8,20 @@
     "path": ""
   },
   "description": "Well what do you know, also here we couldn't be bothered writing anything witty as was full of lorem ipsum.",
-  "initialText": {
-    "speaker": null,
-    "text": "In the begining there was only ",
-    "position": "center",
-    "voice": null,
-    "delay": {
-      "min": 3000,
-      "default": 5000
-    }
-  },
   "transitions": [
+    {
+      "chars" : [],
+      "text": {
+        "speaker": null,
+        "text" : "In the beginning there was only",
+        "position" : "center",
+        "voice": null
+      },
+      "delay" : {
+        "min": 3000,
+        "default": 5000
+      }
+    },
     {
       "chars": [],
       "text": {

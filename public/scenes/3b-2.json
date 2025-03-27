@@ -7,15 +7,19 @@
     "path" : "/backdrop/bg-audio-3.mp4"
   },
   "description" : "Vue",
-  "initialText": {
-    "speaker": null,
-    "text" : "View from a mirror",
-    "position" : "center",
-    "voice": null,
-    "delay" : {
-      "min": 3000,
-      "default": 5000
+  "transitions" : [
+    {
+      "chars" : [],
+      "text": {
+        "speaker": null,
+        "text" : "View from a mirror",
+        "position" : "center",
+        "voice": null
+      },
+      "delay" : {
+        "min": 3000,
+        "default": 5000
+      }
     }
-  },
-  "transitions" : []
+  ]
 }

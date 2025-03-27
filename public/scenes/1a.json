@@ -8,16 +8,6 @@
     "path" : "/backdrop/bg-static.png"
   },
   "description" : "In this scene it was presented that at the inception of modern web we were limited by on JQuery.",
-  "initialText": {
-    "speaker": null,
-    "text" : "In the begining there was only ",
-    "position" : "center",
-    "voice": null,
-    "delay" : {
-      "min": 3000,
-      "default": 5000
-    }
-  },
   "initialEffect": "versus",
   "initialEffectData": {
     "_discriminator": "IVersusData",
@@ -25,6 +15,25 @@
     "right" : "/backdrop/_versus_r.jpg"
   },
   "transitions" : [
+    {
+      "chars" : [],
+      "text": {
+        "speaker": null,
+        "text" : "In the beginning there was only",
+        "position" : "center",
+        "voice": null
+      },
+      "delay" : {
+        "min": 3000,
+        "default": 5000
+      },
+      "effect": "versus",
+      "effectData": {
+        "_discriminator": "IVersusData",
+        "left" : "/backdrop/_versus_l.jpg",
+        "right" : "/backdrop/_versus_r.jpg"
+      }
+    },
     {
       "chars" : [],
       "text": {

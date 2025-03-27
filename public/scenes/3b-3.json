@@ -7,15 +7,19 @@
     "path" : "/backdrop/bg-audio-4.mp4"
   },
   "description" : "Svelte",
-  "initialText": {
-    "speaker": null,
-    "text" : "Svelte it, ya delt it",
-    "position" : "center",
-    "voice": null,
-    "delay" : {
-      "min": 3000,
-      "default": 5000
+  "transitions" : [
+    {
+      "chars" : [],
+      "text": {
+        "speaker": null,
+        "text" : "Svelte it, ya delt it",
+        "position" : "center",
+        "voice": null
+      },
+      "delay" : {
+        "min": 3000,
+        "default": 5000
+      }
     }
-  },
-  "transitions" : []
+  ]
 }

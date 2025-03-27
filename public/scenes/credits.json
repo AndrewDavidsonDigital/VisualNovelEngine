@@ -8,15 +8,19 @@
     "path" : "/backdrop/bg-animated.mp4"
   },
   "description" : "The end.",
-  "initialText": {
-    "speaker": null,
-    "text" : "THE END",
-    "position" : "center",
-    "voice": null,
-    "delay" : {
-      "min": 3000,
-      "default": 5000
+  "transitions" : [
+    {
+      "chars" : [],
+      "text": {
+        "speaker": null,
+        "text" : "THE END",
+        "position" : "center",
+        "voice": null
+      },
+      "delay" : {
+        "min": 3000,
+        "default": 5000
+      }
     }
-  },
-  "transitions" : []
+  ]
 }
