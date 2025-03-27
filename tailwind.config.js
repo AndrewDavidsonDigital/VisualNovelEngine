@@ -44,6 +44,10 @@ export default {
         effectGoodBad: 'effectGoodBad 5s linear forwards infinite',
         ripple: 'ripple 0.5s linear',
       },
+      transitionDuration: {
+        '1500': '1500ms',
+        '2000': '2000ms',
+      },
       keyframes: {
         ripple: {
           '0%': { 
@@ -120,6 +124,18 @@ export default {
         },
         {
           values: theme("transitionDelay"),
+        }
+      );
+      matchUtilities(
+        {
+          "animation-duration": (value) => {
+            return {
+              "animation-duration": value,
+            };
+          },
+        },
+        {
+          values: theme("transitionDuration"),
         }
       );
     }),
