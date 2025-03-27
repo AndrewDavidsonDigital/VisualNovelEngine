@@ -2,6 +2,7 @@ import { useConfig } from '@lib/storage';
 import { defineStore } from 'pinia'
 
 export const labelMap_EN = new Map<string, string>();
+labelMap_EN.set('master', 'Master');
 labelMap_EN.set('audio', 'Audio');
 labelMap_EN.set('bgm'  , 'Music');
 labelMap_EN.set('sfx'  , 'Effects');
@@ -29,12 +30,14 @@ export interface ITextConfiguration {
 }
 
 export interface IAudioConfiguration {
+  master: number,
   bgm: number,
   sfx: number,
   voice: number,
 }
 const DEFAULT_STATE: IConfiguration = Object.freeze({
   audio: {
+    master: 1,
     bgm: 0.7,
     sfx: 0.7,
     voice: 0.7,

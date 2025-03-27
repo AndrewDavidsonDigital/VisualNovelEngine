@@ -90,15 +90,21 @@
     const key =  audioKey as keyof IAudioConfiguration;
     nextTick(() => {
       switch(key){
+        case('master'):
+          bgmEngine.setVolume(configurables.audio.bgm * configurables.audio[key]);
+          sfxEngine.setVolume(configurables.audio.sfx * configurables.audio[key]);
+          interactionEngine.setVolume(configurables.audio.sfx * configurables.audio[key]);
+          voiceEngine.setVolume(configurables.audio.voice * configurables.audio[key]);
+          break;
         case('bgm'):
-          bgmEngine.setVolume(configurables.audio[key]);
+          bgmEngine.setVolume(configurables.audio[key] * configurables.audio.master);
           break;
         case('sfx'):
-          sfxEngine.setVolume(configurables.audio[key]);
-          interactionEngine.setVolume(configurables.audio[key]);
+          sfxEngine.setVolume(configurables.audio[key] * configurables.audio.master);
+          interactionEngine.setVolume(configurables.audio[key] * configurables.audio.master);
           break;
         case('voice'):
-          voiceEngine.setVolume(configurables.audio[key]);
+          voiceEngine.setVolume(configurables.audio[key] * configurables.audio.master);
           break;
         default:
       }
