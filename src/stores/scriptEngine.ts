@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { IBgm, IBackdrop, IChar, IChoice, IGameScript, IHistoryEntry, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
+import { IBgm, IBackdrop, IChar, IChoice, IGameScript, IHistoryEntry, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
 import { trace } from '@lib/logging';
 import { EffectType } from '@components/layers/Effectslay.vue';
 
@@ -244,18 +244,10 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this._updateBgm(newSceneData.bgm);
           this._updateBackdrop(newSceneData.backdrop);
           this._updateChars(newSceneData.chars);
-          if (newSceneData.initialText){
-            this._updateText(newSceneData.initialText);
-          }else{
-            const extractedTextFormat: IInitialText = {
-              ...newSceneData.transitions[0].text,
-              delay: newSceneData.transitions[0].delay || {
-                min: 0,
-                default: 0
-              }
-            }
-            this._updateText(extractedTextFormat);
-          }
+          
+          // grab the first transition text as the initial text
+          this._updateText(newSceneData.transitions[0].text);
+
           this._updateTransitions(newSceneData.transitions);
           this._updateDescription(newSceneData.description);
           this._updateEffect(newSceneData.initialEffect || 'off', newSceneData.initialEffectData);
@@ -333,7 +325,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
     _updateChars(newChars: IChar[]){
       this.currentScene.activeChars = newChars
     },
-    _updateText(newText: IInitialText){
+    _updateText(newText: IText){
       this.currentScene.text = newText
       this.$writeHistory();
     },
@@ -371,8 +363,8 @@ export const useScriptEngine = defineStore('scriptEngine', {
         this.currentScene.effectData = undefined;
       }
     },
-    _updateOptions(newOptoins: IChoice[], key:string){
-      this.currentScene.options = [...newOptoins];
+    _updateOptions(newOptions: IChoice[], key:string){
+      this.currentScene.options = [...newOptions];
       this.currentScene.optionKey = key;
     }
   },

@@ -54,18 +54,6 @@ export interface INewScene {
   initialEffect?: EffectType,
   initialEffectData?: EffectExtraDataType,
   transitions: ITransition[];
-  initialText: IInitialText;
-}
-
-export interface IInitialText {
-  speaker: string,
-  text: string,
-  position: Location,
-  voice: string,
-  delay: {
-    min: number,
-    default: number
-  }
 }
 
 export type Transition = 'IChoice'
