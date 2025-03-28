@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { IBGM, IBackdrop, IChar, IChoice, IGameScript, IHistoryEntry, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
+import { IBgm, IBackdrop, IChar, IChoice, IGameScript, IHistoryEntry, IInitialText, INewScene, IScriptEngine, IText, ITransition } from './interfaces';
 import { trace } from '@lib/logging';
 import { EffectType } from '@components/layers/Effectslay.vue';
 
@@ -76,7 +76,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
     },
     getSceneBGM(){
       logger('getSceneBGM');
-      const sceneBgm: IBGM = {...this.currentScene.activeBmg};
+      const sceneBgm: IBgm = {...this.currentScene.activeBmg};
       return sceneBgm;
     },
     getSceneBackdrop(){
@@ -320,7 +320,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
       }
       this.chapterDetails.history.push(currentEntry);
     },
-    _updateBgm(newBgm: IBGM){
+    _updateBgm(newBgm: IBgm){
       logger(`_updateBgm ${JSON.stringify(newBgm)}`);
       this.currentScene.activeBmg = newBgm;
     }, 

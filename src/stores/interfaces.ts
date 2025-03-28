@@ -38,7 +38,7 @@ export interface IScene {
   transitionIndex: number;
   description: string;
   activeChars: Array<IChar>;
-  activeBmg: IBGM;
+  activeBmg: IBgm;
   effect: EffectType;
   effectData?: EffectExtraDataType;
   text: IText;
@@ -48,7 +48,7 @@ export interface IScene {
 
 export interface INewScene {
   chars: IChar[];
-  bgm: IBGM;
+  bgm: IBgm;
   backdrop: IBackdrop;
   description: string;
   initialEffect?: EffectType,
@@ -98,7 +98,7 @@ export interface IBackdrop {
   type: BackdropType;
 }
 
-export interface IBGM {
+export interface IBgm {
   path: string;
   forceRestart?: string;
 }
