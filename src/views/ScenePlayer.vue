@@ -93,7 +93,7 @@
     }
   })
 
-  /******************************Scripture Reactionary functions****************************************/
+  /****************************** ScriptEngine Reactionary functions****************************************/
 
   scriptEngine.$onAction((el)=> {
     const startTime = Date.now()

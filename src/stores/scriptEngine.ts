@@ -260,7 +260,8 @@ export const useScriptEngine = defineStore('scriptEngine', {
           this._updateDescription(newSceneData.description);
           this._updateEffect(newSceneData.initialEffect || 'off', newSceneData.initialEffectData);
           
-          this.currentScene.transitionIndex = 0;
+          // set to 1 as the 0'th index is the initial text and we want to start with the first transition  
+          this.currentScene.transitionIndex = 1;
 
           if (this.gameScript?.chapters){
             const isLastChap = this.currentScene.chapterIndex >= (this.gameScript?.chapters.length - 1);
