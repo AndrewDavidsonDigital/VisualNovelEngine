@@ -2,6 +2,7 @@
 <script setup lang="ts">
   import { useConfiguration } from '@stores/configuration';
   import { onMounted } from 'vue';
+  import router from './router';
     import { 
       useBgmEngine, 
       useSfxEngine,
@@ -25,7 +26,11 @@
 
       bgmEngine.init('_audio_bgm');
       bgmEngine.setVolume(config.audio.bgm * config.audio.master);
-      bgmEngine.setTrack('/audio/bgm/bgm.m4a');
+
+      // only set the track if we are not on the `game` route
+      if (router.currentRoute.value.name !== 'game'){
+        bgmEngine.setTrack('/audio/bgm/bgm.m4a');
+      }
       
       sfxEngine.init('_audio_sfx');
       sfxEngine.setVolume(config.audio.sfx * config.audio.master);
