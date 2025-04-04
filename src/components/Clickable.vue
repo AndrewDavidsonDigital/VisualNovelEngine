@@ -15,12 +15,12 @@
 
 <template>
   <div v-if="!(props.inline)"
-    @mouseenter="customCursor.updateTo('pointer')"
+    @mouseenter="customCursor._updateType('pointer')"
     @mouseleave="customCursor.clear()"
     class="[&>*]:transition-colors [&>*]:duration-200"
   ><slot></slot></div>
   <span v-else
-    @mouseenter="customCursor.updateTo('pointer')"
+    @mouseenter="customCursor._updateType('pointer')"
     @mouseleave="customCursor.clear()"
     class="[&>*]:transition-colors [&>*]:duration-200"
   ><slot></slot></span>

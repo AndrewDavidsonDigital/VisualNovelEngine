@@ -4,14 +4,23 @@
   import {
     NavigationIcon,
   } from '@components/icon';
+  import { useConfiguration } from '@stores/configuration';
 
   const customCursor = useCustomCursor();
   const shouldAnimate = ref(false);
+
+  const config = useConfiguration();
 
   onMounted(() => {
 
     const cursorEl = document.getElementById('cursor') as HTMLDivElement;
     customCursor.init(cursorEl);
+
+    // wait for the config to be read from storage
+    setTimeout(() => {
+      customCursor._updateScale(config.getCursor.scale);
+      customCursor._updateDisplay(config.getCursor.type);
+    }, 100);
 
     document.addEventListener('mousemove', (e: MouseEvent) => {
       const cursorEl = document.getElementById('cursor') as HTMLDivElement;
@@ -54,7 +63,22 @@
   *{
     @apply !cursor-none;
   }
-
+  
+  div#cursor {
+    scale: var(--cursor-scale, 1);
+    --color-default-outer: var(--color-red-500);
+    --color-default-inner: var(--color-orange-500);
+    --color-pointer-outer: var(--color-blue-500);
+    --color-pointer-inner: var(--color-green-500);
+  }
+  
+  div#cursor[cursor-display="monochrome"] {
+    scale: var(--cursor-scale, 1);
+    --color-default-outer: var(--color-white);
+    --color-default-inner: var(--color-slate-500);
+    --color-pointer-outer: var(--color-slate-200);
+    --color-pointer-inner: var(--color-slate-800);
+  }
 
   div#cursor svg[data-icon="navigation"]{
     @apply transition-colors duration-500;
@@ -63,19 +87,19 @@
     }
   }
   div#cursor.default svg[data-icon="navigation"] {
-    @apply stroke-red-500;
-    @apply fill-red-500;
+    stroke: var(--color-default-outer);
+    fill: var(--color-default-inner);
     &> polygon[data-layer="inner"] {
-      @apply stroke-orange-500;
-      @apply fill-orange-500;
+      stroke: var(--color-default-inner);
+      fill: var(--color-default-inner);
     }
   }
   div#cursor.pointer > svg[data-icon="navigation"] {
-    @apply stroke-blue-500;
-    @apply fill-blue-500;
+    stroke: var(--color-pointer-outer);
+    fill: var(--color-pointer-inner);
     & polygon[data-layer="inner"] {
-      @apply stroke-green-500;
-      @apply fill-green-500;
+      stroke: var(--color-pointer-inner);
+      fill: var(--color-pointer-inner);
     }
   }
 

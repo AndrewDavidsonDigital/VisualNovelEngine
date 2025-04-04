@@ -15,7 +15,7 @@
   import { trace } from '@lib/logging';
   import { useCurrentGame } from '@lib/storage';
   import Versioning from '../Versioning.vue'
-  const LOGGING_PREFIX = '🖼️ScenePlayer:\t';
+  const LOGGING_PREFIX = '🖼️ ScenePlayer:\t';
 
 
 

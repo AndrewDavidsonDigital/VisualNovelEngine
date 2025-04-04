@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { nextTick, ref, watch, onBeforeUnmount } from 'vue'
-  import { useConfiguration, IConfiguration, IAudioConfiguration, labelMap_EN, ITextConfiguration } from '@stores/configuration';
+  import { useConfiguration, IConfiguration, IAudioConfiguration, labelMap_EN, ITextConfiguration, ICursorConfiguration } from '@stores/configuration';
   import { 
     useBgmEngine, 
     useSfxEngine,
@@ -16,7 +16,8 @@
     ConfirmDialog,
   } from '@components/Dialogs';
   import Versioning from '../../Versioning.vue';
-import { useStorage } from '@lib/storage';
+  import { useStorage } from '@lib/storage';
+  import { DisplayType, useCustomCursor } from '@stores/customCursor';
   const LOGGING_PREFIX = '⚛️OPTIONS:\t';
 
   const speedIndex = Object.freeze([
@@ -25,6 +26,16 @@ import { useStorage } from '@lib/storage';
     'Average',
     'Faster',
     'Fastest',
+  ])
+  const sizeIndex = Object.freeze([
+    'Small',
+    'Average',
+    'Large',
+    'Largest',
+  ])
+  const typeIndex = Object.freeze([
+    'Default',
+    'Monochrome',
   ])
 
   const router = useRouter()
@@ -36,10 +47,12 @@ import { useStorage } from '@lib/storage';
 
   const config = useConfiguration()
   const stateStorage = useStorage();
+  const customCursor = useCustomCursor();
 
   const configurables = config.getConfigurables();
   const localAudio = ref<IAudioConfiguration>(configurables.audio);
   const localText = ref<ITextConfiguration>(configurables.text);
+  const localCursor = ref<ICursorConfiguration>(configurables.cursor);
 
   const showingConfirmDialog = ref<boolean>(false);
 
@@ -89,7 +102,7 @@ import { useStorage } from '@lib/storage';
   }
 
   function saveOnUpdate(audioKey: string){
-    const key =  audioKey as keyof IAudioConfiguration;
+    const key =  audioKey as (keyof IAudioConfiguration | keyof ICursorConfiguration);
     nextTick(() => {
       switch(key){
         case('master'):
@@ -107,6 +120,20 @@ import { useStorage } from '@lib/storage';
           break;
         case('voice'):
           voiceEngine.setVolume(configurables.audio[key] * configurables.audio.master);
+          break;
+        case('scale'):
+          config._updateCursor(configurables.cursor);
+          customCursor._updateScale(configurables.cursor[key]);
+          debug(`${LOGGING_PREFIX} scale set to: ${configurables.cursor[key]}`);
+          break;
+        case('type'):
+          config._updateCursor({
+            ...configurables.cursor,
+            type: (typeIndex[configurables.cursor[key] - 1]).toLowerCase() as DisplayType,
+          });
+          customCursor._updateDisplay((typeIndex[configurables.cursor[key] - 1]).toLowerCase() as DisplayType);
+          
+          debug(`${LOGGING_PREFIX} type set to: ${configurables.cursor[key]}`);
           break;
         default:
       }
@@ -311,12 +338,54 @@ import { useStorage } from '@lib/storage';
                         tabindex="1"
                         type="range"
                         name="speed"
-                        min="0.2" 
-                        max="1" 
+                        min="0.5" 
+                        max="1.5" 
                         step="0.2"
                         v-model.number="localText[el as keyof ITextConfiguration]"
                       />
                     </Clickable>
+                  </div>
+                </template>
+                <template v-if="key === 'cursor'">
+                  <div v-for="(el, index) in Object.keys(configurables[key])" class="flex justify-around mx-4" :key="`cursor_options_${index}`">
+                    <template v-if="el === 'scale'">
+                      <div class="flex justify-between min-w-72">
+                        <span>{{ resolveLabel(el) }}</span>
+                        <span>{{ sizeIndex[((resolveValue(configurables[key], el) - 0.25) * 4) -1 ] }}</span>
+                        <Clickable class="interactable-styling">
+                          <input 
+                            class="thin-slider"
+                            tabindex="1"
+                            type="range"
+                            name="size"
+                            min="0.75" 
+                            max="1.5" 
+                            step="0.25"
+                            v-model.number="localCursor[el as keyof ICursorConfiguration]"
+                            @input="() => saveOnUpdate(el)"
+                          />
+                        </Clickable>
+                      </div>
+                    </template>
+                    <template v-if="el === 'type'">
+                      <div class="flex justify-between min-w-72">
+                        <span>{{ resolveLabel(el) }}</span>
+                        <span>{{ typeIndex[(resolveValue(configurables[key], el)) -1 ] }}</span>
+                        <Clickable class="interactable-styling">
+                          <input 
+                            class="thin-slider"
+                            tabindex="1"
+                            type="range"
+                            name="size"
+                            min="1" 
+                            max="2" 
+                            step="1"
+                            v-model.number="localCursor[el as keyof ICursorConfiguration]"
+                            @input="() => saveOnUpdate(el)"
+                          />
+                        </Clickable>
+                      </div>
+                    </template>
                   </div>
                 </template>
               </template>
