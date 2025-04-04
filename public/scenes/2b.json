@@ -4,8 +4,8 @@
     "forceRestart" : true
   },
   "chars": [],
-  "backdrop": {
-    "path": ""
+  "backdrop" : {
+    "path" : "/backdrop/bg-animated.mp4"
   },
   "description": "Well what do you know, also here we couldn't be bothered writing anything witty as was full of lorem ipsum.",
   "transitions": [
