@@ -16,6 +16,7 @@
     ConfirmDialog,
   } from '@components/Dialogs';
   import Versioning from '../../Versioning.vue';
+import { useStorage } from '@lib/storage';
   const LOGGING_PREFIX = '⚛️OPTIONS:\t';
 
   const speedIndex = Object.freeze([
@@ -34,6 +35,7 @@
   const voiceEngine = useVoiceEngine()
 
   const config = useConfiguration()
+  const stateStorage = useStorage();
 
   const configurables = config.getConfigurables();
   const localAudio = ref<IAudioConfiguration>(configurables.audio);
@@ -217,7 +219,13 @@
     showingConfirmDialog.value = true;
   }
 
+/*
+  Backup testing Save Data from: 2025-04-04
+  [{"title":"ok","active":true,"chapterIndex":1,"sceneIndex":1,"transitionIndex":0,"dateTime":1743745358809},{"title":"start","active":true,"chapterIndex":0,"sceneIndex":0,"transitionIndex":0,"dateTime":1743747276646},{"title":"Choices","active":true,"chapterIndex":2,"sceneIndex":0,"transitionIndex":0,"dateTime":1743041780032},{"title":"New Save","chapterIndex":"","sceneIndex":"","transitionIndex":"","active":false,"dateTime":1722584085844},{"title":"New Save","chapterIndex":"","sceneIndex":"","transitionIndex":"","active":false,"dateTime":1722584085844},{"title":"New Save","chapterIndex":"","sceneIndex":"","transitionIndex":"","active":false,"dateTime":1722584085844},{"title":"New Save","chapterIndex":"","sceneIndex":"","transitionIndex":"","active":false,"dateTime":1722584085844},{"title":"New Save","chapterIndex":"","sceneIndex":"","transitionIndex":"","active":false,"dateTime":1722584085844},{"title":"asdasdasdasd","active":true,"chapterIndex":0,"sceneIndex":0,"transitionIndex":2,"dateTime":1723285933738},{"title":"testing","active":true,"chapterIndex":0,"sceneIndex":0,"transitionIndex":2,"dateTime":1722592826134}]
+ */
+
   function resetGame(){
+    stateStorage.reset();
     console.log('deleting game progress');
   }
 

@@ -39,7 +39,17 @@ export function useCompleteGame() {
 export function useStorage() {
   return {
     'get': () => get('illusionEngine_state'),
-    'set': (value: string) => set('illusionEngine_state', value)
+    'set': (value: string) => set('illusionEngine_state', value),
+    'reset': () => set('illusionEngine_state', JSON.stringify(
+      Array(10).fill({
+        active: false,
+        chapterIndex: "",
+        dateTime: Date.now(),
+        sceneIndex: "",
+        title: "New Save",
+        transitionIndex: ""
+      })
+    ))
   }
 }
 
