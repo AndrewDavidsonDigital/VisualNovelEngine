@@ -139,7 +139,7 @@
       @close-ok="(e) => {showingConfirmDialog = false; actionSave(e.index);}"
       @close-cancel="showingConfirmDialog = false"
     />
-    <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack]'>
+    <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack]  *:max-w-[97vw]'>
       <section class='aspect-video pointer-events-none'>
         <video
           autoplay
