@@ -300,7 +300,7 @@
               <Clickable class="interactable-styling"><a @click="discardConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl" tabindex="1000">Back</a></Clickable>            </span>
           </section>
           <section class='grid grid-cols-2'>
-            <div v-for="(key, index) in Object.keys(configurables)" :key="`options_${index}`">
+            <div v-for="(key, index) in Object.keys(configurables)" :key="`options_${index}`" :class="{'col-start-2': key === 'cursor'}">
               <h2 class="text-xl">{{resolveLabel(key)}}</h2>
               <template v-if="isIterable(configurables[key as keyof IConfiguration])">
                 <template v-if="key === 'audio'">
@@ -328,31 +328,31 @@
                 </template>
                 <template v-if="key === 'text'">
                   <div v-for="(el, index) in Object.keys(configurables[key])" class="flex justify-around mx-4" :key="`text_options_${index}`">
-                    <div class="flex justify-between min-w-72">
+                    <div class="w-full mx-10 grid grid-cols-[3fr_1fr_2fr]">
                       <span>{{ resolveLabel(el) }}</span>
-                      <span>{{ speedIndex[(resolveValue(configurables[key], el) * 5) -1 ] }}</span>
+                      <span class="justify-self-center">{{ speedIndex[(resolveValue(configurables[key], el) * 5) -1 ] }}</span>
+                      <Clickable class="interactable-styling justify-self-center">
+                        <input 
+                          class="thin-slider"
+                          tabindex="1"
+                          type="range"
+                          name="speed"
+                          min="0.5" 
+                          max="1.5" 
+                          step="0.2"
+                          v-model.number="localText[el as keyof ITextConfiguration]"
+                        />
+                      </Clickable>
                     </div>
-                    <Clickable class="interactable-styling">
-                      <input 
-                        class="thin-slider"
-                        tabindex="1"
-                        type="range"
-                        name="speed"
-                        min="0.5" 
-                        max="1.5" 
-                        step="0.2"
-                        v-model.number="localText[el as keyof ITextConfiguration]"
-                      />
-                    </Clickable>
                   </div>
                 </template>
                 <template v-if="key === 'cursor'">
                   <div v-for="(el, index) in Object.keys(configurables[key])" class="flex justify-around mx-4" :key="`cursor_options_${index}`">
                     <template v-if="el === 'scale'">
-                      <div class="flex justify-between min-w-72">
+                      <div class="w-full mx-10 grid grid-cols-[3fr_1fr_2fr]">
                         <span>{{ resolveLabel(el) }}</span>
-                        <span>{{ sizeIndex[((resolveValue(configurables[key], el) - 0.25) * 4) -1 ] }}</span>
-                        <Clickable class="interactable-styling">
+                        <span class="justify-self-center">{{ sizeIndex[((resolveValue(configurables[key], el) - 0.25) * 4) -1 ] }}</span>
+                        <Clickable class="interactable-styling justify-self-center">
                           <input 
                             class="thin-slider"
                             tabindex="1"
@@ -368,10 +368,10 @@
                       </div>
                     </template>
                     <template v-if="el === 'type'">
-                      <div class="flex justify-between min-w-72">
+                        <div class="w-full mx-10 grid grid-cols-[3fr_1fr_2fr]">
                         <span>{{ resolveLabel(el) }}</span>
-                        <span>{{ typeIndex[(resolveValue(configurables[key], el)) -1 ] }}</span>
-                        <Clickable class="interactable-styling">
+                        <span class="justify-self-center">{{ typeIndex[(resolveValue(configurables[key], el)) -1 ] }}</span>
+                        <Clickable class="interactable-styling justify-self-center">
                           <input 
                             class="thin-slider"
                             tabindex="1"
