@@ -89,8 +89,9 @@ export const useScriptEngine = defineStore('scriptEngine', {
       const saveData: ISaveData = {
         chapterIndex: this.chapterDetails.chapterIndex,
         sceneIndex: this.currentScene.sceneIndex,
-        transitionIndex: this.currentScene.transitionIndex,
+        transitionIndex: this.currentScene.transitionIndex === 0 ? 0 : this.currentScene.transitionIndex - 1,
       };
+      logger(`SAVE: ${JSON.stringify(saveData)}`);
       return saveData;
     },
     getSceneChars(){
@@ -121,33 +122,41 @@ export const useScriptEngine = defineStore('scriptEngine', {
     loadGameState(state: ISave){
       logger('loadGameState');
       logger(JSON.stringify(state))
+      logger('LOAD: state: ' + JSON.stringify(state));
+
       const cpIndex = Number(state.chapterIndex);
       const scIndex = Number(state.sceneIndex);
       const trIndex = Number(state.transitionIndex);
-      if (cpIndex >= 1){
-        this.currentScene.chapterIndex = cpIndex -1;
-        this.chapterDetails.chapterIndex = cpIndex -1;
-      }
+
+      this.currentScene.chapterIndex = cpIndex -1;
+      this.chapterDetails.chapterIndex = cpIndex -1;
+
+      // if (cpIndex >= 1){
+      //   this.currentScene.chapterIndex = cpIndex -1;
+      //   this.chapterDetails.chapterIndex = cpIndex -1;
+      // }
       this.currentScene.sceneIndex = scIndex -1;
+      // this.currentScene.sceneIndex = scIndex;
       
-      // de-index as we will pre-load one before so player loads NEXT scene (i.e. the one we want.)
-      this.currentScene.transitionIndex = trIndex -1;
 
-      this.$loadScene();
+      this.$loadScene(true);
 
-      setTimeout(() => {
-        logger('loadGameState_timer');
-        const nextTransition: ITransition = this.currentScene.transitions[this.currentScene.transitionIndex];
-        logger(JSON.stringify(this.currentScene));
-        logger(JSON.stringify(this.currentScene.transitions));
-        if (trIndex !== 0){
-          logger('loadGameState_timer: loading a transition');
-          logger(JSON.stringify(nextTransition));
-          this._updateTransition(nextTransition)
-        }
-        this._loadCallback(trIndex -1);
-      },
-      200);
+      const timeOutCallback = (cpIndex: number, scIndex: number, trIndex: number) => {
+        logger('LOAD: loadGameState_timer');
+        let nextTransition: ITransition = this.currentScene.transitions[trIndex];
+        logger('LOAD: cd-ch: ' +  JSON.stringify(this.chapterDetails.chapterIndex) + ' vs ' + cpIndex);
+        logger('LOAD: cs-ch: ' +  JSON.stringify(this.currentScene.chapterIndex) + ' vs ' + scIndex);
+        logger('LOAD: sc: ' +  JSON.stringify(this.currentScene.sceneIndex) + ' vs ' + scIndex);
+        logger('LOAD: tr: ' +  JSON.stringify(this.currentScene.transitionIndex) + ' vs ' + trIndex);
+
+        // de-index as we will pre-load one before so player loads NEXT scene (i.e. the one we want.)
+        this.currentScene.transitionIndex = trIndex -1;
+
+        this._updateTransition(nextTransition)
+        this._loadCallback(trIndex);
+      }
+
+      setTimeout(() => timeOutCallback(cpIndex, scIndex, trIndex), 200);
 
     },
     /**
@@ -206,10 +215,11 @@ export const useScriptEngine = defineStore('scriptEngine', {
       logger('progress_end');
     },
     postProgressChapter(){
+      logger('postProgressChapter');
       this.currentScene.sceneIndex = 0;
       this.currentScene.chapterIndex = this.chapterDetails.chapterIndex;
     },
-    $loadScene(){
+    $loadScene(fromGameLoad = false){
       logger('$loadScene');
       let nextSceneIndex = this.currentScene.sceneIndex + 1;
       if (this.chapterDetails.chapterIndex === -1){
@@ -217,7 +227,10 @@ export const useScriptEngine = defineStore('scriptEngine', {
       } else if (this.chapterDetails.chapterIndex !== this.currentScene.chapterIndex 
         || this.currentScene.sceneIndex === -1
         || (this.currentScene.sceneIndex + 1) >= this.chapterDetails.scenePaths.length
-      ) {
+      )
+      if (fromGameLoad){
+        this.$loadChapter();
+      } else {
         this.postProgressChapter();
         this.$loadChapter();
         nextSceneIndex = 0;
@@ -229,6 +242,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this.__callScene(nextScenePath, nextSceneIndex)
     },
     __callScene(scenePath: string, nextSceneIndex: number){
+      logger(`__callScene [${nextSceneIndex}]: ${scenePath}`);
       fetch(scenePath)
         .then((resp) => {
           if (resp.ok) return resp.json();
@@ -318,7 +332,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
     }, 
     _updateBackdrop(newBackdrop: IBackdrop){
       logger(`_updateBackdrop ${JSON.stringify(newBackdrop)}`);
-      if (newBackdrop.path !== ''){
+      if (newBackdrop.path !== '' && newBackdrop.path !== this.currentScene.backdrop.path){
         this.currentScene.backdrop = newBackdrop;
       }
     },
@@ -332,7 +346,7 @@ export const useScriptEngine = defineStore('scriptEngine', {
     _updateTransitions(newTransitions: ITransition[]){
       this.currentScene.transitions = newTransitions
     },
-    _updateTransition(newTransition: ITransition){
+    _updateTransition(newTransition: ITransition, isSilent = false){
       logger(`_updateTransition ${JSON.stringify(newTransition)}`);
       const isChoice = (newTransition?._discriminator && newTransition._discriminator === 'IChoice') || false;
       this.currentScene.isChoice = isChoice;
@@ -349,7 +363,9 @@ export const useScriptEngine = defineStore('scriptEngine', {
       this._updateEffect(newTransition.effect || 'off', newTransition.effectData);
       // add stuff relating to delay limiting
       // this.currentScene
-      this.$writeHistory();
+      if (!isSilent){
+        this.$writeHistory();
+      }
     },
     _updateDescription(newDesc: string){
       this.currentScene.description = newDesc;
