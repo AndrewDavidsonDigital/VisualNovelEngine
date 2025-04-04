@@ -8,8 +8,8 @@
     show: boolean,
     data?: any,
     customisation?: {
-      oktext?: string,
-      canceltext?: string,
+      okText?: string,
+      cancelText?: string,
       labelText?: string,
     }
   }
@@ -42,8 +42,8 @@
         <textarea id="input_dialog_textArea" v-model="inputValue" class="w-full rounded-lg text-slate-700 px-3 py-1 min-h-8 h-8 focus:italic outline-none"></textarea>
       </div>
       <div class="inline-flex justify-around">
-        <Clickable><button @click="$emit('close-ok', {...props.data, input: inputValue })" class="px-4 py-2 glass-sm rounded-md">{{ props.customisation?.oktext ? props.customisation.oktext : 'Ok'}}</button></Clickable>
-        <Clickable><button @click="$emit('close-cancel')"  class="px-4 py-2 glass-sm rounded-md">{{ props.customisation?.canceltext ? props.customisation.canceltext : 'Cancel'}}</button></Clickable>
+        <Clickable><button @click="$emit('close-ok', {...props.data, input: inputValue })" class="px-4 py-2 glass-sm rounded-md">{{ props.customisation?.okText ? props.customisation.okText : 'Ok'}}</button></Clickable>
+        <Clickable><button @click="$emit('close-cancel')"  class="px-4 py-2 glass-sm rounded-md">{{ props.customisation?.cancelText ? props.customisation.cancelText : 'Cancel'}}</button></Clickable>
       </div>
     </section>
   </Modal>
