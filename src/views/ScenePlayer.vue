@@ -4,7 +4,7 @@
   import Overlay from '@components/layers/Overlay.vue';
   import { IBackdrop, IChar, IChoice, IText } from '@stores/interfaces';
   import { useScriptEngine } from '@stores/scriptEngine';
-  import { ref, watch } from 'vue';
+  import { computed, ref, watch } from 'vue';
   import { 
     useBgmEngine,
     useSfxEngine,
@@ -255,6 +255,28 @@
   }
 
   setTimeout( () => firstRun(), 500);
+
+  const chapterIndex = computed(() => {
+    return scriptEngine.currentScene.chapterIndex;
+  })
+  const transitionIndex = computed(() => {
+    return scriptEngine.currentScene.transitionIndex;
+  })
+  const sceneIndex = computed(() => {
+    return scriptEngine.currentScene.sceneIndex;
+  })
+
+  watch(sceneIndex, (newVal, oldVal) => {
+    trace(`LOAD: sceneIndex: \tfrom: ${oldVal} to: ${newVal}` );
+  })
+
+  watch(transitionIndex, (newVal, oldVal) => {
+    trace(`LOAD: transitionIndex: \tfrom: ${oldVal} to: ${newVal}` );
+  })
+
+  watch(chapterIndex, (newVal, oldVal) => {
+    trace(`LOAD: chapterIndex: \tfrom: ${oldVal} to: ${newVal}` );
+  })
 
 </script>
 

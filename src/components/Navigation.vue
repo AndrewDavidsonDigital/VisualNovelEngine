@@ -13,7 +13,7 @@
 
   const stateStorage = useStorage();
 
-  const storageConfig = JSON.parse((stateStorage.get() || '')) as ISave[];
+  const storageConfig = JSON.parse((stateStorage.get() || '[]')) as ISave[];
   // get newest save, based on active AND 
   const hasSaves = (storageConfig
     .filter(save => save.active)

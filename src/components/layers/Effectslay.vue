@@ -122,8 +122,8 @@ import { onMounted, ref, watch } from 'vue';
         class="effects-grid effect-versus"
         :class="props.extraData.ratio"
       >
-        <div class="size-full under"><img :src="props.extraData.left"></div>
-        <div class="size-full over"><img :src="props.extraData.right"></div>
+        <div class="size-full under"><img :src="props.extraData.left" alt=""></div>
+        <div class="size-full over"><img :src="props.extraData.right" alt=""></div>
         <div class="borderEdge"></div>
       </section>
     </Transition>

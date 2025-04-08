@@ -3,9 +3,13 @@ import tseslint from '@typescript-eslint/eslint-plugin';
 import tseslintParser from '@typescript-eslint/parser';
 import vue from 'eslint-plugin-vue';
 import vueParser from 'vue-eslint-parser';
+import pluginVueA11y from "eslint-plugin-vuejs-accessibility";
+
+
 
 export default [
   eslint.configs.recommended,
+  ...pluginVueA11y.configs["flat/recommended"],
   {
     files: ['**/*.vue'],
     languageOptions: {
@@ -22,6 +26,9 @@ export default [
     },
     rules: {
       ...vue.configs['vue3-essential'].rules,
+      'vuejs-accessibility/tabindex-no-positive' : 'off',   // this rules makes no sense
+      'vuejs-accessibility/label-has-for': 'warn',          // currently broken
+      'vuejs-accessibility/media-has-caption': 'warn',      // this is an audio product thus this isn't a valid
       'vue/multi-word-component-names': 'off',
       'no-unused-vars': ['error', { 
         argsIgnorePattern: '^_',

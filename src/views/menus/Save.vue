@@ -101,7 +101,7 @@
     
     const saveIndex = data.index
 
-    
+
     const newSave = {
       title: data.input,
       active : true,
@@ -124,7 +124,11 @@
 </script>
 
 <template>
-  <div class="animate-fadeIn" @click.stop="(event: MouseEvent) => innerInteractionEvent(event)">
+  <div class="animate-fadeIn" 
+    @click.stop="(event: MouseEvent) => innerInteractionEvent(event)"
+    role="presentation"
+    tabindex="0"
+  >
     <InputDialog 
       message="This will overwrite your existing save, Are you sure you wish to overwrite this?"
       :data="saveDialogData"
@@ -154,21 +158,22 @@
         <section class="flex justify-between">
           <h1>Save</h1>
           <Clickable>
-            <article class="absolute top-0 right-0 group mr-5 mt-4" @click="handleClose()">
+            <button class="absolute top-0 right-0 group mr-5 mt-4" @click="handleClose()">
               <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
-            </article>
+            </button>
           </Clickable>
         </section>
         <section class='grid grid-cols-2 gap-20 p-10' :data-modalOpen="showingConfirmDialog || showingSaveDialog">
           <div v-for="(save, index) in allSaves" :key="`saveCards_${index}`">
-            <SceneCard
-              :chapter="save.chapterIndex"
-              :scene="save.sceneIndex"
-              :transition="save.transitionIndex"
-              :title="save.title"
-              :disabled="false"
-              @click="tryToSave(save.active || false, index)"
-            />
+            <button @click="tryToSave(save.active || false, index)" class=" w-full">
+              <SceneCard
+                :chapter="save.chapterIndex"
+                :scene="save.sceneIndex"
+                :transition="save.transitionIndex"
+                :title="save.title"
+                :disabled="false"
+              />
+            </button>
           </div>
         </section>
       </div>

@@ -74,6 +74,7 @@
       </div>
       <img 
         v-else 
+        alt=""
         :src="props.contentSrc" 
         class="max-w-[min(100%,1920px)]"
         key="`${props.contentSrc}-image`"

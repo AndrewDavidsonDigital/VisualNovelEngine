@@ -296,8 +296,9 @@
           <section class="flex justify-between">
             <h1>Options</h1>
             <span class="flex gap-2">
-              <Clickable class="interactable-styling"><a @click="saveConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl" tabindex="999">Save</a></Clickable>
-              <Clickable class="interactable-styling"><a @click="discardConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl" tabindex="1000">Back</a></Clickable>            </span>
+              <Clickable class="interactable-styling"><button @click="saveConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl" tabindex="999">Save</button></Clickable>
+              <Clickable class="interactable-styling"><button @click="discardConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl" tabindex="1000">Back</button></Clickable>
+            </span>
           </section>
           <section class='grid grid-cols-2'>
             <div v-for="(key, index) in Object.keys(configurables)" :key="`options_${index}`" :class="{'col-start-2': key === 'cursor'}">
@@ -315,6 +316,7 @@
                         tabindex="1"
                         type="range"
                         name="volume"
+                        :aria-label="resolveLabel(el)"
                         min="0" 
                         max="1" 
                         step="0.05"
@@ -337,6 +339,7 @@
                           tabindex="1"
                           type="range"
                           name="speed"
+                          :aria-label="resolveLabel(el)"
                           min="0.5" 
                           max="1.5" 
                           step="0.2"
@@ -358,6 +361,7 @@
                             tabindex="1"
                             type="range"
                             name="size"
+                            :aria-label="resolveLabel(el)"
                             min="0.75" 
                             max="1.5" 
                             step="0.25"
@@ -377,6 +381,7 @@
                             tabindex="1"
                             type="range"
                             name="size"
+                            :aria-label="resolveLabel(el)"
                             min="1" 
                             max="2" 
                             step="1"

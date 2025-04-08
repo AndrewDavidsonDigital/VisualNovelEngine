@@ -70,6 +70,7 @@
       backdrop:[transition-behavior:_allow-discrete]
       "
       @click="(e) => checkBackdropClick(e)"
+      role="presentation"
     >
     <slot ></slot>
   </dialog>

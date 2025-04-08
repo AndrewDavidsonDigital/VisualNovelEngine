@@ -221,7 +221,7 @@
     saveLoadDialogToggle.value = false;
   }
 
-  // eslint-disable-next-line no-undef
+   
   function handleSkipClick(event: MouseEvent | KeyboardEvent){
     innerInteractionEvent(event)
     if (confirmDontShowAgain.value){
@@ -252,12 +252,10 @@
       <input 
         type="checkbox" 
         v-model="confirmDontShowAgain" 
-        id="dontShowId" 
+        id="confirmCheckbox"
         @click.stop
       />
-      <label for="dontShowId">
-        <p>Don't show this next time</p>
-      </label>
+      <label for="confirmCheckbox">Don't show this next time</label>
     </span>
   </ConfirmDialog>
   <Modal
@@ -278,9 +276,9 @@
       class="bg-green-500 w-full h-full"
     >
       LOAD
-      <article class="absolute top-0 right-0 group mr-5 mt-4" @click="toggleSaveLoadDialog">
+      <button class="absolute top-0 right-0 group mr-5 mt-4" @click="toggleSaveLoadDialog">
         <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
-      </article>
+      </button>
     </section>
   </Modal>
   <Modal
@@ -311,11 +309,11 @@
           <div class="flex justify-start h-fit items-center gap-x-1 ml-[2%]">
             <p class="text-xl text-orange-400">{{ entry.actorName }}</p>
             <Clickable>
-              <article 
+              <button 
                 class="hover:stroke-orange-400 cursor-pointer mt-1"
                 @click.stop="voiceEngine.setAndPlay(entry.audioPath)"
               ><VolumeIcon v-show="entry.audioPath?.length > 0" class="hover:stroke-orange-400" />
-              </article>
+              </button>
             </Clickable>
           </div>
           <div>
@@ -326,9 +324,9 @@
           </div>
         </article>
       </template>
-      <article class="absolute top-0 right-0 group mr-5 mt-4" @click="closeHistory">
+      <button class="absolute top-0 right-0 group mr-5 mt-4" @click="closeHistory">
         <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
-      </article>
+      </button>
     </section>
   </Modal>
   <Modal
@@ -347,9 +345,9 @@
           <div class="border border-solid bg-slate-700/80 w-fit py-2 px-6 rounded-md">{{decision}}</div>
         </template>
       </article>
-      <article class="absolute top-0 right-0 group mr-5 mt-4" @click="closeDecision">
+      <button class="absolute top-0 right-0 group mr-5 mt-4" @click="closeDecision">
         <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
-      </article>
+      </button>
     </section>
   </Modal>
   <section 
@@ -363,12 +361,13 @@
     class='flex flex-col justify-between px-8 py-4 aspect-video z-10'
     :class="{'pointer-events-none': showingConfirmDialog || showingMessageDialog }"
     @click.stop="(e) => checkBgClick(e)"
+    role="presentation"
     data-layer="overlay"
   >
     <div class='flex justify-between px-8 py-4'>
       <section class='flex justify-between px-8 py-4 gap-x-4'>
         <Clickable>
-          <article 
+          <button 
             v-show="!isViewBackdrop"
             tabindex="1"
             @click.stop="(event: MouseEvent) => handleSkipClick(event)"
@@ -379,10 +378,10 @@
                 "transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
               ]'
             />
-          </article>
+          </button>
         </Clickable>
         <Clickable>
-          <article 
+          <button 
             v-show="!isViewBackdrop"
             @click.stop="(event: MouseEvent) => {historyToggle(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {historyToggle(); innerInteractionEvent(event)}"
@@ -398,10 +397,10 @@
                 { "hover:stroke-orange-400 group-hover:stroke-orange-400": history?.length !== 0 },
               ]'
             />
-          </article>
+          </button>
         </Clickable>
         <Clickable>
-          <article 
+          <button 
             v-show="!isViewBackdrop && (props?.decisions && props.decisions.length > 0)"
             @click.stop="(event: MouseEvent) => {decisionToggle(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {decisionToggle(); innerInteractionEvent(event)}"
@@ -411,12 +410,12 @@
               "flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg group cursor-pointer interactable-styling",
             ]'>
             <GitMergeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
-          </article>
+          </button>
         </Clickable>
       </section>
       <section class='flex justify-between px-8 py-4 gap-x-4'>
         <Clickable>
-          <article 
+          <button 
             v-show="!isViewBackdrop"
             @click.stop="(event: MouseEvent) => {autoToggle(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {autoToggle(); innerInteractionEvent(event)}"
@@ -429,27 +428,27 @@
                 { "animate-end": !isAuto },
               ]'
             />
-          </article>
+          </button>
         </Clickable>
         <Clickable>
-          <article
+          <button
             v-show="!isViewBackdrop"
             tabindex="1"
             @click.stop="(event: MouseEvent) => {viewBackdropToggle(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {viewBackdropToggle(); innerInteractionEvent(event)}"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling">
             <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
-          </article>
+          </button>
         </Clickable>
         <Clickable>
-          <article
+          <button
             v-show="!isViewBackdrop"
             tabindex="1"
             @click.stop="(event: MouseEvent) => {setMenu(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {setMenu(); innerInteractionEvent(event)}"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling ">
             <MenuIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
-          </article>
+          </button>
         </Clickable>
       </section>
     </div>
@@ -473,12 +472,15 @@
     </section>
     <div v-show="!isViewBackdrop" class="min-h-[20%] mb-4 relative">
       <div class="absolute right-8 top-6 size-9 flex items-end justify-center rounded-full">
-        <EllipsisIcon 
-          v-if="trigger && timer"
+        <button
           class="size-5 interactable-styling rounded-sm"
           @keydown.space="(_event: KeyboardEvent) => {$emit('progress')}"
           :tabindex="isMenuOpen ? -1 : 1"
-        />
+        >
+          <EllipsisIcon 
+            v-if="trigger && timer"
+          />
+        </button>
       </div>
       <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass'>
         <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{props.speaker}}</h3>
@@ -507,53 +509,53 @@
     ]">
     <section class="px-5 py-10 flex flex-col gap-y-2">
       <Clickable>
-        <article
+        <button
           @click.stop="(event: MouseEvent) => {setMenu(false); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Close</span><CloseIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
-        </article>
+        </button>
       </Clickable>
       <Clickable>
-        <article
+        <button
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); viewOptions(); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); viewOptions(); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Options</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
-        </article>
+        </button>
       </Clickable>
       <Clickable>
-        <article
+        <button
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(true); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); handleSaveLoad(true); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Save</span><SaveIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
-        </article>
+        </button>
       </Clickable>
       <Clickable>
-        <article
+        <button
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(false); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); handleSaveLoad(false); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Load</span><LoadIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
-        </article>
+        </button>
       </Clickable>
       <Clickable>
-        <article
+        <button
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); $router.push('/menu'); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); $router.push('/menu'); innerInteractionEvent(_event)}"
           :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 interactable-styling">
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
           <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Title</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
-        </article>
+        </button>
       </Clickable>
     </section>
   </aside>

@@ -20,7 +20,7 @@
     <section class="grid dynamic-grid h-full translate-y-1/3">
       <template v-for="(char, index) in props.characters" :key="`char_${index}__${instantiationDate}`">
         <div class="h-full flex items-end justify-center overflow-hidden" :style="`grid-column-start: ${index + 2}`">
-          <img :src="char.path" class="max-h-full w-auto object-contain">
+          <img :src="char.path" class="max-h-full w-auto object-contain" alt="">
         </div>
       </template>
     </section>

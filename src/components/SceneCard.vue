@@ -34,6 +34,7 @@ import Clickable from './Clickable.vue';
         <div class='flex bg-slate-600/80 rounded-xl gap-5 overflow-hidden hover:scale-110 transition-all duration-300 inert'>
           <img 
             :src="bgSrc()" 
+            alt=""
             class="max-w-[150px] w-[150px] aspect-16/9"
           >
           <div class="flex flex-col justify-around">
