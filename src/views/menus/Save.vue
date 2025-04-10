@@ -150,6 +150,8 @@
           loop
           muted
           playsinline
+          role="presentation"
+          tabindex="-1"
         >
           <source :src="videoSrc" type="video/mp4">
         </video>
@@ -158,14 +160,14 @@
         <section class="flex justify-between">
           <h1>Save</h1>
           <Clickable>
-            <button class="absolute top-0 right-0 group mr-5 mt-4" @click="handleClose()">
-              <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
+            <button class="absolute top-0 right-0 group mr-5 mt-4" @click="handleClose()" aria-label="Close Modal">
+              <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150" />
             </button>
           </Clickable>
         </section>
         <section class='grid grid-cols-2 gap-20 p-10' :data-modalOpen="showingConfirmDialog || showingSaveDialog">
           <div v-for="(save, index) in allSaves" :key="`saveCards_${index}`">
-            <button @click="tryToSave(save.active || false, index)" class=" w-full">
+            <button @click="tryToSave(save.active || false, index)" class=" w-full" :aria-label="`${save.active? 'Load save file: ' + save.title : 'Empty Save Slot - ' + index + 1 }`">
               <SceneCard
                 :chapter="save.chapterIndex"
                 :scene="save.sceneIndex"

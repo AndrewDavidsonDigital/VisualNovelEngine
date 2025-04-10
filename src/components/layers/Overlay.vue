@@ -221,7 +221,7 @@
     saveLoadDialogToggle.value = false;
   }
 
-   
+
   function handleSkipClick(event: MouseEvent | KeyboardEvent){
     innerInteractionEvent(event)
     if (confirmDontShowAgain.value){
@@ -277,7 +277,10 @@
     >
       LOAD
       <button class="absolute top-0 right-0 group mr-5 mt-4" @click="toggleSaveLoadDialog">
-        <CloseIcon class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150"/>
+        <CloseIcon 
+          class="group-hover:stroke-orange-500 transition-colors duration-300 scale-150" 
+          aria-label="Close Modal"
+        />
       </button>
     </section>
   </Modal>
@@ -310,9 +313,14 @@
             <p class="text-xl text-orange-400">{{ entry.actorName }}</p>
             <Clickable>
               <button 
-                class="hover:stroke-orange-400 cursor-pointer mt-1"
+                class="cursor-pointer align-middle"
                 @click.stop="voiceEngine.setAndPlay(entry.audioPath)"
-              ><VolumeIcon v-show="entry.audioPath?.length > 0" class="hover:stroke-orange-400" />
+                aria-label="Replay voice-line"
+              ><VolumeIcon 
+                v-show="entry.audioPath?.length > 0" 
+                class="hover:stroke-orange-400 transition-all duration-300"
+
+              />
               </button>
             </Clickable>
           </div>
