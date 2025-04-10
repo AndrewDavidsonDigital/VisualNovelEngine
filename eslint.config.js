@@ -27,7 +27,7 @@ export default [
     rules: {
       ...vue.configs['vue3-essential'].rules,
       'vuejs-accessibility/tabindex-no-positive' : 'off',   // this rules makes no sense
-      'vuejs-accessibility/label-has-for': 'warn',          // currently broken
+      'vuejs-accessibility/label-has-for': 'warn',          // currently broken, keep as warn until resolved
       'vuejs-accessibility/media-has-caption': 'warn',      // this is an audio product thus this isn't a valid
       'vue/multi-word-component-names': 'off',
       'no-unused-vars': ['error', { 
