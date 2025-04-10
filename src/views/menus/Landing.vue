@@ -30,12 +30,15 @@
 <template>
   <div class="animate-fadeIn">
     <div class='grid [grid-template-areas:_"stack"] *:[grid-area:_stack]'>
-      <section class='aspect-video pointer-events-none'>
+      <section class='aspect-video pointer-events-none' role="presentation">
         <video
           autoplay
           loop
           muted
           playsinline
+          role="presentation"
+          tabindex="-1"
+          alt="Repeating background video"
         >
           <source :src="videoSrc" type="video/mp4">
         </video>

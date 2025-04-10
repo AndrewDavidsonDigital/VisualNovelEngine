@@ -287,33 +287,31 @@
           loop
           muted
           playsinline
+          role="none"
+          tabindex="-1"
+          alt="Repeating background video"
         >
           <source :src="videoSrc" type="video/mp4">
         </video>
       </section>
       <div class='mx-8 my-4 p-4 aspect-video z-10 bg-slate-500/50 rounded-xl flex flex-col justify-between'>
-        <div>
-          <section class="flex justify-between">
-            <h1>Options</h1>
-            <span class="flex gap-2">
-              <Clickable class="interactable-styling"><button @click="saveConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl" tabindex="999">Save</button></Clickable>
-              <Clickable class="interactable-styling"><button @click="discardConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl" tabindex="1000">Back</button></Clickable>
-            </span>
-          </section>
-          <section class='grid grid-cols-2'>
+        <div class="flex flex-col">
+          <section class='grid grid-cols-2 order-1'>
             <div v-for="(key, index) in Object.keys(configurables)" :key="`options_${index}`" :class="{'col-start-2': key === 'cursor'}">
               <h2 class="text-xl">{{resolveLabel(key)}}</h2>
               <template v-if="isIterable(configurables[key as keyof IConfiguration])">
                 <template v-if="key === 'audio'">
                   <div v-for="(el, index) in Object.keys(configurables[key])" class="flex justify-around mx-4" :key="`audio_options_${index}`">
                     <div class="flex justify-between min-w-32">
-                      <span>{{ resolveLabel(el) }}</span>
+                      <label 
+                        :for="`id_config_${key}_${index}`"
+                      ><span>{{ resolveLabel(el) }}</span></label>
                       <span>{{ Math.floor(resolveValue(configurables[key], el) * 100) }}%</span>
                     </div>
                     <Clickable class="interactable-styling">
-                      <input 
+                      <input
+                        :id="`id_config_${key}_${index}`"
                         class="thin-slider"
-                        tabindex="1"
                         type="range"
                         name="volume"
                         :aria-label="resolveLabel(el)"
@@ -324,19 +322,21 @@
                         @input="() => saveOnUpdate(el)"
                       />
                     </Clickable>
-                    <Clickable v-if="el !== 'bgm'" class="interactable-styling"><button  @click="testAudio(el)" tabindex="1" class="min-w-8">Test</button></Clickable>
+                    <Clickable v-if="el !== 'bgm'" class="interactable-styling"><button  @click="testAudio(el)" class="min-w-8">Test</button></Clickable>
                     <div v-else class="min-w-8"></div>
                   </div>
                 </template>
                 <template v-if="key === 'text'">
                   <div v-for="(el, index) in Object.keys(configurables[key])" class="flex justify-around mx-4" :key="`text_options_${index}`">
                     <div class="w-full mx-10 grid grid-cols-[3fr_1fr_2fr]">
-                      <span>{{ resolveLabel(el) }}</span>
+                      <label 
+                        :for="`id_config_${key}_${index}`"
+                      ><span>{{ resolveLabel(el) }}</span></label>
                       <span class="justify-self-center">{{ speedIndex[(resolveValue(configurables[key], el) * 5) -1 ] }}</span>
                       <Clickable class="interactable-styling justify-self-center">
                         <input 
+                          :id="`id_config_${key}_${index}`"
                           class="thin-slider"
-                          tabindex="1"
                           type="range"
                           name="speed"
                           :aria-label="resolveLabel(el)"
@@ -353,12 +353,14 @@
                   <div v-for="(el, index) in Object.keys(configurables[key])" class="flex justify-around mx-4" :key="`cursor_options_${index}`">
                     <template v-if="el === 'scale'">
                       <div class="w-full mx-10 grid grid-cols-[3fr_1fr_2fr]">
-                        <span>{{ resolveLabel(el) }}</span>
+                        <label 
+                          :for="`id_config_${key}_${index}`"
+                        ><span>{{ resolveLabel(el) }}</span></label>
                         <span class="justify-self-center">{{ sizeIndex[((resolveValue(configurables[key], el) - 0.25) * 4) -1 ] }}</span>
                         <Clickable class="interactable-styling justify-self-center">
                           <input 
+                            :id="`id_config_${key}_${index}`"
                             class="thin-slider"
-                            tabindex="1"
                             type="range"
                             name="size"
                             :aria-label="resolveLabel(el)"
@@ -373,12 +375,14 @@
                     </template>
                     <template v-if="el === 'type'">
                         <div class="w-full mx-10 grid grid-cols-[3fr_1fr_2fr]">
-                        <span>{{ resolveLabel(el) }}</span>
+                        <label 
+                          :for="`id_config_${key}_${index}`"
+                        ><span>{{ resolveLabel(el) }}</span></label>
                         <span class="justify-self-center">{{ typeIndex[(resolveValue(configurables[key], el)) -1 ] }}</span>
                         <Clickable class="interactable-styling justify-self-center">
                           <input 
+                            :id="`id_config_${key}_${index}`"
                             class="thin-slider"
-                            tabindex="1"
                             type="range"
                             name="size"
                             :aria-label="resolveLabel(el)"
@@ -395,6 +399,13 @@
                 </template>
               </template>
             </div>
+          </section>
+          <section class="flex justify-between -order-1">
+            <h1>Options</h1>
+            <span class="flex gap-2">
+              <Clickable class="interactable-styling"><button @click="saveConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl">Save</button></Clickable>
+              <Clickable class="interactable-styling"><button @click="discardConfiguration('/menu')" class="hover:text-orange-400 transition-colors duration-300 text-2xl">Back</button></Clickable>
+            </span>
           </section>
         </div>
         <div>
@@ -416,6 +427,7 @@
                   v-html="testingText.text"></span>
               </p>
               <LoaderIcon 
+                role="presentation"
                 class="absolute right-0 bottom-0 mr-4 mb-4 animate-spin [animation-duration:_3s]"
               />
             </section>

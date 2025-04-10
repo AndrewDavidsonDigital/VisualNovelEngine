@@ -369,14 +369,15 @@
         <Clickable>
           <button 
             v-show="!isViewBackdrop"
-            tabindex="1"
             @click.stop="(event: MouseEvent) => handleSkipClick(event)"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling"
+            aria-label="Skip current chapter"
           >
             <SkipIcon
               :class='[
                 "transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400",
               ]'
+              role="none"
             />
           </button>
         </Clickable>
@@ -385,7 +386,7 @@
             v-show="!isViewBackdrop"
             @click.stop="(event: MouseEvent) => {historyToggle(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {historyToggle(); innerInteractionEvent(event)}"
-            tabindex="1"
+            aria-label="View text history"
             :disabled="history?.length === 0"
             :class='[
               "flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg group interactable-styling",
@@ -396,6 +397,7 @@
                 "transition-colors duration-500",
                 { "hover:stroke-orange-400 group-hover:stroke-orange-400": history?.length !== 0 },
               ]'
+              role="none"
             />
           </button>
         </Clickable>
@@ -404,12 +406,15 @@
             v-show="!isViewBackdrop && (props?.decisions && props.decisions.length > 0)"
             @click.stop="(event: MouseEvent) => {decisionToggle(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {decisionToggle(); innerInteractionEvent(event)}"
-            tabindex="1"
+            aria-label="View choices made"
             :disabled="history?.length === 0"
             :class='[
               "flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg group cursor-pointer interactable-styling",
             ]'>
-            <GitMergeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
+            <GitMergeIcon 
+              class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"
+              role="none"
+            />
           </button>
         </Clickable>
       </section>
@@ -419,7 +424,7 @@
             v-show="!isViewBackdrop"
             @click.stop="(event: MouseEvent) => {autoToggle(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {autoToggle(); innerInteractionEvent(event)}"
-            tabindex="1"
+            :aria-label="`${isAuto ? 'Enable' : 'Disable' } automatic progression`"
             class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling">
             <RefreshIcon
               :class='[
@@ -427,27 +432,36 @@
                 { "animate-spin stroke-orange-300/80": isAuto },
                 { "animate-end": !isAuto },
               ]'
+              role="none"
             />
           </button>
         </Clickable>
         <Clickable>
           <button
             v-show="!isViewBackdrop"
-            tabindex="1"
             @click.stop="(event: MouseEvent) => {viewBackdropToggle(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {viewBackdropToggle(); innerInteractionEvent(event)}"
-            class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling">
-            <EyeIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
+            class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling"
+            aria-label="Hide UI and display backdrop"
+          >
+            <EyeIcon 
+              class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"
+              role="none"
+            />
           </button>
         </Clickable>
         <Clickable>
           <button
             v-show="!isViewBackdrop"
-            tabindex="1"
             @click.stop="(event: MouseEvent) => {setMenu(); innerInteractionEvent(event)}"
             @keydown.space="(event: KeyboardEvent) => {setMenu(); innerInteractionEvent(event)}"
-            class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling ">
-            <MenuIcon class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"/>
+            class="flex flex-col justify-center p-2 bg-slate-500/30 glass-sm rounded-lg cursor-pointer group interactable-styling "
+            aria-label="Show menu"
+          >
+            <MenuIcon 
+              class="transition-colors duration-500 hover:stroke-orange-400 group-hover:stroke-orange-400"
+              role="none"
+            />
           </button>
         </Clickable>
       </section>
@@ -475,15 +489,20 @@
         <button
           class="size-5 interactable-styling rounded-sm"
           @keydown.space="(_event: KeyboardEvent) => {$emit('progress')}"
-          :tabindex="isMenuOpen ? -1 : 1"
+          :tabindex="isMenuOpen ? -1 : 0"
+          aria-label="Progress scene"
         >
           <EllipsisIcon 
             v-if="trigger && timer"
+            role="none"
           />
         </button>
       </div>
       <section class='flex flex-col items-center px-8 py-4 h-full bg-slate-600/50 rounded-2xl glass'>
-        <h3 class="text-3xl min-h-8 transition-all text-orange-400">{{props.speaker}}</h3>
+        <h3 
+          class="text-3xl min-h-8 transition-all text-orange-400"
+          :role="`${props.speaker ? 'heading' : 'none'}`"
+        >{{props.speaker}}</h3>
         <p class="reveal">
           <span :class="[
             { '!bg-100_100 !duration-[max(var(--dynamicDuration),_500ms)]' : trigger },
@@ -512,9 +531,17 @@
         <button
           @click.stop="(event: MouseEvent) => {setMenu(false); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); innerInteractionEvent(_event)}"
-          :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
-          <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Close</span><CloseIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
+          :tabindex="isMenuOpen ? 0 : -1"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling"
+          aria-label="Close Menu"
+        >
+          <span 
+            class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400"
+          >Close</span>
+          <CloseIcon 
+            role="none"
+            class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"
+          />
         </button>
       </Clickable>
       <Clickable>
@@ -522,9 +549,17 @@
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); viewOptions(); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); viewOptions(); innerInteractionEvent(_event)}"
-          :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
-          <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Options</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
+          :tabindex="isMenuOpen ? 0 : -1"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling"
+          aria-label="Open Options Menu"
+        >
+          <span 
+            class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400"
+          >Options</span>
+          <SlidersIcon 
+            role="none"
+            class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"
+          />
         </button>
       </Clickable>
       <Clickable>
@@ -532,9 +567,17 @@
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(true); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); handleSaveLoad(true); innerInteractionEvent(_event)}"
-          :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
-          <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Save</span><SaveIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
+          :tabindex="isMenuOpen ? 0 : -1"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling"
+          aria-label="Open Save Menu"
+        >
+          <span 
+            class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400"
+          >Save</span>
+          <SaveIcon 
+            role="none"
+            class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"
+          />
         </button>
       </Clickable>
       <Clickable>
@@ -542,9 +585,17 @@
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); handleSaveLoad(false); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); handleSaveLoad(false); innerInteractionEvent(_event)}"
-          :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
-          <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Load</span><LoadIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
+          :tabindex="isMenuOpen ? 0 : -1"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling"
+          aria-label="Open Load Menu"
+        >
+          <span 
+            class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400"
+          >Load</span>
+          <LoadIcon 
+            role="none"
+            class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"
+          />
         </button>
       </Clickable>
       <Clickable>
@@ -552,9 +603,17 @@
           v-show="!isViewBackdrop"
           @click.stop="(event: MouseEvent) => {setMenu(false); $router.push('/menu'); innerInteractionEvent(event)}"
           @keydown.space="(_event: KeyboardEvent) => {setMenu(false); $router.push('/menu'); innerInteractionEvent(_event)}"
-          :tabindex="isMenuOpen ? 1 : -1"
-          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling">
-          <span class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400">Title</span><SlidersIcon class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"/>
+          :tabindex="isMenuOpen ? 0 : -1"
+          class="flex justify-between p-2 rounded-lg cursor-pointer group gap-x-2 w-full interactable-styling"
+          aria-label="Return to the Title Screen"
+        >
+          <span 
+            class="transition-colors duration-500 group-hover:text-orange-400 group-focus-visible:!text-orange-400"
+          >Title</span>
+          <SlidersIcon 
+            role="none"
+            class="transition-colors duration-500 group-hover:stroke-orange-400 group-focus-visible:!stroke-orange-400"
+          />
         </button>
       </Clickable>
     </section>

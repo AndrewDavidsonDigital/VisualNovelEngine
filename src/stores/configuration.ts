@@ -12,6 +12,8 @@ labelMap_EN.set('text', 'Text');
 labelMap_EN.set('displayRatio', 'Text Display Speed');
 labelMap_EN.set('autoWaitRatio', 'Auto Wait Duration');
 labelMap_EN.set('cursor', 'Cursor');
+labelMap_EN.set('scale', 'Scale');
+labelMap_EN.set('type', 'Type');
 
 const CONFIG_KEYS = Object.freeze([
   'audio',

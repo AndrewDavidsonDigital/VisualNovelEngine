@@ -58,6 +58,8 @@
             playsinline
             class="w-full aspect-video"
             :src="videoData.videoA.src"
+            role="presentation"
+            tabindex="-1"
           ></video>
           <video
             v-else-if="nextVideoReference === 'videoA'"
@@ -69,6 +71,8 @@
             playsinline
             class="w-full aspect-video"
             :src="videoData.videoB.src"
+            role="presentation"
+            tabindex="-1"
             ></video>
         </Transition>
       </div>
@@ -78,6 +82,8 @@
         :src="props.contentSrc" 
         class="max-w-[min(100%,1920px)]"
         key="`${props.contentSrc}-image`"
+        role="presentation"
+        tabindex="-1"
       >
     </Transition>
   </section>

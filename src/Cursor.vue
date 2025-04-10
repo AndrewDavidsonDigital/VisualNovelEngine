@@ -55,7 +55,7 @@
         { 'animate-ripple ring-1': shouldAnimate },
       ]"
     ></section>
-    <NavigationIcon />
+    <NavigationIcon role="presentation"/>
   </div>
 </template>
 <style>
