@@ -104,38 +104,79 @@
       )
     })
 
-    if (el.name === '_updateBgm'){
-      el.after((_result) => {
-        trace(`${LOGGING_PREFIX}update BGM: \t${JSON.stringify(el.args)}` );
-        bgmEngine.fadeOut();
-        setTimeout((() => {
-          bgmEngine.setTrack(scriptEngine.getSceneBGM.path);
-          bgmEngine.fadeUp();
-        }),1000);
-      })
-    }
+    switch (el.name) {
+      case '_updateBgm':
+        el.after((_result) => {
+          trace(`${LOGGING_PREFIX}update BGM: \t${JSON.stringify(el.args)}` );
+          bgmEngine.fadeOut();
+          setTimeout((() => {
+            bgmEngine.setTrack(scriptEngine.getSceneBGM.path);
+            bgmEngine.fadeUp();
+          }),1000);
+        });
+        break;
 
-    else if (el.name === '_updateBackdrop'){
-      el.after((_result) => {
-        backdropInstance.value = scriptEngine.getSceneBackdrop;
-        trace(`${LOGGING_PREFIX}update Backdrop: \t${JSON.stringify(el.args)}` );
-      })
-    }
+      case '_updateBackdrop':
+        el.after((_result) => {
+          backdropInstance.value = scriptEngine.getSceneBackdrop;
+          trace(`${LOGGING_PREFIX}update Backdrop: \t${JSON.stringify(el.args)}` );
+        });
+        break;
 
-    else if (el.name === '_updateChars'){
-      el.after((_result) => {
-        charInstance.value = scriptEngine.getSceneChars;
-        trace(`${LOGGING_PREFIX}update Chars: \t${JSON.stringify(el.args)}` );
-      })
-    }
+      case '_updateChars':
+        el.after((_result) => {
+          charInstance.value = scriptEngine.getSceneChars;
+          trace(`${LOGGING_PREFIX}update Chars: \t${JSON.stringify(el.args)}` );
+        });
+        break;
 
-    else if (el.name === '_updateText'){
-      el.after((_result) => {
-        triggerToggle.value = false;
-        textInstance.value = scriptEngine.getSceneText;
-        setTimeout((() => triggerToggle.value = true),300);
-        trace(`${LOGGING_PREFIX}update Text: \t${JSON.stringify(el.args)}` );
-      })
+      case '_updateText':
+        el.after((_result) => {
+          triggerToggle.value = false;
+          textInstance.value = scriptEngine.getSceneText;
+          setTimeout((() => triggerToggle.value = true),300);
+          trace(`${LOGGING_PREFIX}update Text: \t${JSON.stringify(el.args)}` );
+        });
+        break;
+
+      case '_updateTransition':
+        el.after((_result) => {
+          triggerToggle.value = false;
+          textInstance.value = scriptEngine.getSceneText;
+          setTimeout((() => triggerToggle.value = true),300);
+          trace(`${LOGGING_PREFIX}update Transition: \t${JSON.stringify(el.args)}` );
+        });
+        break;
+
+      case '_updateEffect':
+        el.after((_result) => {
+          effectName.value = el.args[0] as EffectType;
+          if (el.args[1] && el.args[1] !== null){
+            effectExtraData.value = el.args[1] as EffectExtraDataType;
+          } else {
+            effectExtraData.value = undefined
+          }
+          trace(`${LOGGING_PREFIX}update Effect: \t${JSON.stringify(el.args)}` );
+        });
+        break;
+
+      case '_loadCallback':
+        el.after((_result) => {
+          trace(`${LOGGING_PREFIX}loadCallback: \t${JSON.stringify(el.args)}` );
+          // ensure bgm is reset post load.
+          bgmEngine.fadeOut();
+          setTimeout((() => {
+            bgmEngine.setTrack(scriptEngine.getSceneBGM.path);
+            bgmEngine.fadeUp();
+          }),1000);
+          // ensure transition index is correct
+          scriptEngine.currentScene.transitionIndex = el.args[0] as number;
+        });
+        break;
+
+      default:
+        trace(`${LOGGING_PREFIX} OTHER CALL: \t${el.name}` );
+        break;
     }
 
     // else if (el.name === '_updateTransitions'){
@@ -143,44 +184,7 @@
     //     trace(`${LOGGING_PREFIX}update Transitions: \t${JSON.stringify(el.args)}` );
     //   })
     // }
-
-    else if (el.name === '_updateTransition'){
-      el.after((_result) => {
-        triggerToggle.value = false;
-        textInstance.value = scriptEngine.getSceneText;
-        setTimeout((() => triggerToggle.value = true),300);
-        trace(`${LOGGING_PREFIX}update Transition: \t${JSON.stringify(el.args)}` );
-      })
-    }
-
-    else if (el.name === '_updateEffect'){
-      el.after((_result) => {
-        effectName.value = el.args[0] as EffectType;
-        if (el.args[1] && el.args[1] !== null){
-          effectExtraData.value = el.args[1] as EffectExtraDataType;
-        } else {
-          effectExtraData.value = undefined
-        }
-        trace(`${LOGGING_PREFIX}update Effect: \t${JSON.stringify(el.args)}` );
-      })
-    }
-
-    else if (el.name === '_loadCallback'){
-      el.after((_result) => {
-        trace(`${LOGGING_PREFIX}loadCallback: \t${JSON.stringify(el.args)}` );
-        // ensure bgm is reset post load.
-        bgmEngine.fadeOut();
-        setTimeout((() => {
-          bgmEngine.setTrack(scriptEngine.getSceneBGM.path);
-          bgmEngine.fadeUp();
-        }),1000);
-        // ensure transition index is correct
-        scriptEngine.currentScene.transitionIndex = el.args[0] as number;
-      })
-    }
-
-    else { trace(`${LOGGING_PREFIX} OTHER CALL: \t${el.name}` );}
-
+    
   });
 
   /*****************************************************************************************************/
